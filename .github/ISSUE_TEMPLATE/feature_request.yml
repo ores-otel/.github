@@ -1,0 +1,32 @@
+name: Feature request
+description: Propose a focused, testable improvement for a ores-otel repository
+title: "[Feature]: "
+body:
+  - type: input
+    id: repository
+    attributes:
+      label: Target repository or organization area
+      placeholder: ores-otel/repository
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or opportunity
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome and acceptance criteria
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed approach, affected contracts, and risks
+  - type: input
+    id: linear
+    attributes:
+      label: Related Linear issue or project
+      value: https://linear.app/denman/project/githubcomores-otel-85e70d77275a

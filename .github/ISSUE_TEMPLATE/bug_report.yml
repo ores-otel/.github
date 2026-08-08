@@ -1,0 +1,33 @@
+name: Bug report
+description: Report reproducible incorrect behavior in a ores-otel repository
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: Do not include vulnerabilities, credentials, personal data, or production data.
+  - type: input
+    id: repository
+    attributes:
+      label: Affected repository
+      placeholder: ores-otel/repository
+    validations:
+      required: true
+  - type: input
+    id: revision
+    attributes:
+      label: Version or commit
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Include exact steps, environment, and sanitized logs.
+    validations:
+      required: true
