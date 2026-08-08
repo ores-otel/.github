@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: ores-otel Linear project
+    url: https://linear.app/denman/project/githubcomores-otel-85e70d77275a
+    about: Roadmap, cross-repository planning, and internal delivery tracking.
+  - name: Security policy
+    url: https://github.com/ores-otel/.github/security/policy
+    about: Report vulnerabilities privately; never file public security issues.
