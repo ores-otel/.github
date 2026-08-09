@@ -1,0 +1,65 @@
+name: Provision reviewed repository fleet
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - repository-fleet.json
+      - scripts/provision-repository-fleet.py
+      - .github/workflows/provision-repository-fleet.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ores-otel-repository-fleet
+  cancel-in-progress: false
+
+jobs:
+  provision:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Resolve an organization-administration token
+        id: token
+        env:
+          ORES_OTEL_ORG_ADMIN_TOKEN: ${{ secrets.ORES_OTEL_ORG_ADMIN_TOKEN }}
+          ORG_ADMIN_TOKEN: ${{ secrets.ORG_ADMIN_TOKEN }}
+          GH_PAT: ${{ secrets.GH_PAT }}
+          GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
+          ADMIN_GITHUB_TOKEN: ${{ secrets.ADMIN_GITHUB_TOKEN }}
+        run: |
+          token="${ORES_OTEL_ORG_ADMIN_TOKEN:-${ORG_ADMIN_TOKEN:-${GH_PAT:-${GITHUB_PAT:-${ADMIN_GITHUB_TOKEN:-}}}}}"
+          if [ -z "$token" ]; then
+            echo "No org-administration secret is configured." >&2
+            echo "Configure ORES_OTEL_ORG_ADMIN_TOKEN with repository-administration access to ores-otel and ores-otel-test." >&2
+            exit 78
+          fi
+          echo "::add-mask::$token"
+          printf 'GH_ADMIN_TOKEN=%s\n' "$token" >> "$GITHUB_ENV"
+
+      - name: Fetch the exact provisioning inputs
+        env:
+          READ_TOKEN: ${{ github.token }}
+          REF: ${{ github.sha }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          mkdir -p bootstrap/scripts
+          for path in repository-fleet.json scripts/provision-repository-fleet.py; do
+            target="bootstrap/$path"
+            mkdir -p "$(dirname "$target")"
+            curl --fail --silent --show-error --location \
+              -H "Accept: application/vnd.github.raw+json" \
+              -H "Authorization: Bearer $READ_TOKEN" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "$GITHUB_API_URL/repos/$REPOSITORY/contents/$path?ref=$REF" \
+              > "$target"
+          done
+          python -m json.tool bootstrap/repository-fleet.json >/dev/null
+          python -m py_compile bootstrap/scripts/provision-repository-fleet.py
+
+      - name: Create, seed, and mirror the fleet
+        run: >-
+          python bootstrap/scripts/provision-repository-fleet.py
+          --manifest bootstrap/repository-fleet.json
