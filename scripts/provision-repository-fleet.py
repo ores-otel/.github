@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Idempotently create and seed the reviewed ores-otel repository fleet."""
+"""Idempotently create, seed, and verify the reviewed ores-otel repository fleet."""
 from __future__ import annotations
 
 import argparse
@@ -16,10 +16,15 @@ from typing import Any
 
 API_VERSION = "2022-11-28"
 API_ROOT = os.environ.get("GITHUB_API_URL", "https://api.github.com").rstrip("/")
-USER_AGENT = "ores-otel-repository-provisioner/1"
+USER_AGENT = "ores-otel-repository-provisioner/2"
 
 
-def request(token: str, method: str, path: str, body: dict[str, Any] | None = None) -> tuple[int, Any]:
+def request(
+    token: str,
+    method: str,
+    path: str,
+    body: dict[str, Any] | None = None,
+) -> tuple[int, Any]:
     data = None if body is None else json.dumps(body).encode("utf-8")
     req = urllib.request.Request(
         f"{API_ROOT}{path}",
@@ -39,9 +44,8 @@ def request(token: str, method: str, path: str, body: dict[str, Any] | None = No
             return response.status, json.loads(raw) if raw else None
     except urllib.error.HTTPError as error:
         raw = error.read()
-        payload: Any
         try:
-            payload = json.loads(raw) if raw else None
+            payload: Any = json.loads(raw) if raw else None
         except json.JSONDecodeError:
             payload = raw.decode("utf-8", errors="replace")
         return error.code, payload
@@ -56,12 +60,17 @@ def repo(token: str, full_name: str) -> dict[str, Any] | None:
     raise RuntimeError(f"GET {full_name} failed with HTTP {status}: {payload}")
 
 
-def ensure_repo(token: str, organization: str, spec: dict[str, Any], visibility: str) -> tuple[dict[str, Any], bool]:
+def ensure_repo(
+    token: str,
+    organization: str,
+    spec: dict[str, Any],
+    visibility: str,
+) -> dict[str, Any]:
     full_name = f"{organization}/{spec['name']}"
     existing = repo(token, full_name)
     if existing is not None:
         print(f"exists: {full_name}")
-        return existing, False
+        return existing
 
     status, payload = request(
         token,
@@ -85,17 +94,29 @@ def ensure_repo(token: str, organization: str, spec: dict[str, Any], visibility:
     if status != 201:
         raise RuntimeError(f"create {full_name} failed with HTTP {status}: {payload}")
     print(f"created: {full_name}")
-    return payload, True
+    return payload
 
 
-def put_text_file(token: str, full_name: str, path: str, text: str, message: str) -> None:
-    status, current = request(token, "GET", f"/repos/{full_name}/contents/{path}")
+def put_text_file(
+    token: str,
+    full_name: str,
+    path: str,
+    text: str,
+    message: str,
+) -> None:
+    desired = text.encode("utf-8")
+    status, current = request(token, "GET", f"/repos/{full_name}/contents/{path}?ref=main")
     body: dict[str, Any] = {
         "message": message,
-        "content": base64.b64encode(text.encode("utf-8")).decode("ascii"),
+        "content": base64.b64encode(desired).decode("ascii"),
         "branch": "main",
     }
     if status == 200:
+        if current.get("encoding") == "base64":
+            present = base64.b64decode(current["content"].replace("\n", ""))
+            if present == desired:
+                print(f"unchanged: {full_name}/{path}")
+                return
         body["sha"] = current["sha"]
     elif status != 404:
         raise RuntimeError(f"read {full_name}/{path} failed with HTTP {status}: {current}")
@@ -144,11 +165,7 @@ jobs:
       - name: Validate exact SHA input
         env:
           SOURCE_SHA: ${{ matrix.ref }}
-        run: |
-          case "$SOURCE_SHA" in
-            [0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]) ;;
-            *) echo "ref must be a full 40-character lowercase commit SHA" >&2; exit 2 ;;
-          esac
+        run: '[[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]'
       - name: Fetch exact source
         env:
           SOURCE_REPOSITORY: ${{ matrix.repository }}
@@ -203,20 +220,35 @@ def seed_test_repo(token: str, organization: str, spec: dict[str, Any]) -> None:
     )
 
 
-def canonical_has_refs(token: str, full_name: str) -> bool:
-    for namespace in ("heads", "tags"):
-        status, payload = request(token, "GET", f"/repos/{full_name}/git/matching-refs/{namespace}/")
-        if status == 200 and payload:
-            return True
-        if status not in (200, 409):
-            raise RuntimeError(f"inspect refs for {full_name} failed with HTTP {status}: {payload}")
-    return False
+def run_git(
+    command: list[str],
+    *,
+    env: dict[str, str] | None = None,
+    capture: bool = False,
+) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        command,
+        check=True,
+        text=True,
+        env=env,
+        capture_output=capture,
+    )
+
+
+def parse_ref_lines(text: str) -> dict[str, str]:
+    refs: dict[str, str] = {}
+    for raw_line in text.splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+        sha, ref = line.split(maxsplit=1)
+        if ref.endswith("^{}"):
+            continue
+        refs[ref] = sha
+    return refs
 
 
 def mirror_history(token: str, source: str, destination: str) -> None:
-    if canonical_has_refs(token, destination):
-        print(f"mirror skipped: {destination} already has refs; refusing an automatic force update")
-        return
     with tempfile.TemporaryDirectory(prefix="ores-otel-mirror-") as directory:
         root = Path(directory)
         mirror = root / "legacy.git"
@@ -230,22 +262,73 @@ def mirror_history(token: str, source: str, destination: str) -> None:
             encoding="utf-8",
         )
         askpass.chmod(0o700)
-        subprocess.run(
-            ["git", "clone", "--mirror", f"https://github.com/{source}.git", str(mirror)],
-            check=True,
-        )
         env = os.environ.copy()
-        env.update({
-            "GIT_ASKPASS": str(askpass),
-            "GIT_TERMINAL_PROMPT": "0",
-            "GH_ADMIN_TOKEN": token,
-        })
-        subprocess.run(
-            ["git", "-C", str(mirror), "push", "--mirror", f"https://github.com/{destination}.git"],
-            check=True,
+        env.update(
+            {
+                "GIT_ASKPASS": str(askpass),
+                "GIT_TERMINAL_PROMPT": "0",
+                "GH_ADMIN_TOKEN": token,
+            }
+        )
+
+        run_git(["git", "clone", "--mirror", f"https://github.com/{source}.git", str(mirror)])
+        destination_url = f"https://github.com/{destination}.git"
+        run_git(
+            [
+                "git",
+                "-C",
+                str(mirror),
+                "push",
+                destination_url,
+                "+refs/heads/*:refs/heads/*",
+                "+refs/tags/*:refs/tags/*",
+            ],
             env=env,
         )
-        print(f"mirrored complete Git history: {source} -> {destination}")
+
+        source_result = run_git(
+            [
+                "git",
+                "-C",
+                str(mirror),
+                "for-each-ref",
+                "--format=%(objectname) %(refname)",
+                "refs/heads",
+                "refs/tags",
+            ],
+            capture=True,
+        )
+        destination_result = run_git(
+            ["git", "ls-remote", destination_url, "refs/heads/*", "refs/tags/*"],
+            env=env,
+            capture=True,
+        )
+        source_refs = parse_ref_lines(source_result.stdout)
+        destination_refs = parse_ref_lines(destination_result.stdout)
+        missing = sorted(set(source_refs) - set(destination_refs))
+        moved = sorted(
+            ref
+            for ref in set(source_refs) & set(destination_refs)
+            if source_refs[ref] != destination_refs[ref]
+        )
+        extras = sorted(set(destination_refs) - set(source_refs))
+        if missing or moved or extras:
+            raise RuntimeError(
+                "head/tag mirror verification failed: "
+                f"missing={missing}, moved={moved}, extras={extras}"
+            )
+
+        if "refs/heads/main" in source_refs:
+            status, payload = request(token, "PATCH", f"/repos/{destination}", {"default_branch": "main"})
+            if status != 200:
+                raise RuntimeError(
+                    f"set default branch for {destination} failed with HTTP {status}: {payload}"
+                )
+
+        print(
+            f"verified Git head/tag parity: {source} -> {destination}; "
+            f"refs={len(source_refs)}"
+        )
 
 
 def parse_args() -> argparse.Namespace:
@@ -278,7 +361,10 @@ def main() -> int:
     for test_spec in manifest["testRepositories"]:
         repo_spec = {
             "name": test_spec["name"],
-            "description": f"{test_spec['language']} conformance for canonical and legacy ores.otel.log sources",
+            "description": (
+                f"{test_spec['language']} conformance for canonical and legacy "
+                "ores.otel.log sources"
+            ),
             "autoInit": True,
         }
         ensure_repo(token, test_org, repo_spec, visibility)
