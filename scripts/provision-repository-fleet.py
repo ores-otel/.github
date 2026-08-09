@@ -312,10 +312,15 @@ def mirror_history(token: str, source: str, destination: str) -> None:
             if source_refs[ref] != destination_refs[ref]
         )
         extras = sorted(set(destination_refs) - set(source_refs))
-        if missing or moved or extras:
+        if missing or moved:
             raise RuntimeError(
                 "head/tag mirror verification failed: "
-                f"missing={missing}, moved={moved}, extras={extras}"
+                f"missing={missing}, moved={moved}"
+            )
+        if extras:
+            print(
+                "preserved destination-only heads/tags: "
+                + ", ".join(extras)
             )
 
         if "refs/heads/main" in source_refs:
