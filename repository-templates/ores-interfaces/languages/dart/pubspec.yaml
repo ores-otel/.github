@@ -1,0 +1,5 @@
+name: ores_interfaces
+version: 0.1.0
+description: Dart bindings for OreSoftware platform contracts
+environment:
+  sdk: '>=3.3.0 <4.0.0'
