@@ -12,6 +12,7 @@ on:
       - repository-templates/**
       - scripts/provision-repository-fleet.py
       - scripts/provision-shared-repositories.py
+      - scripts/render-template-manifest.py
       - scripts/validate-repository-templates.py
       - .github/workflows/validate-repository-templates.yml
       - .github/workflows/provision-repository-fleet.yml
@@ -27,6 +28,7 @@ on:
       - repository-templates/**
       - scripts/provision-repository-fleet.py
       - scripts/provision-shared-repositories.py
+      - scripts/render-template-manifest.py
       - scripts/validate-repository-templates.py
       - .github/workflows/validate-repository-templates.yml
       - .github/workflows/provision-repository-fleet.yml
@@ -53,6 +55,7 @@ jobs:
           python -m py_compile \
             scripts/provision-repository-fleet.py \
             scripts/provision-shared-repositories.py \
+            scripts/render-template-manifest.py \
             scripts/validate-repository-templates.py
           python scripts/validate-repository-templates.py --manifest repository-fleet.json
           python repository-templates/ores-interfaces/scripts/check_contracts.py

@@ -16,4 +16,14 @@ void main() {
   if (unsafe.safe) {
     throw StateError('raw biometric material must fail closed');
   }
+  const factor = Factor(
+    factorId: 'factor-1',
+    userId: 'user-1',
+    method: AuthMethod.platformBiometric,
+    state: FactorState.active,
+    createdAt: '2026-08-11T00:00:00Z',
+  );
+  if (!factor.safe) {
+    throw StateError('metadata-only factor should be safe');
+  }
 }

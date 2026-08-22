@@ -19,8 +19,20 @@ dir = "zed_modules"
 [publish]
 include_readme = true
 tag_format = "v{version}"
-exclude = [".github/**", "**/target/**", "**/node_modules/**", "**/__pycache__/**", "**/.dart_tool/**", "**/build/**", "**/*.class"]
+exclude = [".github/**", ".zed/**", ".zpkg.lock", "zed_modules/**", "**/target/**", "**/node_modules/**", "**/__pycache__/**", "**/.dart_tool/**", "**/build/**", "**/*.class"]
 smoke_test = "python3 scripts/check_core.py"
+
+# The unnamed whole-repository target publishes the canonical
+# ores-otel/ores-lib-core package; native consumers may select a language
+# target instead.
+[targets.repository]
+dir = "."
+adapter = "none"
+
+[targets.postgres]
+dir = "database/postgres"
+name = "ores-shared-auth-postgres"
+adapter = "none"
 
 [targets.rust]
 dir = "languages/rust"
