@@ -3,6 +3,11 @@ name: Validate shared repository templates
 on:
   pull_request:
     paths:
+      - FORMAL_METHODS.md
+      - CONTRIBUTING.md
+      - GOVERNANCE.md
+      - README.md
+      - .github/PULL_REQUEST_TEMPLATE.md
       - repository-fleet.json
       - repository-templates/**
       - scripts/provision-repository-fleet.py
@@ -13,6 +18,11 @@ on:
   push:
     branches: [main]
     paths:
+      - FORMAL_METHODS.md
+      - CONTRIBUTING.md
+      - GOVERNANCE.md
+      - README.md
+      - .github/PULL_REQUEST_TEMPLATE.md
       - repository-fleet.json
       - repository-templates/**
       - scripts/provision-repository-fleet.py
