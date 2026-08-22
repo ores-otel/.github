@@ -10,6 +10,14 @@ Describe the problem, intended behavior, and why this repository owns the change
 
 Describe affected repositories, APIs, schemas, generated artifacts, migrations, infrastructure, deployment behavior, and external dependencies.
 
+## Formal-methods assessment
+
+Choose one and explain the evidence. See [`FORMAL_METHODS.md`](../FORMAL_METHODS.md).
+
+- [ ] Not applicable; this change has no critical contract, invariant, state-machine, concurrency, or accounting behavior
+- [ ] Existing model unchanged; named model and refinement/property checks still cover the change
+- [ ] Model updated; safety/liveness properties, finite bounds, runtime mapping, counterexamples, and proof boundary are documented
+
 ## Validation
 
 - [ ] Relevant formatters, linters, tests, builds, contract checks, security checks, and end-to-end checks passed
