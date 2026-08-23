@@ -9,4 +9,10 @@
 
 Organization owners are accountable for repository creation, visibility, access, archival, public defaults, and cross-repository governance. Repository maintainers own implementation quality and releases within published contracts. Material architecture decisions must be documented in the owning repository and reflected in interfaces, tests, deployment ownership, and observability expectations.
 
+Critical contracts, accounting laws, and state-machine behavior follow the
+organization [`FORMAL_METHODS.md`](FORMAL_METHODS.md) assurance ladder. Models
+live with the authoritative behavior, must identify their finite proof boundary,
+and supplement rather than replace exact-revision runtime and deployment
+evidence.
+
 Resolve conflicts semantically with complete historical and cross-repository context. Automated agents must not execute destructive or history-rewriting operations.

@@ -1,0 +1,6 @@
+{
+  "contract": "DashboardResponse",
+  "payload": {
+    "organizationId": "org-01"
+  }
+}

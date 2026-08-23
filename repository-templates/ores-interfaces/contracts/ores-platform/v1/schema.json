@@ -1,0 +1,521 @@
+{
+  "$defs": {
+    "ActorRef": {
+      "additionalProperties": false,
+      "properties": {
+        "delegationDepth": {
+          "maximum": 8,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "kind": {
+          "$ref": "#/$defs/PrincipalKind"
+        },
+        "subject": {
+          "maxLength": 256,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "subject",
+        "kind"
+      ],
+      "type": "object"
+    },
+    "AssuranceLevel": {
+      "enum": [
+        "aal0",
+        "aal1",
+        "aal2",
+        "aal3"
+      ],
+      "type": "string"
+    },
+    "AuthMethod": {
+      "enum": [
+        "jwt",
+        "oidc",
+        "webauthn",
+        "totp",
+        "kerberos",
+        "ssh",
+        "openpgp",
+        "platform_biometric",
+        "recovery"
+      ],
+      "type": "string"
+    },
+    "CredentialCapability": {
+      "additionalProperties": false,
+      "properties": {
+        "authoritative": {
+          "type": "boolean"
+        },
+        "maxAssurance": {
+          "$ref": "#/$defs/AssuranceLevel"
+        },
+        "method": {
+          "$ref": "#/$defs/AuthMethod"
+        },
+        "notes": {
+          "maxLength": 1024,
+          "type": "string"
+        },
+        "purposes": {
+          "items": {
+            "enum": [
+              "interactive_login",
+              "step_up",
+              "machine_auth",
+              "provenance",
+              "recovery"
+            ],
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "retention": {
+          "enum": [
+            "none",
+            "public_key_only",
+            "encrypted_secret",
+            "external_reference"
+          ],
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "implemented",
+            "preview",
+            "contract",
+            "disabled"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "method",
+        "state",
+        "maxAssurance",
+        "purposes",
+        "authoritative",
+        "retention"
+      ],
+      "type": "object"
+    },
+    "ErrorEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "pattern": "^[A-Z][A-Z0-9_]{2,63}$",
+          "type": "string"
+        },
+        "details": {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        "message": {
+          "maxLength": 512,
+          "minLength": 1,
+          "type": "string"
+        },
+        "requestId": {
+          "maxLength": 128,
+          "minLength": 8,
+          "type": "string"
+        },
+        "retryable": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "code",
+        "message",
+        "retryable",
+        "requestId"
+      ],
+      "type": "object"
+    },
+    "IntrospectionRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "audience": {
+          "maxLength": 256,
+          "minLength": 1,
+          "type": "string"
+        },
+        "requestContext": {
+          "$ref": "#/$defs/RequestContext"
+        },
+        "requiredScopes": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "token": {
+          "minLength": 16,
+          "type": "string",
+          "writeOnly": true
+        }
+      },
+      "required": [
+        "token",
+        "audience"
+      ],
+      "type": "object"
+    },
+    "IntrospectionResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "active": {
+          "type": "boolean"
+        },
+        "cacheTtlSeconds": {
+          "maximum": 60,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "claims": {
+          "$ref": "#/$defs/TokenClaims"
+        },
+        "principal": {
+          "$ref": "#/$defs/PrincipalRef"
+        },
+        "reason": {
+          "enum": [
+            "active",
+            "expired",
+            "revoked",
+            "audience_mismatch",
+            "scope_missing",
+            "unknown",
+            "policy_denied"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "active",
+        "reason"
+      ],
+      "type": "object"
+    },
+    "PlatformBiometricProof": {
+      "additionalProperties": false,
+      "properties": {
+        "modalityHint": {
+          "enum": [
+            "face",
+            "fingerprint",
+            "unknown"
+          ],
+          "type": "string"
+        },
+        "rawBiometricMaterialPresent": {
+          "const": false
+        },
+        "userVerification": {
+          "const": "required"
+        },
+        "verifiedByPlatformAuthenticator": {
+          "const": true
+        }
+      },
+      "required": [
+        "verifiedByPlatformAuthenticator",
+        "userVerification",
+        "rawBiometricMaterialPresent"
+      ],
+      "type": "object"
+    },
+    "PrincipalKind": {
+      "enum": [
+        "human",
+        "service",
+        "workload",
+        "device",
+        "automation"
+      ],
+      "type": "string"
+    },
+    "PrincipalRef": {
+      "additionalProperties": false,
+      "properties": {
+        "displayName": {
+          "maxLength": 256,
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/PrincipalKind"
+        },
+        "organization": {
+          "maxLength": 128,
+          "type": "string"
+        },
+        "subject": {
+          "maxLength": 256,
+          "minLength": 1,
+          "type": "string"
+        },
+        "tenantId": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "tenantId",
+        "subject",
+        "kind"
+      ],
+      "type": "object"
+    },
+    "RequestContext": {
+      "additionalProperties": false,
+      "properties": {
+        "clientId": {
+          "maxLength": 128,
+          "type": "string"
+        },
+        "requestId": {
+          "pattern": "^[A-Za-z0-9._:-]{8,128}$",
+          "type": "string"
+        },
+        "source": {
+          "maxLength": 128,
+          "type": "string"
+        },
+        "spanId": {
+          "pattern": "^[0-9a-f]{16}$",
+          "type": "string"
+        },
+        "tenantId": {
+          "maxLength": 128,
+          "type": "string"
+        },
+        "traceId": {
+          "pattern": "^[0-9a-f]{32}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "requestId",
+        "traceId"
+      ],
+      "type": "object"
+    },
+    "SecurityEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "pattern": "^[a-z][a-z0-9_.-]{2,127}$",
+          "type": "string"
+        },
+        "actor": {
+          "$ref": "#/$defs/ActorRef"
+        },
+        "assurance": {
+          "$ref": "#/$defs/AssuranceLevel"
+        },
+        "attributes": {
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "integer",
+              "boolean",
+              "null"
+            ]
+          },
+          "type": "object"
+        },
+        "authMethod": {
+          "$ref": "#/$defs/AuthMethod"
+        },
+        "eventId": {
+          "maxLength": 128,
+          "minLength": 8,
+          "type": "string"
+        },
+        "occurredAt": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "outcome": {
+          "enum": [
+            "success",
+            "failure",
+            "denied",
+            "challenge",
+            "unknown"
+          ],
+          "type": "string"
+        },
+        "principal": {
+          "$ref": "#/$defs/PrincipalRef"
+        },
+        "reasonCode": {
+          "pattern": "^[A-Z][A-Z0-9_]{2,63}$",
+          "type": "string"
+        },
+        "request": {
+          "$ref": "#/$defs/RequestContext"
+        },
+        "schema": {
+          "const": "ores.security-event/v1"
+        },
+        "sensitivity": {
+          "enum": [
+            "public",
+            "internal",
+            "confidential",
+            "restricted"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema",
+        "eventId",
+        "occurredAt",
+        "action",
+        "outcome",
+        "request",
+        "sensitivity"
+      ],
+      "type": "object"
+    },
+    "TokenClaims": {
+      "additionalProperties": false,
+      "properties": {
+        "aal": {
+          "$ref": "#/$defs/AssuranceLevel"
+        },
+        "actor": {
+          "$ref": "#/$defs/ActorRef"
+        },
+        "amr": {
+          "items": {
+            "$ref": "#/$defs/AuthMethod"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "aud": {
+          "items": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "authTime": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "cnf": {
+          "additionalProperties": false,
+          "properties": {
+            "jkt": {
+              "type": "string"
+            },
+            "x5tS256": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "exp": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "iat": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "iss": {
+          "format": "uri",
+          "type": "string"
+        },
+        "jti": {
+          "maxLength": 128,
+          "minLength": 8,
+          "type": "string"
+        },
+        "scopes": {
+          "items": {
+            "pattern": "^[a-z0-9][a-z0-9:._-]{0,127}$",
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "sessionId": {
+          "maxLength": 128,
+          "minLength": 8,
+          "type": "string"
+        },
+        "sub": {
+          "maxLength": 256,
+          "minLength": 1,
+          "type": "string"
+        },
+        "tenantId": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "iss",
+        "sub",
+        "aud",
+        "exp",
+        "iat",
+        "jti",
+        "tenantId",
+        "sessionId",
+        "aal",
+        "amr",
+        "scopes"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://schemas.oresoftware.com/ores-platform/v1/schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Language-neutral identity, authorization, request, error, and security-event contracts shared across OreSoftware organizations.",
+  "properties": {
+    "contract": {
+      "enum": [
+        "PrincipalRef",
+        "RequestContext",
+        "ErrorEnvelope",
+        "CredentialCapability",
+        "PlatformBiometricProof",
+        "TokenClaims",
+        "IntrospectionRequest",
+        "IntrospectionResponse",
+        "SecurityEvent"
+      ],
+      "type": "string"
+    },
+    "payload": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "contract",
+    "payload"
+  ],
+  "title": "OreSoftware platform contracts v1",
+  "type": "object"
+}

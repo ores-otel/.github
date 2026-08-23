@@ -1,0 +1,14 @@
+{
+  "schema": "ores.shared-auth-admin-principal-search-request/v1",
+  "requestId": "req-principal-search-01",
+  "requestedByPrincipalId": "principal-security-operator-01",
+  "emailSearchKeyHash": "email_lookup_hmac_4K7a9X2mQ8sV1bN6",
+  "purpose": "operator_email_search",
+  "requestedAt": "2026-08-11T15:00:00Z",
+  "redaction": {
+    "rawEmailsPresent": false,
+    "rawTokensPresent": false,
+    "rawSessionIdentifiersPresent": false,
+    "rawBiometricMaterialPresent": false
+  }
+}

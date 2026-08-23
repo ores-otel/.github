@@ -1,0 +1,117 @@
+name: Validate shared repository templates
+
+on:
+  pull_request:
+    paths:
+      - FORMAL_METHODS.md
+      - CONTRIBUTING.md
+      - GOVERNANCE.md
+      - README.md
+      - .github/PULL_REQUEST_TEMPLATE.md
+      - repository-fleet.json
+      - repository-templates/**
+      - scripts/provision-repository-fleet.py
+      - scripts/provision-shared-repositories.py
+      - scripts/render-template-manifest.py
+      - scripts/validate-repository-templates.py
+      - .github/workflows/validate-repository-templates.yml
+      - .github/workflows/provision-repository-fleet.yml
+  push:
+    branches: [main]
+    paths:
+      - FORMAL_METHODS.md
+      - CONTRIBUTING.md
+      - GOVERNANCE.md
+      - README.md
+      - .github/PULL_REQUEST_TEMPLATE.md
+      - repository-fleet.json
+      - repository-templates/**
+      - scripts/provision-repository-fleet.py
+      - scripts/provision-shared-repositories.py
+      - scripts/render-template-manifest.py
+      - scripts/validate-repository-templates.py
+      - .github/workflows/validate-repository-templates.yml
+      - .github/workflows/provision-repository-fleet.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  policy:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Validate provisioning code and templates
+        run: |
+          set -euo pipefail
+          python -m py_compile \
+            scripts/provision-repository-fleet.py \
+            scripts/provision-shared-repositories.py \
+            scripts/render-template-manifest.py \
+            scripts/validate-repository-templates.py
+          python scripts/validate-repository-templates.py --manifest repository-fleet.json
+          python -m venv "$RUNNER_TEMP/contracts-validator"
+          "$RUNNER_TEMP/contracts-validator/bin/python" -m pip install \
+            --disable-pip-version-check \
+            --require-hashes \
+            --requirement repository-templates/ores-interfaces/scripts/requirements-contracts.lock
+          "$RUNNER_TEMP/contracts-validator/bin/python" \
+            repository-templates/ores-interfaces/scripts/check_contracts.py
+          python repository-templates/ores-lib-core/scripts/check_core.py
+
+  native:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        repository: [ores-interfaces, ores-lib-core]
+        language: [rust, go, typescript, python, dart, java, swift]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - if: matrix.language == 'dart'
+        uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
+      - name: Test native target
+        env:
+          REPOSITORY: ${{ matrix.repository }}
+          LANGUAGE: ${{ matrix.language }}
+        run: |
+          set -euo pipefail
+          root="repository-templates/$REPOSITORY/languages/$LANGUAGE"
+          case "$LANGUAGE" in
+            rust) (cd "$root" && cargo test) ;;
+            go) (cd "$root" && go test ./...) ;;
+            typescript) (cd "$root" && npm test) ;;
+            python)
+              (cd "$root" && PYTHONPATH=src python -m unittest discover -s tests -v)
+              ;;
+            dart)
+              (cd "$root" && dart pub get && dart analyze && dart run tool/check.dart)
+              ;;
+            java)
+              mkdir -p "$RUNNER_TEMP/java"
+              if [ "$REPOSITORY" = ores-interfaces ]; then
+                javac -d "$RUNNER_TEMP/java" \
+                  "$root/src/main/java/com/oresoftware/interfaces/AuthContracts.java" \
+                  "$root/src/test/java/com/oresoftware/interfaces/AuthContractsTest.java"
+                java -ea -cp "$RUNNER_TEMP/java" com.oresoftware.interfaces.AuthContractsTest
+              else
+                javac -d "$RUNNER_TEMP/java" \
+                  "$root/src/main/java/com/oresoftware/core/OresCore.java" \
+                  "$root/src/test/java/com/oresoftware/core/OresCoreTest.java"
+                java -ea -cp "$RUNNER_TEMP/java" com.oresoftware.core.OresCoreTest
+              fi
+              ;;
+            swift) (cd "$root" && swift test) ;;
+            *) echo "unsupported language: $LANGUAGE" >&2; exit 64 ;;
+          esac

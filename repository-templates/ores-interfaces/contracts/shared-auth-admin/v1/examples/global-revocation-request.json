@@ -1,0 +1,25 @@
+{
+  "schema": "ores.shared-auth-admin-global-revocation-request/v1",
+  "previewId": "preview-global-revoke-01",
+  "commitAuthorizationId": "commit_auth_7F4m2Q9v6X1s8K3d5R0p2N9c",
+  "idempotencyKey": "idem_global_revoke_7F4m2Q9v6X1s",
+  "selectedScopes": [
+    "interactive_sessions",
+    "refresh_token_families",
+    "offline_grants",
+    "downstream_sessions"
+  ],
+  "requestedAt": "2026-08-11T15:02:00Z",
+  "correlation": {
+    "requestId": "req-global-revoke-01",
+    "traceId": "trace-global-revoke-01",
+    "reasonCode": "security.user_reported_compromise",
+    "ticketReferenceHash": "ticket_reference_hash_6B9n3C7q2W5"
+  },
+  "redaction": {
+    "rawEmailsPresent": false,
+    "rawTokensPresent": false,
+    "rawSessionIdentifiersPresent": false,
+    "rawBiometricMaterialPresent": false
+  }
+}

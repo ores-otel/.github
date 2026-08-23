@@ -1,0 +1,11 @@
+[package]
+name = "ores-interfaces"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.70"
+license = "MIT"
+description = "Rust bindings for OreSoftware platform contracts"
+repository = "https://github.com/ores-otel/ores-interfaces"
+
+[lib]
+path = "src/lib.rs"

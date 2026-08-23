@@ -1,0 +1,316 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.oresoftware.com/shared-auth/v1/schema.json",
+  "title": "Shared Auth cross-organization domain contracts v1",
+  "description": "Canonical safe wire projections and the authorized, idempotent session-revocation command. Email lookup material is write-only; session identifiers are one-way digests; private keys and raw biometric material are never represented.",
+  "oneOf": [
+    { "$ref": "#/$defs/Organization" },
+    { "$ref": "#/$defs/Project" },
+    { "$ref": "#/$defs/User" },
+    { "$ref": "#/$defs/Membership" },
+    { "$ref": "#/$defs/Role" },
+    { "$ref": "#/$defs/RoleBinding" },
+    { "$ref": "#/$defs/Session" },
+    { "$ref": "#/$defs/Factor" },
+    { "$ref": "#/$defs/AuditEvent" },
+    { "$ref": "#/$defs/RevokeSessionsByEmailRequest" },
+    { "$ref": "#/$defs/RevokeSessionsByEmailResult" }
+  ],
+  "$comment": "Security: verify sessions.revoke independently for every organization; replay an actor/idempotency key only when the canonical request digest matches; normalize email in memory and retain only a keyed lookup HMAC; store external references and public fingerprints, never private keys or biometric samples/templates.",
+  "$defs": {
+    "Identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "IsoTimestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "Slug": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "pattern": "^[a-z0-9](?:[a-z0-9-]{0,98}[a-z0-9])?$"
+    },
+    "Organization": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": { "const": "ores.shared-auth.organization/v1" },
+        "organizationId": { "$ref": "#/$defs/Identifier" },
+        "slug": { "$ref": "#/$defs/Slug" },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "state": { "type": "string", "enum": ["active", "suspended", "archived"] },
+        "createdAt": { "$ref": "#/$defs/IsoTimestamp" }
+      },
+      "required": ["schema", "organizationId", "slug", "displayName", "state", "createdAt"]
+    },
+    "Project": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": { "const": "ores.shared-auth.project/v1" },
+        "projectId": { "$ref": "#/$defs/Identifier" },
+        "organizationId": { "$ref": "#/$defs/Identifier" },
+        "slug": { "$ref": "#/$defs/Slug" },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "state": { "type": "string", "enum": ["active", "suspended", "archived"] },
+        "createdAt": { "$ref": "#/$defs/IsoTimestamp" }
+      },
+      "required": ["schema", "projectId", "organizationId", "slug", "displayName", "state", "createdAt"]
+    },
+    "User": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Safe user projection. Neither the normalized address nor its lookup HMAC is exposed.",
+      "properties": {
+        "schema": { "const": "ores.shared-auth.user/v1" },
+        "userId": { "$ref": "#/$defs/Identifier" },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "emailRedacted": { "type": "string", "minLength": 3, "maxLength": 320, "pattern": "\\*", "description": "Display-safe value containing at least one masking asterisk." },
+        "state": { "type": "string", "enum": ["invited", "active", "suspended", "deprovisioned"] },
+        "createdAt": { "$ref": "#/$defs/IsoTimestamp" },
+        "lastAuthenticatedAt": { "$ref": "#/$defs/IsoTimestamp" }
+      },
+      "required": ["schema", "userId", "displayName", "emailRedacted", "state", "createdAt"]
+    },
+    "Membership": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": { "const": "ores.shared-auth.membership/v1" },
+        "membershipId": { "$ref": "#/$defs/Identifier" },
+        "organizationId": { "$ref": "#/$defs/Identifier" },
+        "userId": { "$ref": "#/$defs/Identifier" },
+        "state": { "type": "string", "enum": ["invited", "active", "suspended", "removed"] },
+        "joinedAt": { "$ref": "#/$defs/IsoTimestamp" }
+      },
+      "required": ["schema", "membershipId", "organizationId", "userId", "state"]
+    },
+    "Role": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": { "const": "ores.shared-auth.role/v1" },
+        "roleId": { "$ref": "#/$defs/Identifier" },
+        "organizationId": { "$ref": "#/$defs/Identifier" },
+        "key": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-z][a-z0-9._:-]*$" },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "permissions": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 3, "maxLength": 128, "pattern": "^[a-z][a-z0-9._:-]*$" },
+          "uniqueItems": true,
+          "maxItems": 256
+        }
+      },
+      "required": ["schema", "roleId", "organizationId", "key", "displayName", "permissions"]
+    },
+    "RoleBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": { "const": "ores.shared-auth.role-binding/v1" },
+        "roleBindingId": { "$ref": "#/$defs/Identifier" },
+        "organizationId": { "$ref": "#/$defs/Identifier" },
+        "membershipId": { "$ref": "#/$defs/Identifier" },
+        "roleId": { "$ref": "#/$defs/Identifier" },
+        "scopeKind": { "type": "string", "enum": ["organization", "project", "repository"] },
+        "scopeId": { "$ref": "#/$defs/Identifier" },
+        "grantedAt": { "$ref": "#/$defs/IsoTimestamp" },
+        "expiresAt": { "$ref": "#/$defs/IsoTimestamp" }
+      },
+      "required": ["schema", "roleBindingId", "organizationId", "membershipId", "roleId", "scopeKind", "scopeId", "grantedAt"]
+    },
+    "Session": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Safe session projection. sessionIdHash is a keyed, non-reversible display/audit identifier.",
+      "properties": {
+        "schema": { "const": "ores.shared-auth.session/v1" },
+        "sessionIdHash": { "type": "string", "minLength": 32, "maxLength": 128, "pattern": "^[A-Za-z0-9_-]+$" },
+        "userId": { "$ref": "#/$defs/Identifier" },
+        "organizationId": { "$ref": "#/$defs/Identifier" },
+        "projectId": { "$ref": "#/$defs/Identifier" },
+        "clientId": { "$ref": "#/$defs/Identifier" },
+        "state": { "type": "string", "enum": ["active", "revoked", "expired"] },
+        "assurance": { "$ref": "../../ores-platform/v1/schema.json#/$defs/AssuranceLevel" },
+        "authMethods": {
+          "type": "array",
+          "items": { "$ref": "../../ores-platform/v1/schema.json#/$defs/AuthMethod" },
+          "uniqueItems": true,
+          "minItems": 1
+        },
+        "createdAt": { "$ref": "#/$defs/IsoTimestamp" },
+        "lastSeenAt": { "$ref": "#/$defs/IsoTimestamp" },
+        "expiresAt": { "$ref": "#/$defs/IsoTimestamp" },
+        "revokedAt": { "$ref": "#/$defs/IsoTimestamp" },
+        "revocationReason": { "type": "string", "maxLength": 256 }
+      },
+      "required": ["schema", "sessionIdHash", "userId", "organizationId", "clientId", "state", "assurance", "authMethods", "createdAt", "expiresAt"],
+      "allOf": [
+        {
+          "if": { "properties": { "state": { "const": "revoked" } }, "required": ["state"] },
+          "then": { "properties": { "revokedAt": true }, "required": ["revokedAt"] },
+          "else": { "not": { "required": ["revokedAt"] } }
+        }
+      ]
+    },
+    "Factor": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Credential metadata only. Verification material remains with the identity provider, KMS, or platform authenticator.",
+      "properties": {
+        "schema": { "const": "ores.shared-auth.factor/v1" },
+        "factorId": { "$ref": "#/$defs/Identifier" },
+        "userId": { "$ref": "#/$defs/Identifier" },
+        "method": { "$ref": "../../ores-platform/v1/schema.json#/$defs/AuthMethod" },
+        "state": { "type": "string", "enum": ["pending", "active", "disabled", "compromised"] },
+        "externalCredentialRefHash": { "type": "string", "minLength": 32, "maxLength": 128, "pattern": "^[A-Za-z0-9_-]+$" },
+        "publicKeyFingerprint": { "type": "string", "minLength": 16, "maxLength": 256 },
+        "rawBiometricMaterialPresent": { "const": false },
+        "privateKeyMaterialPresent": { "const": false },
+        "createdAt": { "$ref": "#/$defs/IsoTimestamp" },
+        "lastUsedAt": { "$ref": "#/$defs/IsoTimestamp" }
+      },
+      "required": ["schema", "factorId", "userId", "method", "state", "rawBiometricMaterialPresent", "privateKeyMaterialPresent", "createdAt"],
+      "allOf": [
+        {
+          "if": { "properties": { "method": { "const": "platform_biometric" } }, "required": ["method"] },
+          "then": {
+            "not": {
+              "anyOf": [
+                { "properties": { "externalCredentialRefHash": true }, "required": ["externalCredentialRefHash"] },
+                { "properties": { "publicKeyFingerprint": true }, "required": ["publicKeyFingerprint"] }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "AuditEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": { "const": "ores.shared-auth.audit-event/v1" },
+        "auditEventId": { "$ref": "#/$defs/Identifier" },
+        "organizationId": { "$ref": "#/$defs/Identifier" },
+        "projectId": { "$ref": "#/$defs/Identifier" },
+        "actorSubject": { "$ref": "#/$defs/Identifier" },
+        "action": { "type": "string", "minLength": 3, "maxLength": 128, "pattern": "^[a-z][a-z0-9._:-]*$" },
+        "targetKind": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "targetIdHash": { "type": "string", "minLength": 16, "maxLength": 128, "pattern": "^[A-Za-z0-9_-]+$" },
+        "outcome": { "type": "string", "enum": ["allowed", "denied", "succeeded", "failed"] },
+        "reasonCode": { "type": "string", "maxLength": 128, "pattern": "^[A-Z][A-Z0-9_]*$" },
+        "requestId": { "$ref": "#/$defs/Identifier" },
+        "traceId": { "$ref": "#/$defs/Identifier" },
+        "occurredAt": { "$ref": "#/$defs/IsoTimestamp" },
+        "sensitiveMaterialPresent": { "const": false }
+      },
+      "required": ["schema", "auditEventId", "actorSubject", "action", "targetKind", "targetIdHash", "outcome", "requestId", "traceId", "occurredAt", "sensitiveMaterialPresent"],
+      "allOf": [
+        {
+          "if": { "properties": { "projectId": true }, "required": ["projectId"] },
+          "then": { "properties": { "organizationId": true }, "required": ["organizationId"] }
+        }
+      ]
+    },
+    "RevocationScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mode": { "type": "string", "enum": ["all_authorized_organizations", "selected_organizations"] },
+        "organizationIds": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Identifier" },
+          "uniqueItems": true,
+          "minItems": 1,
+          "maxItems": 500
+        }
+      },
+      "required": ["mode"],
+      "allOf": [
+        {
+          "if": { "properties": { "mode": { "const": "selected_organizations" } }, "required": ["mode"] },
+          "then": { "properties": { "organizationIds": true }, "required": ["organizationIds"] },
+          "else": { "not": { "required": ["organizationIds"] } }
+        }
+      ]
+    },
+    "RevokeSessionsByEmailRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": { "const": "ores.shared-auth.revoke-sessions-by-email-request/v1" },
+        "requestId": { "$ref": "#/$defs/Identifier" },
+        "idempotencyKey": { "type": "string", "minLength": 16, "maxLength": 128, "pattern": "^[A-Za-z0-9._:-]+$" },
+        "normalizedEmail": {
+          "type": "string",
+          "format": "email",
+          "minLength": 3,
+          "maxLength": 320,
+          "pattern": "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)+$",
+          "writeOnly": true,
+          "description": "Canonical ASCII lowercase address. Normalize in memory, derive a keyed HMAC, and never log, persist, or echo this value."
+        },
+        "scope": { "$ref": "#/$defs/RevocationScope" },
+        "reason": { "type": "string", "enum": ["admin_action", "compromised", "incident_response", "offboarding", "user_request"] },
+        "dryRun": { "type": "boolean" }
+      },
+      "required": ["schema", "requestId", "idempotencyKey", "normalizedEmail", "scope", "reason", "dryRun"]
+    },
+    "OrganizationRevocationResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Emitted only for an organization where the actor's sessions.revoke grant was verified.",
+      "properties": {
+        "organizationId": { "$ref": "#/$defs/Identifier" },
+        "outcome": { "type": "string", "enum": ["revoked", "no_active_sessions", "failed"] },
+        "matchedUsers": { "type": "integer", "minimum": 0 },
+        "sessionsRevoked": { "type": "integer", "minimum": 0 },
+        "sessionsAlreadyInactive": { "type": "integer", "minimum": 0 },
+        "errorCode": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{2,63}$" },
+        "authorizationVerified": { "const": true }
+      },
+      "required": ["organizationId", "outcome", "matchedUsers", "sessionsRevoked", "sessionsAlreadyInactive", "authorizationVerified"],
+      "allOf": [
+        {
+          "if": { "properties": { "outcome": { "const": "failed" } }, "required": ["outcome"] },
+          "then": { "properties": { "errorCode": true }, "required": ["errorCode"] },
+          "else": { "not": { "required": ["errorCode"] } }
+        }
+      ]
+    },
+    "RevokeSessionsByEmailResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Sanitized result; it deliberately cannot echo an email address or disclose inaccessible organization identities.",
+      "properties": {
+        "schema": { "const": "ores.shared-auth.revoke-sessions-by-email-result/v1" },
+        "requestId": { "$ref": "#/$defs/Identifier" },
+        "idempotencyKey": { "type": "string", "minLength": 16, "maxLength": 128 },
+        "operationId": { "$ref": "#/$defs/Identifier" },
+        "status": { "type": "string", "enum": ["completed", "partial", "denied", "no_match"] },
+        "replayed": { "type": "boolean" },
+        "dryRun": { "type": "boolean" },
+        "authorizedOrganizationCount": { "type": "integer", "minimum": 0 },
+        "unprocessedOrganizationCount": { "type": "integer", "minimum": 0, "description": "Aggregate only; identities are not disclosed." },
+        "matchedUsers": { "type": "integer", "minimum": 0 },
+        "sessionsRevoked": { "type": "integer", "minimum": 0 },
+        "sessionsAlreadyInactive": { "type": "integer", "minimum": 0 },
+        "organizationResults": { "type": "array", "items": { "$ref": "#/$defs/OrganizationRevocationResult" } },
+        "authorizationPolicy": { "const": "per_organization_sessions.revoke" },
+        "onlyAuthorizedOrganizationsProcessed": { "const": true },
+        "completedAt": { "$ref": "#/$defs/IsoTimestamp" }
+      },
+      "required": ["schema", "requestId", "idempotencyKey", "operationId", "status", "replayed", "dryRun", "authorizedOrganizationCount", "unprocessedOrganizationCount", "matchedUsers", "sessionsRevoked", "sessionsAlreadyInactive", "organizationResults", "authorizationPolicy", "onlyAuthorizedOrganizationsProcessed", "completedAt"],
+      "allOf": [
+        {
+          "if": { "properties": { "dryRun": { "const": true } }, "required": ["dryRun"] },
+          "then": { "properties": { "sessionsRevoked": { "const": 0 } } }
+        }
+      ]
+    }
+  }
+}

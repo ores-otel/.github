@@ -1,0 +1,15 @@
+{
+  "contract": "RoleBindingProjection",
+  "payload": {
+    "bindingId": "binding-01",
+    "subject": "user-01",
+    "organizationId": "org-01",
+    "roleKey": "security.viewer",
+    "scope": {
+      "kind": "project",
+      "id": "project-01"
+    },
+    "source": "explicit",
+    "grantedAt": "2026-08-10T20:00:00Z"
+  }
+}

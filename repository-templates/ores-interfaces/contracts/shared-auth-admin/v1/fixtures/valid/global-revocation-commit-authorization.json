@@ -1,0 +1,38 @@
+{
+  "contract": "GlobalRevocationCommitAuthorization",
+  "payload": {
+    "schema": "ores.shared-auth-admin-global-revocation-commit-authorization/v1",
+    "commitAuthorizationId": "commit_auth_7F4m2Q9v6X1s8K3d5R0p2N9c",
+    "previewId": "preview-global-revoke-01",
+    "principalId": "principal-user-01",
+    "selectedScopes": [
+      "interactive_sessions",
+      "refresh_token_families",
+      "offline_grants",
+      "downstream_sessions"
+    ],
+    "previewCreatedByPrincipalIdHash": "preview_actor_hash_7D2m9Q4v1X8",
+    "commitAuthorizedByPrincipalIdHash": "commit_actor_hash_3N8p5R1k9W6",
+    "commitAuthorizedBySessionIdHash": "commit_session_hash_8M2v6Q4x1N9",
+    "dualControlRequired": true,
+    "dualControlSatisfied": true,
+    "verifiedStepUp": {
+      "actorPrincipalId": "principal-security-operator-01",
+      "actorSessionIdHash": "actor_session_hash_8M2v6Q4x1N9",
+      "evidenceIdHash": "step_up_evidence_hash_5R8k2V7p4D1",
+      "assurance": "aal2",
+      "authMethods": ["webauthn"],
+      "phishingResistant": true,
+      "verifiedAt": "2026-08-11T15:01:50Z",
+      "freshUntil": "2026-08-11T15:06:50Z"
+    },
+    "issuedAt": "2026-08-11T15:01:51Z",
+    "expiresAt": "2026-08-11T15:05:00Z",
+    "redaction": {
+      "rawEmailsPresent": false,
+      "rawTokensPresent": false,
+      "rawSessionIdentifiersPresent": false,
+      "rawBiometricMaterialPresent": false
+    }
+  }
+}

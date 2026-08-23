@@ -1,0 +1,11 @@
+{
+  "schema": "ores.shared-auth.revoke-sessions-by-email-request/v1",
+  "requestId": "req-20260811-0001",
+  "idempotencyKey": "offboard-20260811-example-0001",
+  "normalizedEmail": "alex@example.com",
+  "scope": {
+    "mode": "all_authorized_organizations"
+  },
+  "reason": "offboarding",
+  "dryRun": false
+}
