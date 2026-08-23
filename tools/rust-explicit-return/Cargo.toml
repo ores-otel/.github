@@ -1,0 +1,16 @@
+[package]
+name = "ores-fleet-rust-explicit-return"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+proc-macro2 = { version = "1.0.101", features = ["span-locations"] }
+syn = { version = "2.0.106", features = ["full", "visit"] }
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+all = "deny"
+pedantic = "deny"
