@@ -229,6 +229,31 @@ class GitHub:
             f"GitHub rejected the pull request and no matching open PR exists: {payload}"
         )
 
+    def existing_managed_rollout_pull_request(
+        self, target: Target
+    ) -> tuple[str, str] | None:
+        pull_requests = self.require(
+            "GET", f"/repos/{target.full_name}/pulls?state=open&per_page=100", {200}
+        )
+        accepted_titles = {
+            "ci: add shared source policy lint",
+            "ci: adopt Ores source policy v2",
+        }
+        for pull_request in pull_requests:
+            if pull_request.get("title") not in accepted_titles:
+                continue
+            head = pull_request.get("head") or {}
+            head_repository = head.get("repo") or {}
+            if head_repository.get("full_name") != target.full_name:
+                continue
+            branch = head.get("ref")
+            if not branch:
+                continue
+            content = self.content(target.full_name, WORKFLOW_PATH, branch)
+            if content is not None and content[1].startswith(MANAGED_HEADER):
+                return branch, pull_request["html_url"]
+        return None
+
 
 def token_from_environment_or_gh() -> str:
     token = os.environ.get("SOURCE_POLICY_GITHUB_TOKEN")
@@ -474,12 +499,27 @@ def inspect_or_open_pull_request(
         return Result(
             target.full_name, "conflict", "existing workflow is not fleet-managed"
         )
+    existing_pull_request = github.existing_managed_rollout_pull_request(target)
     if not open_pull_requests:
+        if existing_pull_request is not None:
+            branch, pull_request_url = existing_pull_request
+            branch_content = github.content(target.full_name, WORKFLOW_PATH, branch)
+            if branch_content is not None and branch_content[1] == desired:
+                return Result(
+                    target.full_name,
+                    "pr-open",
+                    branch,
+                    github.branch_sha(target.full_name, branch),
+                    pull_request_url,
+                )
         state = "would-update" if default_content is not None else "would-create"
         return Result(target.full_name, state, target.default_branch)
 
-    branch = f"agent/source-policy-v2-{policy_sha[:12]}"
-    github.create_branch(target, branch)
+    if existing_pull_request is None:
+        branch = f"agent/source-policy-v2-{policy_sha[:12]}"
+        github.create_branch(target, branch)
+    else:
+        branch = existing_pull_request[0]
     branch_content = github.content(target.full_name, WORKFLOW_PATH, branch)
     if branch_content is not None and not branch_content[1].startswith(MANAGED_HEADER):
         return Result(
@@ -501,7 +541,11 @@ def inspect_or_open_pull_request(
         raise RuntimeError(
             f"pull-request branch verification failed after commit {commit_sha}"
         )
-    pull_request_url = github.open_pull_request(target, branch, policy_sha)
+    pull_request_url = (
+        existing_pull_request[1]
+        if existing_pull_request is not None
+        else github.open_pull_request(target, branch, policy_sha)
+    )
     return Result(
         target.full_name,
         "pr-open",

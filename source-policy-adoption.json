@@ -1,0 +1,981 @@
+{
+  "schemaVersion": 1,
+  "fleetVersion": "ores-source-policy/v2",
+  "policySha": "8fc174b6940c8dd120bfc9f053539667047b048f",
+  "auditedAt": "2026-08-23T03:08:00Z",
+  "minimumRequired": {
+    "repositories": 90,
+    "organizations": 20
+  },
+  "coverage": {
+    "repositories": 138,
+    "organizations": 28,
+    "adoptedOnDefaultBranch": 6,
+    "verifiedOpenPullRequests": 132,
+    "conflicts": 0,
+    "failures": 0
+  },
+  "repositories": [
+    {
+      "repository": "3FA-app/threefa-monorepo",
+      "state": "adopted",
+      "defaultBranchCommit": "e5cf84fc40071789002edb905bd422194aebf0f1",
+      "pullRequestUrl": "https://github.com/3FA-app/threefa-monorepo/pull/11"
+    },
+    {
+      "repository": "3FA-app/3fa-app.github.io",
+      "state": "adopted",
+      "defaultBranchCommit": "b88ffc3d3b1753a59d1dc3daac8335ea5b190166",
+      "pullRequestUrl": "https://github.com/3FA-app/3fa-app.github.io/pull/10"
+    },
+    {
+      "repository": "3FA-app/3fa-clients",
+      "state": "adopted",
+      "defaultBranchCommit": "66a6c2ba871ffa9362ba7578259f6f65355b2240",
+      "pullRequestUrl": "https://github.com/3FA-app/3fa-clients/pull/56"
+    },
+    {
+      "repository": "3FA-app/3FA-desktop.rs",
+      "state": "adopted",
+      "defaultBranchCommit": "771a17eddcd77d1619737a71eca8282c61900267",
+      "pullRequestUrl": "https://github.com/3FA-app/3FA-desktop.rs/pull/35"
+    },
+    {
+      "repository": "3FA-app/.github",
+      "state": "adopted",
+      "defaultBranchCommit": "84bac1499453c99de845cf989f6a5102892c34f3",
+      "pullRequestUrl": "https://github.com/3FA-app/.github/pull/23"
+    },
+    {
+      "repository": "StreemPilot/sp-web-mash",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "8e7c491dd2ae6f3bb7f8aa114bf465a7d949cb5b",
+      "pullRequestUrl": "https://github.com/StreemPilot/sp-web-mash/pull/16"
+    },
+    {
+      "repository": "StreemPilot/streempilot-monorepo",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "020e1debe47bf0985a542aa69e6c0b9480571814",
+      "pullRequestUrl": "https://github.com/StreemPilot/streempilot-monorepo/pull/22"
+    },
+    {
+      "repository": "StreemPilot/sp-interfaces",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "9a824e7b5e3cfa3d58a6e01c03471ee321095b4c",
+      "pullRequestUrl": "https://github.com/StreemPilot/sp-interfaces/pull/20"
+    },
+    {
+      "repository": "StreemPilot/sp-web-leptos",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "ca365b01b56745e49a4365b455df53ad3ad98e4b",
+      "pullRequestUrl": "https://github.com/StreemPilot/sp-web-leptos/pull/10"
+    },
+    {
+      "repository": "StreemPilot/sp-infra",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "3aab6b53070ae951079a8da6f62da27813e84cb2",
+      "pullRequestUrl": "https://github.com/StreemPilot/sp-infra/pull/8"
+    },
+    {
+      "repository": "akrion-sim/akrion-sim-interfaces",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "c6608ac0e95632ba992154ba2e995a30a8712cd1",
+      "pullRequestUrl": "https://github.com/akrion-sim/akrion-sim-interfaces/pull/10"
+    },
+    {
+      "repository": "akrion-sim/akrion-sim.github.io",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "40f169e5761431b0ccc4568646e20520d26d1a0e",
+      "pullRequestUrl": "https://github.com/akrion-sim/akrion-sim.github.io/pull/13"
+    },
+    {
+      "repository": "akrion-sim/akrion-soccer-engine-rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "0beddd98e2b128d47b8dec0da2a3eca620230bbe",
+      "pullRequestUrl": "https://github.com/akrion-sim/akrion-soccer-engine-rs/pull/21"
+    },
+    {
+      "repository": "akrion-sim/akrion-monorepo",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "d847e54528d2c5b217ec8640bbc2d0032994c393",
+      "pullRequestUrl": "https://github.com/akrion-sim/akrion-monorepo/pull/24"
+    },
+    {
+      "repository": "akrion-sim/akrion-sim-sync",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "36035016bdeac1b495a1a3806b985fd84753a3b6",
+      "pullRequestUrl": "https://github.com/akrion-sim/akrion-sim-sync/pull/4"
+    },
+    {
+      "repository": "anticaptrad/act-ai-server.ts",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "788086a308593ad59a1ee6cee53bef93f6379ace",
+      "pullRequestUrl": "https://github.com/anticaptrad/act-ai-server.ts/pull/6"
+    },
+    {
+      "repository": "anticaptrad/act-cli",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "2a3b8a80d0be7f8e66e44198ccd9cd4a9934930e",
+      "pullRequestUrl": "https://github.com/anticaptrad/act-cli/pull/1"
+    },
+    {
+      "repository": "anticaptrad/act-desktop-app.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "a727742c1cd23808540296fab0b2c170e18ed49b",
+      "pullRequestUrl": "https://github.com/anticaptrad/act-desktop-app.rs/pull/1"
+    },
+    {
+      "repository": "anticaptrad/act-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "c29eda1e3041025cfb8ffc8188410e9a170e4bde",
+      "pullRequestUrl": "https://github.com/anticaptrad/act-clients/pull/14"
+    },
+    {
+      "repository": "anticaptrad/act-web-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "48b72cd52b30df225df08bf8e96e6d0910f409db",
+      "pullRequestUrl": "https://github.com/anticaptrad/act-web-server.rs/pull/6"
+    },
+    {
+      "repository": "apostille-me/apme-cli",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "ce305dabcf5ed34aae4a27a1669ec48cce8ab93f",
+      "pullRequestUrl": "https://github.com/apostille-me/apme-cli/pull/8"
+    },
+    {
+      "repository": "apostille-me/apostille-me-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "8b250103ec8ce2a9e13384fb68a62259ce3b7fc8",
+      "pullRequestUrl": "https://github.com/apostille-me/apostille-me-clients/pull/8"
+    },
+    {
+      "repository": "apostille-me/apme-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "08057c80c73b178f5e912c97f2dc59f42c1add3e",
+      "pullRequestUrl": "https://github.com/apostille-me/apme-clients/pull/16"
+    },
+    {
+      "repository": "apostille-me/.github",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "8c22dc2d07be7e21e7d93a36f9963cd2603d045d",
+      "pullRequestUrl": "https://github.com/apostille-me/.github/pull/21"
+    },
+    {
+      "repository": "apostille-me/apme-sync",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "eda138af34d5ba177d1e2d8a3adc4d3bc73faf83",
+      "pullRequestUrl": "https://github.com/apostille-me/apme-sync/pull/3"
+    },
+    {
+      "repository": "athlet-o/athleto-sync",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "64cdd7fa872d185c1fedf49a97a52cfc1de23df6",
+      "pullRequestUrl": "https://github.com/athlet-o/athleto-sync/pull/8"
+    },
+    {
+      "repository": "athlet-o/athleto-interfaces",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "5693dba7f2e1ec070dddcc42f1e5b5bb7bda12df",
+      "pullRequestUrl": "https://github.com/athlet-o/athleto-interfaces/pull/11"
+    },
+    {
+      "repository": "athlet-o/athleto-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "5ec2c1623d8af87f5b13e9913c6cf537ad8d11d3",
+      "pullRequestUrl": "https://github.com/athlet-o/athleto-clients/pull/19"
+    },
+    {
+      "repository": "athlet-o/athleto-infra",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "d1bae2f0410d4d2008d345c42a92e774aaba6678",
+      "pullRequestUrl": "https://github.com/athlet-o/athleto-infra/pull/4"
+    },
+    {
+      "repository": "athlet-o/athleto-monorepo",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "6bd30764875623fec8d7bb4d333b7ae9d798b387",
+      "pullRequestUrl": "https://github.com/athlet-o/athleto-monorepo/pull/6"
+    },
+    {
+      "repository": "benefactor-cc/benefactor-sync",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "72374a2b24070795984e9094031b7be0c5173563",
+      "pullRequestUrl": "https://github.com/benefactor-cc/benefactor-sync/pull/8"
+    },
+    {
+      "repository": "benefactor-cc/benefactor-interfaces",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "58593439cc81fa5a9f4ccb393efd53fefffca3d3",
+      "pullRequestUrl": "https://github.com/benefactor-cc/benefactor-interfaces/pull/20"
+    },
+    {
+      "repository": "benefactor-cc/benefactor-automations",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "70e55ca95771bb68b5f8500433a2e08cb27596b4",
+      "pullRequestUrl": "https://github.com/benefactor-cc/benefactor-automations/pull/5"
+    },
+    {
+      "repository": "benefactor-cc/benefactor-sendgrid-outreach",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "a03b6c3e620d3304733ac2331f7c279cd12f7322",
+      "pullRequestUrl": "https://github.com/benefactor-cc/benefactor-sendgrid-outreach/pull/19"
+    },
+    {
+      "repository": "benefactor-cc/benefactor-monorepo",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "52d5587d866c61c2d6f9abd5e6dbd4905e884acb",
+      "pullRequestUrl": "https://github.com/benefactor-cc/benefactor-monorepo/pull/14"
+    },
+    {
+      "repository": "canonical-cloud/canonical-marketing-site.web",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "8c8813c843bd816eeecdca89d05744a714f588eb",
+      "pullRequestUrl": "https://github.com/canonical-cloud/canonical-marketing-site.web/pull/33"
+    },
+    {
+      "repository": "canonical-cloud/canonical-mcp-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "074b98d9847e268e6bddc9c654be4409af2ace59",
+      "pullRequestUrl": "https://github.com/canonical-cloud/canonical-mcp-server.rs/pull/32"
+    },
+    {
+      "repository": "canonical-cloud/canonical.cloud",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "d05bf957044d78381ff6da6fba3cadafb1843e69",
+      "pullRequestUrl": "https://github.com/canonical-cloud/canonical.cloud/pull/18"
+    },
+    {
+      "repository": "canonical-cloud/canonical-web-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "ff066199ac430c46a0d189bf6ca70e3258fea86c",
+      "pullRequestUrl": "https://github.com/canonical-cloud/canonical-web-server.rs/pull/76"
+    },
+    {
+      "repository": "canonical-cloud/canonical-monorepo",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "6c950ec729b0c85d37c74994ab174f74ff4d2829",
+      "pullRequestUrl": "https://github.com/canonical-cloud/canonical-monorepo/pull/54"
+    },
+    {
+      "repository": "claritas-viz/claritas-viz-mcp-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "098df471324ff4483f3ddf85e62072517be97fab",
+      "pullRequestUrl": "https://github.com/claritas-viz/claritas-viz-mcp-server.rs/pull/9"
+    },
+    {
+      "repository": "claritas-viz/claritas-monorepo",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "724dab5e06daac365ee5ecf58e33552fa5884697",
+      "pullRequestUrl": "https://github.com/claritas-viz/claritas-monorepo/pull/7"
+    },
+    {
+      "repository": "claritas-viz/claritas-viz.github.io",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "2ea19b17e6bdd6a25a115b607f89a3cfbbabd520",
+      "pullRequestUrl": "https://github.com/claritas-viz/claritas-viz.github.io/pull/6"
+    },
+    {
+      "repository": "claritas-viz/data-viz-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "9af6ad86b899f5c0edc4802777993b04ce2ab652",
+      "pullRequestUrl": "https://github.com/claritas-viz/data-viz-server.rs/pull/5"
+    },
+    {
+      "repository": "claritas-viz/claritas-cli",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "445477f16644605b89bcf99175d9866ec5c1178f",
+      "pullRequestUrl": "https://github.com/claritas-viz/claritas-cli/pull/2"
+    },
+    {
+      "repository": "daedalus-fab/daedalus-web-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "5a1bcbca611c22fec58a867351e35d946b8734bb",
+      "pullRequestUrl": "https://github.com/daedalus-fab/daedalus-web-server.rs/pull/7"
+    },
+    {
+      "repository": "daedalus-fab/daedalus-api-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "7fe15956aabd4845a6b9b520e1bee079f41dc5c6",
+      "pullRequestUrl": "https://github.com/daedalus-fab/daedalus-api-server.rs/pull/9"
+    },
+    {
+      "repository": "daedalus-fab/daedalus-sync",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "e746f82bed4055b8346a4738a0680211957252ea",
+      "pullRequestUrl": "https://github.com/daedalus-fab/daedalus-sync/pull/8"
+    },
+    {
+      "repository": "daedalus-fab/fabrication-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "c00298c35983742b03b90f90e3367c18748a5824",
+      "pullRequestUrl": "https://github.com/daedalus-fab/fabrication-server.rs/pull/14"
+    },
+    {
+      "repository": "daedalus-fab/daedalus-monorepo",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "6317da89b71a2ae1ef9f1406e1ce6d45c1790b4c",
+      "pullRequestUrl": "https://github.com/daedalus-fab/daedalus-monorepo/pull/7"
+    },
+    {
+      "repository": "discrete-event-systems/des-web.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "fe76ac8a1a098e03aa110a97deec0a346e89e108",
+      "pullRequestUrl": "https://github.com/discrete-event-systems/des-web.rs/pull/23"
+    },
+    {
+      "repository": "discrete-event-systems/discrete-event-systems.github.io",
+      "state": "pr-open",
+      "rolloutBranch": "codex/source-policy-lint",
+      "branchCommit": "9658aedd5a5f321fb3967f9d7e539061678e0c55",
+      "pullRequestUrl": "https://github.com/discrete-event-systems/discrete-event-systems.github.io/pull/14"
+    },
+    {
+      "repository": "discrete-event-systems/des-mcp-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "codex/source-policy-lint",
+      "branchCommit": "79cbb75ccd0082f6cf0983e5dd043855f09ac952",
+      "pullRequestUrl": "https://github.com/discrete-event-systems/des-mcp-server.rs/pull/29"
+    },
+    {
+      "repository": "drone-mngr/laser-ptr-ctrl-mcp-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "ae8f4cf76a3d28d37ba5cc05b5fa697b675d1b2a",
+      "pullRequestUrl": "https://github.com/drone-mngr/laser-ptr-ctrl-mcp-server.rs/pull/4"
+    },
+    {
+      "repository": "drone-mngr/drone-mngr-mcp-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "2c9ed2a82159fb6e0173d68227c0aa0548db8861",
+      "pullRequestUrl": "https://github.com/drone-mngr/drone-mngr-mcp-server.rs/pull/5"
+    },
+    {
+      "repository": "drone-mngr/laser-ptr-ctrl-infra",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "cc8693a0d65a7d67f045eff804b27e4b6762db42",
+      "pullRequestUrl": "https://github.com/drone-mngr/laser-ptr-ctrl-infra/pull/1"
+    },
+    {
+      "repository": "drone-mngr/laser-ptr-ctrl-web-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "017a1a237b3db53099db1ef97472d395f0861dc2",
+      "pullRequestUrl": "https://github.com/drone-mngr/laser-ptr-ctrl-web-server.rs/pull/1"
+    },
+    {
+      "repository": "drone-mngr/drone-mngr-web-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "00c39e89844d6a755768bfe835d6f48a4a854003",
+      "pullRequestUrl": "https://github.com/drone-mngr/drone-mngr-web-server.rs/pull/2"
+    },
+    {
+      "repository": "embedded-alerts/eal-libs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "0c5c5f3f01e4a4ee781574ed65c345c41073cd79",
+      "pullRequestUrl": "https://github.com/embedded-alerts/eal-libs/pull/7"
+    },
+    {
+      "repository": "embedded-alerts/eal-sync",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "40a909771e3e24da94e92d808f3ecd40d7cb22c3",
+      "pullRequestUrl": "https://github.com/embedded-alerts/eal-sync/pull/7"
+    },
+    {
+      "repository": "embedded-alerts/eal-cli",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "cf17eb7fa5b5d2dc8916482ea9deefc67cf96dd8",
+      "pullRequestUrl": "https://github.com/embedded-alerts/eal-cli/pull/9"
+    },
+    {
+      "repository": "embedded-alerts/embedded-alerts-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "bf6f80b7bb862ad223f9d2bae30534de5414b044",
+      "pullRequestUrl": "https://github.com/embedded-alerts/embedded-alerts-clients/pull/8"
+    },
+    {
+      "repository": "embedded-alerts/eal-mash-web",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "228a85dac1863a3633301a6567c2693f5f0ecf8b",
+      "pullRequestUrl": "https://github.com/embedded-alerts/eal-mash-web/pull/12"
+    },
+    {
+      "repository": "evento-globolo/evento-globolo-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "951ba304820823c7400844f2b8742f28bf3a372a",
+      "pullRequestUrl": "https://github.com/evento-globolo/evento-globolo-clients/pull/8"
+    },
+    {
+      "repository": "evento-globolo/evgl-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "ca7f87f234bf260e433e73af51faeea04ccdbb75",
+      "pullRequestUrl": "https://github.com/evento-globolo/evgl-clients/pull/14"
+    },
+    {
+      "repository": "evento-globolo/evgl-cli",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "9bce0f8df20b3a303e9afb7bdcdec5513300f968",
+      "pullRequestUrl": "https://github.com/evento-globolo/evgl-cli/pull/10"
+    },
+    {
+      "repository": "evento-globolo/.github",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "9a8b0bf14ee157437945b70d797ea55edb5b6532",
+      "pullRequestUrl": "https://github.com/evento-globolo/.github/pull/24"
+    },
+    {
+      "repository": "evento-globolo/evgl-mash-web",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "6951272011430c98f53c58b674c07e920c828e2a",
+      "pullRequestUrl": "https://github.com/evento-globolo/evgl-mash-web/pull/12"
+    },
+    {
+      "repository": "fiducia-cloud/fiducia-memory.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "6f02ca5e48464e1e83b73e5c4f4745c9d4a660ca",
+      "pullRequestUrl": "https://github.com/fiducia-cloud/fiducia-memory.rs/pull/36"
+    },
+    {
+      "repository": "fiducia-cloud/fiducia-mcp-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "cd5923012df22d2d6edc62b35504d8a3f1db3152",
+      "pullRequestUrl": "https://github.com/fiducia-cloud/fiducia-mcp-server.rs/pull/29"
+    },
+    {
+      "repository": "fiducia-cloud/fiducia-marketing.web",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "64a17689f1c99776a68ac97182de35afd9d59ddb",
+      "pullRequestUrl": "https://github.com/fiducia-cloud/fiducia-marketing.web/pull/25"
+    },
+    {
+      "repository": "fiducia-cloud/fiducia-routing.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "121d23ce366e03591ff548d3071130d678c8963e",
+      "pullRequestUrl": "https://github.com/fiducia-cloud/fiducia-routing.rs/pull/29"
+    },
+    {
+      "repository": "fiducia-cloud/fiducia-node.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "50a7f0dc894213533c5d9de22d6cdeef63fd0c1c",
+      "pullRequestUrl": "https://github.com/fiducia-cloud/fiducia-node.rs/pull/43"
+    },
+    {
+      "repository": "file-tunnel/ftnl-mcp-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "644519d1560f02c8cd160741c9cc4c7927ffda24",
+      "pullRequestUrl": "https://github.com/file-tunnel/ftnl-mcp-server.rs/pull/7"
+    },
+    {
+      "repository": "file-tunnel/ftnl-sync",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "8cfc8524e84923153ba32fe2dbf82b07fcd4f87f",
+      "pullRequestUrl": "https://github.com/file-tunnel/ftnl-sync/pull/16"
+    },
+    {
+      "repository": "file-tunnel/ftnl-ui-components",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "42fd545ccc13d831650facb60b92f7361e8dc944",
+      "pullRequestUrl": "https://github.com/file-tunnel/ftnl-ui-components/pull/18"
+    },
+    {
+      "repository": "file-tunnel/file-tunnel.github.io",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "43c4ac7f08b55adff8ef19a70a72cf465eea7864",
+      "pullRequestUrl": "https://github.com/file-tunnel/file-tunnel.github.io/pull/16"
+    },
+    {
+      "repository": "file-tunnel/ftnl-web-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "52a422745a4a00723686b979b286637a9494302f",
+      "pullRequestUrl": "https://github.com/file-tunnel/ftnl-web-server.rs/pull/14"
+    },
+    {
+      "repository": "hacker-house-medellin/.github",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "50e836f00ef62c0ad460302e2f8ac9bc1ae3a397",
+      "pullRequestUrl": "https://github.com/hacker-house-medellin/.github/pull/24"
+    },
+    {
+      "repository": "hacker-house-medellin/hhm-cli",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "cf6afdc828a183bb7c8d2e8ee733856e1ae9b41c",
+      "pullRequestUrl": "https://github.com/hacker-house-medellin/hhm-cli/pull/9"
+    },
+    {
+      "repository": "hacker-house-medellin/hhm-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "b468d4bb83986a8dd6c806cd2f51d474dc4d18de",
+      "pullRequestUrl": "https://github.com/hacker-house-medellin/hhm-clients/pull/12"
+    },
+    {
+      "repository": "hacker-house-medellin/hacker-house-medellin-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "f7829ad8add82ca4f4d5a78ded317d280fa3b14f",
+      "pullRequestUrl": "https://github.com/hacker-house-medellin/hacker-house-medellin-clients/pull/7"
+    },
+    {
+      "repository": "hacker-house-medellin/hhm-mash-web",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "873698a7e3db09678a66edd14d87a80749f1232c",
+      "pullRequestUrl": "https://github.com/hacker-house-medellin/hhm-mash-web/pull/9"
+    },
+    {
+      "repository": "hypesiege/hypesiege-monorepo",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "953299daadaf9fb898cc37bf5f35972e0bce5335",
+      "pullRequestUrl": "https://github.com/hypesiege/hypesiege-monorepo/pull/21"
+    },
+    {
+      "repository": "hypesiege/hypesiege-mcp-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "9de85f5e011fd403f8d45db6672de8d0dfc33af8",
+      "pullRequestUrl": "https://github.com/hypesiege/hypesiege-mcp-server.rs/pull/12"
+    },
+    {
+      "repository": "hypesiege/hypesiege-cli.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "33b0e2cd93cde245a67ffba3bdc4d2d8f95e6f85",
+      "pullRequestUrl": "https://github.com/hypesiege/hypesiege-cli.rs/pull/2"
+    },
+    {
+      "repository": "hypesiege/hypesiege-libs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "8168b9a45ebe549ddeaf776b729e01056e6b96e5",
+      "pullRequestUrl": "https://github.com/hypesiege/hypesiege-libs/pull/4"
+    },
+    {
+      "repository": "hypesiege/hypesiege-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "0cbf25351ba70cb2a31b8a225aead9a0fec3b0f8",
+      "pullRequestUrl": "https://github.com/hypesiege/hypesiege-clients/pull/8"
+    },
+    {
+      "repository": "messaging-intel/msgint-web-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "5c01b76113501905510d0d08802e20d510db3025",
+      "pullRequestUrl": "https://github.com/messaging-intel/msgint-web-server.rs/pull/18"
+    },
+    {
+      "repository": "messaging-intel/msgint-e2e",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "9fdc2ac8a0984be4c1584579363ea49104b63c1e",
+      "pullRequestUrl": "https://github.com/messaging-intel/msgint-e2e/pull/30"
+    },
+    {
+      "repository": "messaging-intel/msgint-flutter-app",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "db2b822c02f658ec5c3284235b85e257e1d8f19d",
+      "pullRequestUrl": "https://github.com/messaging-intel/msgint-flutter-app/pull/25"
+    },
+    {
+      "repository": "messaging-intel/msgint-desktop.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "4a46948a8db8c06a6a22d53b2d5f7849d3f909fa",
+      "pullRequestUrl": "https://github.com/messaging-intel/msgint-desktop.rs/pull/3"
+    },
+    {
+      "repository": "messaging-intel/msgint-monorepo",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "d0999566c467a2db30644e396e66414048e97d3f",
+      "pullRequestUrl": "https://github.com/messaging-intel/msgint-monorepo/pull/42"
+    },
+    {
+      "repository": "networking-components/ncc-service-discovery",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "0ed35d96ff601367e3a33d4f7261120c007f351e",
+      "pullRequestUrl": "https://github.com/networking-components/ncc-service-discovery/pull/2"
+    },
+    {
+      "repository": "networking-components/ncc-stun-turn",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "bb038b26b7888f0ea35b671817149c50e457218f",
+      "pullRequestUrl": "https://github.com/networking-components/ncc-stun-turn/pull/2"
+    },
+    {
+      "repository": "networking-components/ncc-pki",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "d106b732a6d38ede98a7e380366b2105e2510092",
+      "pullRequestUrl": "https://github.com/networking-components/ncc-pki/pull/2"
+    },
+    {
+      "repository": "networking-components/ncc-observability",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "fcff20320a331a09bf82f9f53c954df960a8f138",
+      "pullRequestUrl": "https://github.com/networking-components/ncc-observability/pull/2"
+    },
+    {
+      "repository": "networking-components/ncc-ntp",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "7ca38152604efdb9f01107b6021ff713b18f1306",
+      "pullRequestUrl": "https://github.com/networking-components/ncc-ntp/pull/2"
+    },
+    {
+      "repository": "opto-sync/syncer.c",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "ebbc13e4295d0904965802f9575e055b025c1101",
+      "pullRequestUrl": "https://github.com/opto-sync/syncer.c/pull/24"
+    },
+    {
+      "repository": "opto-sync/syncer.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "90ce6e8fa38ee53c62404a5f4318129d298574f0",
+      "pullRequestUrl": "https://github.com/opto-sync/syncer.rs/pull/8"
+    },
+    {
+      "repository": "opto-sync/opto-sync.github.io",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "645b9c2f0521f34d7c575ace52d55c160670559c",
+      "pullRequestUrl": "https://github.com/opto-sync/opto-sync.github.io/pull/2"
+    },
+    {
+      "repository": "opto-sync/opto-sync-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "d82a62f4912d610aa76348024920ee8d9de95844",
+      "pullRequestUrl": "https://github.com/opto-sync/opto-sync-clients/pull/91"
+    },
+    {
+      "repository": "opto-sync/opto-sync-e2e",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "db131a1aa8a6c597d8e34cdb927d4a98cc536d08",
+      "pullRequestUrl": "https://github.com/opto-sync/opto-sync-e2e/pull/40"
+    },
+    {
+      "repository": "ores-otel/ores.otel.log",
+      "state": "adopted",
+      "defaultBranchCommit": "0eecbaf2c4459d154bc5025319a93e94527d41ca",
+      "pullRequestUrl": "https://github.com/ores-otel/ores.otel.log/pull/21"
+    },
+    {
+      "repository": "ores-otel/ores-otel.github.io",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "5873b5b760663bb6aebfc375c06a04acf2f8d7e0",
+      "pullRequestUrl": "https://github.com/ores-otel/ores-otel.github.io/pull/2"
+    },
+    {
+      "repository": "ores-otel/ores-mcp-server-core-libs.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "34c495107a4783bf976f5fe1f2cad54b70dc44ba",
+      "pullRequestUrl": "https://github.com/ores-otel/ores-mcp-server-core-libs.rs/pull/2"
+    },
+    {
+      "repository": "ores-otel/ores-interfaces",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "15fd410c5991ef3606e156fb5b5c2b0e01948920",
+      "pullRequestUrl": "https://github.com/ores-otel/ores-interfaces/pull/6"
+    },
+    {
+      "repository": "ores-otel/ores-lib-core",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "a4ca181b6bc715701eb85711d2a004f8ab1446a4",
+      "pullRequestUrl": "https://github.com/ores-otel/ores-lib-core/pull/5"
+    },
+    {
+      "repository": "quaestor-ledger/quaestor-infra",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "e5069570bf76cc67c352d936044afd1bbbb83b5f",
+      "pullRequestUrl": "https://github.com/quaestor-ledger/quaestor-infra/pull/9"
+    },
+    {
+      "repository": "quaestor-ledger/quaestor-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "68a5d87a6f0b6aad94450d382cb7943b9b57ca31",
+      "pullRequestUrl": "https://github.com/quaestor-ledger/quaestor-clients/pull/52"
+    },
+    {
+      "repository": "quaestor-ledger/quaestor-web-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "b16d99e33c1c89597d483c68675caadc7f350326",
+      "pullRequestUrl": "https://github.com/quaestor-ledger/quaestor-web-server.rs/pull/33"
+    },
+    {
+      "repository": "quaestor-ledger/quaestor-ledger-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "e1f701b02eaf6f020d6121b8752810654b36ab14",
+      "pullRequestUrl": "https://github.com/quaestor-ledger/quaestor-ledger-server.rs/pull/29"
+    },
+    {
+      "repository": "quaestor-ledger/quaestor-monorepo",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "5f70d19009961dd9f54969fa2c748b14fc2d4063",
+      "pullRequestUrl": "https://github.com/quaestor-ledger/quaestor-monorepo/pull/11"
+    },
+    {
+      "repository": "scintilla-run/scintilla-ui.dart",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "47470952546064eee9c7e1e52c6600223e69eb66",
+      "pullRequestUrl": "https://github.com/scintilla-run/scintilla-ui.dart/pull/12"
+    },
+    {
+      "repository": "scintilla-run/gleam-lambda-runner",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "965abbe5f8cc126600c608e000800df96e4add55",
+      "pullRequestUrl": "https://github.com/scintilla-run/gleam-lambda-runner/pull/16"
+    },
+    {
+      "repository": "scintilla-run/scintilla-run-infra",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "e5caf3ffaa5e02563d2af6048ce98c06b2694cc4",
+      "pullRequestUrl": "https://github.com/scintilla-run/scintilla-run-infra/pull/5"
+    },
+    {
+      "repository": "scintilla-run/scintilla-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "f533593f78c50aec339b1ced7a92d3c6f2de2123",
+      "pullRequestUrl": "https://github.com/scintilla-run/scintilla-clients/pull/25"
+    },
+    {
+      "repository": "scintilla-run/scintilla-run-e2e",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "73ab8b918ea6157e49c7c5a981146309a7091656",
+      "pullRequestUrl": "https://github.com/scintilla-run/scintilla-run-e2e/pull/15"
+    },
+    {
+      "repository": "shared-auth/shared-auth-interfaces",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "a674e1d288c3af3c18ffc8feaf8e9e057f3e1a25",
+      "pullRequestUrl": "https://github.com/shared-auth/shared-auth-interfaces/pull/27"
+    },
+    {
+      "repository": "shared-auth/shared-auth-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "8bdcb492eae134cd96dcf5d65b2a894ead524223",
+      "pullRequestUrl": "https://github.com/shared-auth/shared-auth-server.rs/pull/92"
+    },
+    {
+      "repository": "shared-auth/shared-auth-mcp-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "43ab13a36a97e8f9f43b5e2324eb9213c3b787bd",
+      "pullRequestUrl": "https://github.com/shared-auth/shared-auth-mcp-server.rs/pull/22"
+    },
+    {
+      "repository": "shared-auth/shared-auth-e2e",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "ab66e5d87c9c18163ed9e4564644acfb7b8547ab",
+      "pullRequestUrl": "https://github.com/shared-auth/shared-auth-e2e/pull/22"
+    },
+    {
+      "repository": "shared-auth/shared-auth-infra",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "87a1b934709aa18c2a4550cf53094e2d082e6f45",
+      "pullRequestUrl": "https://github.com/shared-auth/shared-auth-infra/pull/20"
+    },
+    {
+      "repository": "sonus-auris/sonus-auris-desktop.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "245f58d68c6947f2f6a12e31abf91a48b616d800",
+      "pullRequestUrl": "https://github.com/sonus-auris/sonus-auris-desktop.rs/pull/36"
+    },
+    {
+      "repository": "sonus-auris/sonus-auris-api-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "9f72125cacb40729aea9e99bb720c4fdebda6fd3",
+      "pullRequestUrl": "https://github.com/sonus-auris/sonus-auris-api-server.rs/pull/16"
+    },
+    {
+      "repository": "sonus-auris/sonus-auris-mcp-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "12867f0befefa47d4d78ec2ed65890d76d6ef252",
+      "pullRequestUrl": "https://github.com/sonus-auris/sonus-auris-mcp-server.rs/pull/17"
+    },
+    {
+      "repository": "sonus-auris/sonus-auris-site.web",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "f08f8cae2076e79825d621a8d759ddcedebcf24d",
+      "pullRequestUrl": "https://github.com/sonus-auris/sonus-auris-site.web/pull/30"
+    },
+    {
+      "repository": "sonus-auris/sonus-auris-sync",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "3aa0845c54500f7efd64573a08a8f985cd3abaa8",
+      "pullRequestUrl": "https://github.com/sonus-auris/sonus-auris-sync/pull/11"
+    },
+    {
+      "repository": "voxletra/vxl-web-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "e62b58186c3e716e7322b19ab94e97783eb62fb6",
+      "pullRequestUrl": "https://github.com/voxletra/vxl-web-server.rs/pull/3"
+    },
+    {
+      "repository": "voxletra/voxletra-e2e",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "df93312d5106ad0c5bbda8c40a78008009a7a529",
+      "pullRequestUrl": "https://github.com/voxletra/voxletra-e2e/pull/7"
+    },
+    {
+      "repository": "voxletra/vxl-interfaces",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "00d8016a946ed1f020801950eb7b7a19cf16a6ae",
+      "pullRequestUrl": "https://github.com/voxletra/vxl-interfaces/pull/8"
+    },
+    {
+      "repository": "voxletra/vxl-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "d1f603b255774bd28228d97cf4618d6cce430d57",
+      "pullRequestUrl": "https://github.com/voxletra/vxl-clients/pull/11"
+    },
+    {
+      "repository": "voxletra/voxletra-sync",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "99655ef744a8e26465deee199636c97758b4f1a8",
+      "pullRequestUrl": "https://github.com/voxletra/voxletra-sync/pull/5"
+    },
+    {
+      "repository": "zed-pkg/zed-lib-core",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "100c010baaf5bb04939926826ef1565328f952d3",
+      "pullRequestUrl": "https://github.com/zed-pkg/zed-lib-core/pull/17"
+    },
+    {
+      "repository": "zed-pkg/zed-monorepo",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "af28265acfc53d80d02bf9121f2b776de65f9fa2",
+      "pullRequestUrl": "https://github.com/zed-pkg/zed-monorepo/pull/14"
+    },
+    {
+      "repository": "zed-pkg/zed-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "17d41efec600c73876919b147bfb40dfc9da1eaf",
+      "pullRequestUrl": "https://github.com/zed-pkg/zed-clients/pull/51"
+    },
+    {
+      "repository": "zed-pkg/zed-web-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "4cded3950fb1fafd2f8a150aaad3e6c098d6f888",
+      "pullRequestUrl": "https://github.com/zed-pkg/zed-web-server.rs/pull/35"
+    },
+    {
+      "repository": "zed-pkg/zed-cli",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "514126d03a77822f4d86d4a3e795051b0283ecb7",
+      "pullRequestUrl": "https://github.com/zed-pkg/zed-cli/pull/278"
+    }
+  ]
+}
+
