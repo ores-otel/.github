@@ -13,7 +13,7 @@ use syn::{
 };
 
 const MAX_EXAMPLES: usize = 5;
-const MAX_SOURCE_BYTES: u64 = 1_000_000;
+const MAX_SOURCE_BYTES: u64 = 5_000_000;
 const TELEMETRY_LEVEL_METHODS: &[&str] =
     &["trace", "debug", "info", "log", "warn", "error", "fatal"];
 const TELEMETRY_TERMINAL_METHODS: &[&str] = &["send", "send_with_store"];
