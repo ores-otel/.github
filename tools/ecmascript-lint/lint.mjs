@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { appendFile, stat } from 'node:fs/promises';
+import { appendFile, lstat } from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 import { pathToFileURL } from 'node:url';
@@ -51,18 +51,21 @@ export function trackedEcmaScriptPaths(root) {
 
 async function sourceSizedPaths(root, relativePaths) {
   const accepted = [];
-  let oversized = 0;
 
   for (const relativePath of relativePaths) {
-    const metadata = await stat(path.join(root, relativePath));
-    if (metadata.size > MAX_SOURCE_BYTES) {
-      oversized += 1;
-    } else {
-      accepted.push(relativePath);
+    const metadata = await lstat(path.join(root, relativePath));
+    if (!metadata.isFile()) {
+      throw new Error(`tracked ECMAScript source is not a regular file: ${relativePath}`);
     }
+    if (metadata.size > MAX_SOURCE_BYTES) {
+      throw new Error(
+        `tracked ECMAScript source exceeds ${MAX_SOURCE_BYTES} bytes: ${relativePath}`,
+      );
+    }
+    accepted.push(relativePath);
   }
 
-  return { accepted, oversized };
+  return accepted;
 }
 
 export function createLinter(root) {
@@ -111,7 +114,7 @@ function countMessages(results) {
   );
 }
 
-async function writeStepSummary({ files, oversized, counts }) {
+async function writeStepSummary({ files, counts }) {
   const summaryPath = process.env.GITHUB_STEP_SUMMARY;
   if (!summaryPath) {
     return;
@@ -125,7 +128,6 @@ async function writeStepSummary({ files, oversized, counts }) {
       `- Tracked source files checked: ${files}`,
       `- Missing-semicolon warnings: ${counts.missingSemicolons}`,
       `- Other parser/lint errors: ${counts.errors}`,
-      `- Oversized generated-file candidates skipped: ${oversized}`,
       '',
     ].join('\n'),
   );
@@ -133,13 +135,12 @@ async function writeStepSummary({ files, oversized, counts }) {
 
 export async function run(root) {
   const trackedPaths = trackedEcmaScriptPaths(root);
-  const { accepted: sourcePaths, oversized } = await sourceSizedPaths(root, trackedPaths);
+  const sourcePaths = await sourceSizedPaths(root, trackedPaths);
 
   if (sourcePaths.length === 0) {
     console.log('ECMAScript source policy: no tracked JS/TS source files found.');
     await writeStepSummary({
       files: 0,
-      oversized,
       counts: { errors: 0, warnings: 0, missingSemicolons: 0 },
     });
     return 0;
@@ -158,10 +159,7 @@ export async function run(root) {
     `ECMAScript source policy: checked ${sourcePaths.length} tracked source file(s); `
       + `${counts.missingSemicolons} missing-semicolon warning(s); ${counts.errors} error(s).`,
   );
-  if (oversized > 0) {
-    console.log(`Skipped ${oversized} tracked file(s) larger than ${MAX_SOURCE_BYTES} bytes.`);
-  }
-  await writeStepSummary({ files: sourcePaths.length, oversized, counts });
+  await writeStepSummary({ files: sourcePaths.length, counts });
   return counts.errors === 0 ? 0 : 1;
 }
 

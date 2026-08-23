@@ -9,6 +9,7 @@ use syn::visit::{self, Visit};
 use syn::{Block, Expr, ImplItemFn, ItemFn, ReturnType, Signature, Stmt, TraitItemFn, Type};
 
 const MAX_EXAMPLES: usize = 5;
+const MAX_SOURCE_BYTES: u64 = 1_000_000;
 const SKIPPED_COMPONENTS: &[&str] = &[
     ".cache",
     ".git",
@@ -188,6 +189,25 @@ fn lint_repository(root: &Path) -> Result<Vec<Finding>, String> {
     for relative_path in tracked_rust_files(root)? {
         let display_path = relative_path.to_string_lossy().into_owned();
         let absolute_path = root.join(&relative_path);
+        let metadata = match fs::symlink_metadata(&absolute_path) {
+            Ok(metadata) => metadata,
+            Err(error) => {
+                parse_errors.push(format!("{display_path}: {error}"));
+                continue;
+            }
+        };
+        if !metadata.is_file() {
+            parse_errors.push(format!(
+                "{display_path}: tracked Rust source is not a regular file"
+            ));
+            continue;
+        }
+        if metadata.len() > MAX_SOURCE_BYTES {
+            parse_errors.push(format!(
+                "{display_path}: tracked Rust source exceeds {MAX_SOURCE_BYTES} bytes"
+            ));
+            continue;
+        }
         let source = match fs::read_to_string(&absolute_path) {
             Ok(source) => source,
             Err(error) => {
