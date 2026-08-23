@@ -1,5 +1,5 @@
 {
-  "fleetVersion": "ores-source-policy/v1",
+  "fleetVersion": "ores-source-policy/v2",
   "minimumRepositories": 90,
   "minimumOrganizations": 20,
   "repositoriesPerOrganization": 5,
