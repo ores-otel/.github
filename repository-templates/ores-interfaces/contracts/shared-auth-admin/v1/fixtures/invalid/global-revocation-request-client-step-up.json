@@ -1,0 +1,32 @@
+{
+  "contract": "GlobalRevocationRequest",
+  "payload": {
+    "schema": "ores.shared-auth-admin-global-revocation-request/v1",
+    "previewId": "preview-global-revoke-01",
+    "commitAuthorizationId": "commit_auth_7F4m2Q9v6X1s8K3d5R0p2N9c",
+    "idempotencyKey": "idem_global_revoke_7F4m2Q9v6X1s",
+    "selectedScopes": ["interactive_sessions", "refresh_token_families"],
+    "requestedAt": "2026-08-11T15:02:00Z",
+    "stepUp": {
+      "actorPrincipalId": "client-asserted-actor",
+      "actorSessionIdHash": "client_asserted_session_hash",
+      "evidenceIdHash": "client_asserted_evidence_hash",
+      "assurance": "aal2",
+      "authMethods": ["webauthn"],
+      "phishingResistant": true,
+      "verifiedAt": "2026-08-11T15:01:50Z",
+      "freshUntil": "2026-08-11T15:06:50Z"
+    },
+    "correlation": {
+      "requestId": "req-global-revoke-01",
+      "traceId": "trace-global-revoke-01",
+      "reasonCode": "security.user_reported_compromise"
+    },
+    "redaction": {
+      "rawEmailsPresent": false,
+      "rawTokensPresent": false,
+      "rawSessionIdentifiersPresent": false,
+      "rawBiometricMaterialPresent": false
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "contract": "DashboardQuery",
+  "payload": {
+    "organizationId": "org-01",
+    "page": 1
+  }
+}

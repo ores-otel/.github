@@ -1,0 +1,13 @@
+{
+  "contract": "UserProjection",
+  "payload": {
+    "subject": "user-01",
+    "organizationId": "org-01",
+    "displayName": "Test User",
+    "primaryEmailRedacted": "t***@example.invalid",
+    "state": "active",
+    "lastAuthenticatedAt": "not-a-date-time",
+    "roleBindingCount": 1,
+    "activeSessionCount": 1
+  }
+}

@@ -1,0 +1,16 @@
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Deterministic idempotency identifiers in reviewed template fixtures and tests"
+condition = "AND"
+regexTarget = "match"
+paths = [
+  '''^repository-templates/ores-interfaces/contracts/shared-auth-admin/v1/examples/global-revocation-request\.json$''',
+  '''^repository-templates/ores-interfaces/contracts/shared-auth-admin/v1/fixtures/invalid/global-revocation-request-client-step-up\.json$''',
+  '''^repository-templates/ores-interfaces/languages/rust/src/lib\.rs$''',
+]
+regexes = [
+  '''"idempotencyKey": "[a-z0-9_-]{16,}"''',
+  '''idempotency_key: "[a-z0-9_-]{16,}"\.into\(\)''',
+]

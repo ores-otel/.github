@@ -1,0 +1,45 @@
+{
+  "schema": "ores.shared-auth.bindings/v1",
+  "source": "contracts/shared-auth/v1/schema.json",
+  "compatibility": "additive-within-v1",
+  "bindings": [
+    {
+      "language": "rust",
+      "path": "languages/rust/src/lib.rs",
+      "maintenance": "hand-maintained",
+      "fieldNaming": "snake_case"
+    },
+    {
+      "language": "typescript",
+      "path": "languages/typescript/src/index.d.ts",
+      "maintenance": "hand-maintained",
+      "fieldNaming": "camelCase"
+    },
+    {
+      "language": "go",
+      "path": "languages/go/interfaces.go",
+      "maintenance": "hand-maintained",
+      "fieldNaming": "PascalCase with canonical camelCase JSON tags"
+    },
+    {
+      "language": "dart",
+      "path": "languages/dart/lib/ores_interfaces.dart",
+      "maintenance": "hand-maintained",
+      "fieldNaming": "camelCase"
+    }
+  ],
+  "requiredTypes": [
+    "Organization",
+    "Project",
+    "User",
+    "Membership",
+    "Role",
+    "RoleBinding",
+    "Session",
+    "Factor",
+    "AuditEvent",
+    "RevokeSessionsByEmailRequest",
+    "OrganizationRevocationResult",
+    "RevokeSessionsByEmailResult"
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "schema": "ores.shared-auth-admin-global-revocation-operation/v1",
+  "operationId": "revoke-operation-01",
+  "principalId": "principal-user-01",
+  "previewId": "preview-global-revoke-01",
+  "state": "partial",
+  "selectedScopes": [
+    "interactive_sessions",
+    "refresh_token_families",
+    "offline_grants",
+    "downstream_sessions"
+  ],
+  "createdAt": "2026-08-11T15:02:00Z",
+  "updatedAt": "2026-08-11T15:03:30Z",
+  "completedAt": "2026-08-11T15:03:30Z",
+  "fence": {
+    "appliedAt": "2026-08-11T15:02:00Z",
+    "notBefore": "2026-08-11T15:02:00Z",
+    "previousAuthEpoch": 41,
+    "authEpoch": 42,
+    "effective": true
+  },
+  "targets": [
+    {
+      "targetIdHash": "target_hash_supabase_sessions_01",
+      "identity": {
+        "providerId": "supabase",
+        "providerTenantId": "shared-auth-production",
+        "opaqueIdentityHandle": "identity_handle_q7H2k9M4v8X1"
+      },
+      "scope": "interactive_sessions",
+      "state": "succeeded",
+      "attemptCount": 1,
+      "retryable": false,
+      "lastAttemptAt": "2026-08-11T15:02:03Z",
+      "completedAt": "2026-08-11T15:02:03Z",
+      "resultCode": "provider.sessions_revoked",
+      "providerRequestIdHash": "provider_request_hash_2X7m4Q9v1K5",
+      "residualAccessTokenMaxSeconds": 300
+    },
+    {
+      "targetIdHash": "target_hash_okta_downstream_01",
+      "identity": {
+        "providerId": "okta",
+        "providerTenantId": "shared-auth-test",
+        "opaqueIdentityHandle": "identity_handle_t9C4m7L2s6V1"
+      },
+      "scope": "downstream_sessions",
+      "state": "failed",
+      "attemptCount": 4,
+      "retryable": false,
+      "lastAttemptAt": "2026-08-11T15:03:30Z",
+      "completedAt": "2026-08-11T15:03:30Z",
+      "resultCode": "provider.retry_budget_exhausted",
+      "providerRequestIdHash": "provider_request_hash_3Y8n5R0w2L6",
+      "residualAccessTokenMaxSeconds": null
+    },
+    {
+      "targetIdHash": "target_hash_okta_offline_01",
+      "identity": {
+        "providerId": "okta",
+        "providerTenantId": "shared-auth-test",
+        "opaqueIdentityHandle": "identity_handle_t9C4m7L2s6V1"
+      },
+      "scope": "offline_grants",
+      "state": "unsupported",
+      "attemptCount": 0,
+      "retryable": false,
+      "completedAt": "2026-08-11T15:02:01Z",
+      "resultCode": "provider.scope_unsupported",
+      "residualAccessTokenMaxSeconds": null
+    }
+  ],
+  "audit": {
+    "auditEventId": "audit-global-revoke-01",
+    "correlationId": "correlation-global-revoke-01",
+    "requestId": "req-global-revoke-01",
+    "traceId": "trace-global-revoke-01",
+    "actorPrincipalId": "principal-security-operator-01",
+    "actorSessionIdHash": "actor_session_hash_8M2v6Q4x1N9",
+    "idempotencyKeyHash": "idempotency_key_hash_4T7m1P9x5K2",
+    "reasonCode": "security.user_reported_compromise",
+    "rawEmailsPresent": false,
+    "rawTokensPresent": false,
+    "rawBiometricMaterialPresent": false
+  },
+  "redaction": {
+    "rawEmailsPresent": false,
+    "rawTokensPresent": false,
+    "rawSessionIdentifiersPresent": false,
+    "rawBiometricMaterialPresent": false
+  }
+}

@@ -17,12 +17,24 @@ dir = "zed_modules"
 [publish]
 include_readme = true
 tag_format = "v{version}"
-exclude = [".github/**", "**/target/**", "**/node_modules/**", "**/__pycache__/**", "**/.dart_tool/**", "**/build/**", "**/*.class"]
+exclude = [".github/**", ".zed/**", ".zpkg.lock", "zed_modules/**", "**/target/**", "**/node_modules/**", "**/__pycache__/**", "**/.dart_tool/**", "**/build/**", "**/*.class"]
 smoke_test = "python3 scripts/check_contracts.py"
+
+# Zed v0.1.0 publishes only explicit targets for a polyglot package. An
+# unnamed target rooted at "." retains the canonical package coordinate
+# ores-otel/ores-interfaces without colliding with the source package name.
+[targets.repository]
+dir = "."
+adapter = "none"
 
 [targets.contracts]
 dir = "contracts"
 name = "ores-platform-contracts"
+adapter = "none"
+
+[targets.shared-auth-contracts]
+dir = "contracts/shared-auth"
+name = "ores-shared-auth-contracts"
 adapter = "none"
 
 [targets.rust]

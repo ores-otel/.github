@@ -1,0 +1,22 @@
+{
+  "contract": "DirectoryAdminGrantSet",
+  "payload": {
+    "schema": "ores.shared-auth-admin-directory-grant-set/v1",
+    "principalId": "principal-security-operator-01",
+    "audience": "shared-auth-admin-web",
+    "assurance": "aal2",
+    "directoryGrants": [
+      {
+        "grantId": "20000000-0000-4000-8000-000000000005",
+        "organizationId": "10000000-0000-4000-8000-000000000005",
+        "scopes": ["directory.dashboard.read"],
+        "roles": ["directory_admin"],
+        "grantedAt": "2026-08-11T21:00:00Z"
+      }
+    ],
+    "evaluatedAt": "2026-08-11T21:05:00Z",
+    "exactOrganizationMatchRequired": true,
+    "crossOrganizationFallbackAllowed": false,
+    "rawEmailsPresent": false
+  }
+}

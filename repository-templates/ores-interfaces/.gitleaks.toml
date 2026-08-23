@@ -1,0 +1,25 @@
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "SHA-256 attestations for reviewed Java binding paths"
+condition = "AND"
+regexTarget = "match"
+paths = ['''^\.ores-template-manifest\.json$''']
+regexes = [
+  '''"languages/java/src/(?:main|test)/java/com/oresoftware/interfaces/AuthContracts(?:Test)?\.java": "[a-f0-9]{64}"''',
+]
+
+[[allowlists]]
+description = "Deterministic idempotency identifiers in reviewed fixtures and unit tests"
+condition = "AND"
+regexTarget = "match"
+paths = [
+  '''^contracts/shared-auth-admin/v1/examples/global-revocation-request\.json$''',
+  '''^contracts/shared-auth-admin/v1/fixtures/invalid/global-revocation-request-client-step-up\.json$''',
+  '''^languages/rust/src/lib\.rs$''',
+]
+regexes = [
+  '''"idempotencyKey": "[a-z0-9_-]{16,}"''',
+  '''idempotency_key: "[a-z0-9_-]{16,}"\.into\(\)''',
+]
