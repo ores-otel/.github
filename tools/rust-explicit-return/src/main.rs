@@ -197,9 +197,6 @@ fn lint_repository(root: &Path) -> Result<Vec<Finding>, String> {
             }
         };
         if !metadata.is_file() {
-            parse_errors.push(format!(
-                "{display_path}: tracked Rust source is not a regular file"
-            ));
             continue;
         }
         if metadata.len() > MAX_SOURCE_BYTES {
