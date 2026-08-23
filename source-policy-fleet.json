@@ -1,0 +1,44 @@
+{
+  "fleetVersion": "ores-source-policy/v1",
+  "minimumRepositories": 90,
+  "minimumOrganizations": 20,
+  "repositoriesPerOrganization": 5,
+  "languages": [
+    "JavaScript",
+    "Rust",
+    "TypeScript"
+  ],
+  "organizations": [
+    "3FA-app",
+    "StreemPilot",
+    "akrion-sim",
+    "anticaptrad",
+    "apostille-me",
+    "athlet-o",
+    "benefactor-cc",
+    "canonical-cloud",
+    "claritas-viz",
+    "daedalus-fab",
+    "discrete-event-systems",
+    "drone-mngr",
+    "embedded-alerts",
+    "evento-globolo",
+    "fiducia-cloud",
+    "file-tunnel",
+    "hacker-house-medellin",
+    "hypesiege",
+    "messaging-intel",
+    "networking-components",
+    "opto-sync",
+    "ores-otel",
+    "quaestor-ledger",
+    "scintilla-run",
+    "shared-auth",
+    "sonus-auris",
+    "voxletra",
+    "zed-pkg"
+  ],
+  "excludedRepositories": [
+    "ores-otel/.github"
+  ]
+}

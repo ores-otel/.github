@@ -32,3 +32,18 @@ GitHub can use supported community-health files from a public organization `.git
 
 Generated managed-policy version: `2026-08-08`.
 <!-- ore-org-baseline:end -->
+
+## Reusable source policy lint
+
+`.github/workflows/source-policy-lint.yml` is the cross-organization pre-build lint entry point. Caller repositories must reference a reviewed full commit SHA rather than a mutable branch. The workflow detects tracked source before installing tools and applies two additive policies:
+
+- JavaScript, JSX, TypeScript, and TSX are parsed with ESLint and `@stylistic/eslint-plugin`; omitted semicolons are warnings, while parser failures remain errors. Dependency, generated, coverage, build, and vendored trees are excluded.
+- Rust is parsed with `syn`. Non-unit functions whose value comes from an implicit tail expression produce one aggregated GitHub warning per run, with at most five concrete file/line/function examples. Explicit `return` statements, unit functions, never-returning functions, and branches whose paths all return explicitly do not warn.
+
+The policy does not rewrite source and does not replace a repository's native ESLint, Clippy, formatting, or package-publication checks. Validate the implementations locally with:
+
+```bash
+npm ci --ignore-scripts --prefix tools/ecmascript-lint
+npm test --prefix tools/ecmascript-lint
+cargo test --locked --manifest-path tools/rust-explicit-return/Cargo.toml
+```
