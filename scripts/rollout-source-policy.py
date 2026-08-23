@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Roll out the immutable source-policy caller workflow across reviewed organizations."""
+"""Audit or open pull requests for the immutable source-policy caller workflow."""
 
 from __future__ import annotations
 
@@ -20,7 +20,7 @@ from typing import Any
 
 API_VERSION = "2022-11-28"
 API_ROOT = os.environ.get("GITHUB_API_URL", "https://api.github.com").rstrip("/")
-USER_AGENT = "ores-source-policy-rollout/1"
+USER_AGENT = "ores-source-policy-rollout/2"
 WORKFLOW_PATH = ".github/workflows/source-policy-lint.yml"
 MANAGED_HEADER = "# Managed by ores-otel source-policy fleet rollout."
 REQUIRED_POLICY_PATHS = (
@@ -46,6 +46,7 @@ class Result:
     state: str
     detail: str
     commit_sha: str | None = None
+    pull_request_url: str | None = None
 
 
 class GitHub:
@@ -139,16 +140,38 @@ class GitHub:
         decoded = base64.b64decode(payload["content"].replace("\n", "")).decode("utf-8")
         return payload["sha"], decoded
 
+    def branch_sha(self, full_name: str, branch: str) -> str:
+        encoded_branch = urllib.parse.quote(branch, safe="")
+        payload = self.require(
+            "GET", f"/repos/{full_name}/git/ref/heads/{encoded_branch}", {200}
+        )
+        return payload["object"]["sha"]
+
+    def create_branch(self, target: Target, branch: str) -> str:
+        base_sha = self.branch_sha(target.full_name, target.default_branch)
+        body = {"ref": f"refs/heads/{branch}", "sha": base_sha}
+        status, payload = self.request(
+            "POST", f"/repos/{target.full_name}/git/refs", body
+        )
+        if status == 201:
+            return payload["object"]["sha"]
+        if status == 422:
+            return self.branch_sha(target.full_name, branch)
+        raise RuntimeError(
+            f"POST {target.full_name}/git/refs failed with HTTP {status}: {payload}"
+        )
+
     def put_content(
         self,
         target: Target,
+        branch: str,
         desired: str,
         current_sha: str | None,
     ) -> str:
         body: dict[str, Any] = {
             "message": "ci: add pre-build JS and Rust source lint",
             "content": base64.b64encode(desired.encode("utf-8")).decode("ascii"),
-            "branch": target.default_branch,
+            "branch": branch,
         }
         if current_sha is not None:
             body["sha"] = current_sha
@@ -161,6 +184,50 @@ class GitHub:
                 f"PUT {target.full_name}/{WORKFLOW_PATH} failed with HTTP {status}: {payload}"
             )
         return payload["commit"]["sha"]
+
+    def open_pull_request(
+        self,
+        target: Target,
+        branch: str,
+        policy_sha: str,
+    ) -> str:
+        body = {
+            "title": "ci: adopt Ores source policy v2",
+            "head": branch,
+            "base": target.default_branch,
+            "body": (
+                "Adopt the warn-first `ores-source-policy/v2` workflow at immutable "
+                f"commit `{policy_sha}`.\n\n"
+                "The policy reports JavaScript/TypeScript semicolon omissions, Rust "
+                "implicit returns, and likely Ores telemetry chains that omit their "
+                "terminal `.send()` call. It does not rewrite source and parser/source "
+                "access errors are the only enforcement failures.\n\n"
+                "Tracks https://github.com/ORESoftware/k8s-cluster/issues/1400"
+            ),
+        }
+        status, payload = self.request(
+            "POST", f"/repos/{target.full_name}/pulls", body
+        )
+        if status == 201:
+            return payload["html_url"]
+        if status != 422:
+            raise RuntimeError(
+                f"POST {target.full_name}/pulls failed with HTTP {status}: {payload}"
+            )
+
+        owner = target.full_name.split("/", 1)[0]
+        encoded_head = urllib.parse.quote(f"{owner}:{branch}", safe="")
+        encoded_base = urllib.parse.quote(target.default_branch, safe="")
+        existing = self.require(
+            "GET",
+            f"/repos/{target.full_name}/pulls?state=open&head={encoded_head}&base={encoded_base}",
+            {200},
+        )
+        if existing:
+            return existing[0]["html_url"]
+        raise RuntimeError(
+            f"GitHub rejected the pull request and no matching open PR exists: {payload}"
+        )
 
 
 def token_from_environment_or_gh() -> str:
@@ -347,7 +414,7 @@ jobs:
         shell: bash
         run: npm ci --ignore-scripts --prefix .source-policy/tools/ecmascript-lint
 
-      - name: Lint ECMAScript semicolon policy
+      - name: Lint ECMAScript source policy
         if: steps.languages.outputs.ecmascript == 'true'
         shell: bash
         run: node .source-policy/tools/ecmascript-lint/lint.mjs "$GITHUB_WORKSPACE"
@@ -357,7 +424,7 @@ jobs:
         shell: bash
         run: rustup toolchain install 1.88.0 --profile minimal --no-self-update
 
-      - name: Lint Rust explicit-return policy
+      - name: Lint Rust source policy
         if: steps.languages.outputs.rust == 'true'
         shell: bash
         env:
@@ -380,42 +447,68 @@ def verify_policy_commit(github: GitHub, policy_sha: str) -> None:
             raise RuntimeError(f"policy commit {policy_sha} is missing {path}")
 
 
-def inspect_or_apply(
+def inspect_or_open_pull_request(
     github: GitHub,
     target: Target,
     policy_sha: str,
-    apply: bool,
+    open_pull_requests: bool,
     inline_workflow: bool,
 ) -> Result:
     render = (
         render_inline_caller_workflow if inline_workflow else render_caller_workflow
     )
     desired = render(policy_sha, target.default_branch)
-    current = github.content(
+    default_content = github.content(
         target.full_name,
         WORKFLOW_PATH,
         target.default_branch,
     )
-    if current is not None and current[1] == desired:
-        return Result(target.full_name, "unchanged", "already matches immutable policy")
-    if current is not None and not current[1].startswith(MANAGED_HEADER):
+    if default_content is not None and default_content[1] == desired:
+        return Result(
+            target.full_name,
+            "adopted",
+            "default branch matches immutable policy",
+            github.branch_sha(target.full_name, target.default_branch),
+        )
+    if default_content is not None and not default_content[1].startswith(MANAGED_HEADER):
         return Result(
             target.full_name, "conflict", "existing workflow is not fleet-managed"
         )
-    if not apply:
-        state = "would-update" if current is not None else "would-create"
+    if not open_pull_requests:
+        state = "would-update" if default_content is not None else "would-create"
         return Result(target.full_name, state, target.default_branch)
 
-    commit_sha = github.put_content(
-        target,
-        desired,
-        current[0] if current is not None else None,
-    )
-    verified = github.content(target.full_name, WORKFLOW_PATH, target.default_branch)
+    branch = f"agent/source-policy-v2-{policy_sha[:12]}"
+    github.create_branch(target, branch)
+    branch_content = github.content(target.full_name, WORKFLOW_PATH, branch)
+    if branch_content is not None and not branch_content[1].startswith(MANAGED_HEADER):
+        return Result(
+            target.full_name,
+            "conflict",
+            f"{branch} contains a non-fleet-managed workflow",
+        )
+
+    commit_sha = github.branch_sha(target.full_name, branch)
+    if branch_content is None or branch_content[1] != desired:
+        commit_sha = github.put_content(
+            target,
+            branch,
+            desired,
+            branch_content[0] if branch_content is not None else None,
+        )
+    verified = github.content(target.full_name, WORKFLOW_PATH, branch)
     if verified is None or verified[1] != desired:
-        raise RuntimeError(f"post-write verification failed for {target.full_name}")
-    state = "updated" if current is not None else "created"
-    return Result(target.full_name, state, target.default_branch, commit_sha)
+        raise RuntimeError(
+            f"pull-request branch verification failed after commit {commit_sha}"
+        )
+    pull_request_url = github.open_pull_request(target, branch, policy_sha)
+    return Result(
+        target.full_name,
+        "pr-open",
+        branch,
+        commit_sha,
+        pull_request_url,
+    )
 
 
 def validate_coverage(
@@ -459,6 +552,11 @@ def print_report(
                 "state": result.state,
                 "detail": result.detail,
                 **({"commitSha": result.commit_sha} if result.commit_sha else {}),
+                **(
+                    {"pullRequestUrl": result.pull_request_url}
+                    if result.pull_request_url
+                    else {}
+                ),
             }
             for result in [*results, *failures]
         ],
@@ -475,7 +573,11 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--policy-sha", required=True)
     parser.add_argument("--organization", action="append", default=[])
-    parser.add_argument("--apply", action="store_true")
+    parser.add_argument(
+        "--open-prs",
+        action="store_true",
+        help="create/update a dedicated branch and open a pull request per target",
+    )
     return parser.parse_args()
 
 
@@ -498,11 +600,11 @@ def main() -> int:
     failures: list[Result] = []
     for target in targets:
         try:
-            result = inspect_or_apply(
+            result = inspect_or_open_pull_request(
                 github,
                 target,
                 args.policy_sha,
-                args.apply,
+                args.open_prs,
                 target.full_name in inline_repositories,
             )
             results.append(result)
