@@ -38,7 +38,7 @@ Generated managed-policy version: `2026-08-08`.
 `.github/workflows/source-policy-lint.yml` is the cross-organization pre-build lint entry point. Caller repositories must reference a reviewed full commit SHA rather than a mutable branch. The workflow detects tracked source before installing tools and applies two additive policies:
 
 - JavaScript, JSX, TypeScript, and TSX are parsed with ESLint and `@stylistic/eslint-plugin`; omitted semicolons are warnings, while parser failures remain errors. Dependency, generated, coverage, build, and vendored trees are excluded.
-- Rust is parsed with `syn`. Non-unit functions whose value comes from an implicit tail expression produce one aggregated GitHub warning per run, with at most five concrete file/line/function examples. Explicit `return` statements, unit functions, never-returning functions, and branches whose paths all return explicitly do not warn.
+- Rust is parsed with `syn`. Non-unit functions whose value comes from an implicit tail expression produce one aggregated GitHub warning per run, with at most five concrete file/line/function examples. Explicit `return` statements, unit functions, never-returning functions, and branches whose paths all return explicitly do not warn. Tracked paths that are not regular files, such as monorepo component symlinks, are never followed and are skipped as non-source entries.
 
 The policy does not rewrite source and does not replace a repository's native ESLint, Clippy, formatting, or package-publication checks.
 
