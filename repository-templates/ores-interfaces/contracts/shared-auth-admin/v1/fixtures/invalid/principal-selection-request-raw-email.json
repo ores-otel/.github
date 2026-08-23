@@ -1,0 +1,18 @@
+{
+  "contract": "PrincipalSelectionRequest",
+  "payload": {
+    "schema": "ores.shared-auth-admin-principal-selection-request/v1",
+    "requestId": "request-selection-01",
+    "lookupId": "lookup-principal-01",
+    "principalId": "principal-user-01",
+    "selectionConfirmed": true,
+    "requestedAt": "2026-08-11T15:00:02Z",
+    "email": "forbidden",
+    "redaction": {
+      "rawEmailsPresent": false,
+      "rawTokensPresent": false,
+      "rawSessionIdentifiersPresent": false,
+      "rawBiometricMaterialPresent": false
+    }
+  }
+}

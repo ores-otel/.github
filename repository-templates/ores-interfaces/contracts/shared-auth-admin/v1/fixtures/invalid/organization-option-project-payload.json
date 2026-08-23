@@ -1,0 +1,10 @@
+{
+  "contract": "OrganizationOption",
+  "payload": {
+    "projectId": "project-01",
+    "organizationId": "org-01",
+    "slug": "project-one",
+    "displayName": "Project One",
+    "archived": false
+  }
+}

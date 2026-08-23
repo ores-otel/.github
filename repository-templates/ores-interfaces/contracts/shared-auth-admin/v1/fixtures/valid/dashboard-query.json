@@ -1,0 +1,9 @@
+{
+  "contract": "DashboardQuery",
+  "payload": {
+    "organizationId": "org-01",
+    "projectId": "project-01",
+    "cursor": "cursor_00000001",
+    "limit": 200
+  }
+}

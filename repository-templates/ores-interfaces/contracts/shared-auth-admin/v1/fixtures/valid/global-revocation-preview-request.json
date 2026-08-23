@@ -1,0 +1,20 @@
+{
+  "contract": "GlobalRevocationPreviewRequest",
+  "payload": {
+    "schema": "ores.shared-auth-admin-global-revocation-preview-request/v1",
+    "requestId": "request-preview-01",
+    "selectionId": "selection_q7H2k9M4v8X1p3N8d2R6w5Z0c4B9",
+    "selectedScopes": [
+      "interactive_sessions",
+      "refresh_token_families",
+      "offline_grants"
+    ],
+    "requestedAt": "2026-08-11T15:00:04Z",
+    "redaction": {
+      "rawEmailsPresent": false,
+      "rawTokensPresent": false,
+      "rawSessionIdentifiersPresent": false,
+      "rawBiometricMaterialPresent": false
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "contract": "SessionProjection",
+  "payload": {
+    "sessionId": "raw-session-token-01",
+    "subject": "user-01",
+    "organizationId": "org-01",
+    "clientId": "admin-web",
+    "state": "active",
+    "assurance": "aal2",
+    "authMethods": [
+      "webauthn"
+    ],
+    "createdAt": "2026-08-10T21:20:00Z",
+    "expiresAt": "2026-08-10T22:20:00Z",
+    "ipAddressHash": "ip_address_hash_0001"
+  }
+}

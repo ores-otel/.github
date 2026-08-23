@@ -1,0 +1,3 @@
+# Exact historical false positives: deterministic idempotency identifiers in contract fixtures.
+c6ff903f6d21e2712d03f31a73634905537c4e08:contracts/shared-auth-admin/v1/fixtures/invalid/global-revocation-request-client-step-up.json:generic-api-key:7
+4cca7ba2cfb8c62c68faf8c58332184892f2ccc7:contracts/shared-auth-admin/v1/examples/global-revocation-request.json:generic-api-key:5

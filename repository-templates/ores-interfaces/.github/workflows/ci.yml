@@ -21,7 +21,18 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
-      - run: python3 scripts/check_contracts.py
+      - name: Install pinned contract validator
+        env:
+          PIP_DISABLE_PIP_VERSION_CHECK: "1"
+        run: |
+          python3 -m venv "$RUNNER_TEMP/contracts-venv"
+          "$RUNNER_TEMP/contracts-venv/bin/python" -m pip install \
+            --only-binary=:all: \
+            --require-hashes \
+            --requirement scripts/requirements-contracts.lock
+      - name: Validate contracts and regression fixtures
+        run: |
+          "$RUNNER_TEMP/contracts-venv/bin/python" scripts/check_contracts.py
 
   native:
     runs-on: ubuntu-24.04
