@@ -40,5 +40,8 @@
   ],
   "excludedRepositories": [
     "ores-otel/.github"
+  ],
+  "inlineWorkflowRepositories": [
+    "canonical-cloud/canonical-web-server.rs"
   ]
 }

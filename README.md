@@ -40,7 +40,11 @@ Generated managed-policy version: `2026-08-08`.
 - JavaScript, JSX, TypeScript, and TSX are parsed with ESLint and `@stylistic/eslint-plugin`; omitted semicolons are warnings, while parser failures remain errors. Dependency, generated, coverage, build, and vendored trees are excluded.
 - Rust is parsed with `syn`. Non-unit functions whose value comes from an implicit tail expression produce one aggregated GitHub warning per run, with at most five concrete file/line/function examples. Explicit `return` statements, unit functions, never-returning functions, and branches whose paths all return explicitly do not warn.
 
-The policy does not rewrite source and does not replace a repository's native ESLint, Clippy, formatting, or package-publication checks. Validate the implementations locally with:
+The policy does not rewrite source and does not replace a repository's native ESLint, Clippy, formatting, or package-publication checks.
+
+`source-policy-fleet.json` records the reviewed organization set, the 90-repository/20-organization minimum, and repository-specific delivery exceptions. Most repositories call the reusable workflow at an immutable commit. Repositories listed in `inlineWorkflowRepositories` prohibit outbound reusable workflows, so the rollout renders equivalent ordinary job steps that still pin and execute the same immutable central implementation.
+
+Validate the implementations locally with:
 
 ```bash
 npm ci --ignore-scripts --prefix tools/ecmascript-lint

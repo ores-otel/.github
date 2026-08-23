@@ -186,6 +186,7 @@ def load_manifest(path: Path) -> dict[str, Any]:
     required = {
         "excludedRepositories",
         "fleetVersion",
+        "inlineWorkflowRepositories",
         "languages",
         "minimumOrganizations",
         "minimumRepositories",
@@ -280,6 +281,99 @@ jobs:
 """
 
 
+def render_inline_caller_workflow(policy_sha: str, default_branch: str) -> str:
+    quoted_branch = json.dumps(default_branch)
+    return f"""{MANAGED_HEADER}
+# This repository prohibits outbound reusable workflows. Keep the same
+# immutable central policy implementation wired as ordinary job steps.
+name: Pre-build source policy lint
+
+on:
+  pull_request:
+  push:
+    branches: [{quoted_branch}]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-policy:
+    name: ESLint and Rust source policy
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out caller repository
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+
+      - name: Detect tracked source languages
+        id: languages
+        shell: bash
+        run: |
+          ecma_files=$(git ls-files -- '*.cjs' '*.mjs' '*.js' '*.jsx' '*.ts' '*.tsx')
+          rust_files=$(git ls-files -- '*.rs')
+          if [[ -n "$ecma_files" ]]; then
+            echo 'ecmascript=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'ecmascript=false' >> "$GITHUB_OUTPUT"
+          fi
+          if [[ -n "$rust_files" ]]; then
+            echo 'rust=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'rust=false' >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check out immutable policy implementation
+        if: steps.languages.outputs.ecmascript == 'true' || steps.languages.outputs.rust == 'true'
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          repository: ores-otel/.github
+          ref: {policy_sha}
+          path: .source-policy
+          persist-credentials: false
+
+      - name: Set up Node.js
+        if: steps.languages.outputs.ecmascript == 'true'
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: .source-policy/tools/ecmascript-lint/package-lock.json
+
+      - name: Install pinned ESLint policy dependencies
+        if: steps.languages.outputs.ecmascript == 'true'
+        shell: bash
+        run: npm ci --ignore-scripts --prefix .source-policy/tools/ecmascript-lint
+
+      - name: Lint ECMAScript semicolon policy
+        if: steps.languages.outputs.ecmascript == 'true'
+        shell: bash
+        run: node .source-policy/tools/ecmascript-lint/lint.mjs "$GITHUB_WORKSPACE"
+
+      - name: Set up stable Rust
+        if: steps.languages.outputs.rust == 'true'
+        shell: bash
+        run: rustup toolchain install 1.88.0 --profile minimal --no-self-update
+
+      - name: Lint Rust explicit-return policy
+        if: steps.languages.outputs.rust == 'true'
+        shell: bash
+        env:
+          CARGO_TARGET_DIR: ${{{{ runner.temp }}}}/ores-fleet-rust-target
+        run: >-
+          cargo +1.88.0 run --locked --quiet --release
+          --manifest-path .source-policy/tools/rust-explicit-return/Cargo.toml
+          -- "$GITHUB_WORKSPACE"
+
+      - name: Report repositories without applicable source
+        if: steps.languages.outputs.ecmascript != 'true' && steps.languages.outputs.rust != 'true'
+        shell: bash
+        run: echo 'No tracked ECMAScript or Rust source files were found.'
+"""
+
+
 def verify_policy_commit(github: GitHub, policy_sha: str) -> None:
     for path in REQUIRED_POLICY_PATHS:
         if github.content("ores-otel/.github", path, policy_sha) is None:
@@ -291,8 +385,12 @@ def inspect_or_apply(
     target: Target,
     policy_sha: str,
     apply: bool,
+    inline_workflow: bool,
 ) -> Result:
-    desired = render_caller_workflow(policy_sha, target.default_branch)
+    render = (
+        render_inline_caller_workflow if inline_workflow else render_caller_workflow
+    )
+    desired = render(policy_sha, target.default_branch)
     current = github.content(
         target.full_name,
         WORKFLOW_PATH,
@@ -394,12 +492,19 @@ def main() -> int:
     organization_filter = set(args.organization)
     targets = select_targets(github, manifest, organization_filter)
     validate_coverage(targets, manifest, organization_filter)
+    inline_repositories = set(manifest["inlineWorkflowRepositories"])
 
     results: list[Result] = []
     failures: list[Result] = []
     for target in targets:
         try:
-            result = inspect_or_apply(github, target, args.policy_sha, args.apply)
+            result = inspect_or_apply(
+                github,
+                target,
+                args.policy_sha,
+                args.apply,
+                target.full_name in inline_repositories,
+            )
             results.append(result)
             print(f"{result.state}: {result.full_name}", file=sys.stderr)
         except (
