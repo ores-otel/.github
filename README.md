@@ -43,7 +43,7 @@ Generated managed-policy version: `2026-08-08`.
 
 The policy does not rewrite source and does not replace a repository's native ESLint, Clippy, formatting, or package-publication checks.
 
-`source-policy-fleet.json` records the reviewed organization set, the 90-repository/20-organization minimum, and repository-specific delivery exceptions. It is a target-selection contract, not proof of adoption. `source-policy-adoption.json` records per-repository pull-request and merged/default-branch evidence for one exact policy commit. Most repositories call the reusable workflow at that immutable commit. Repositories listed in `inlineWorkflowRepositories` prohibit outbound reusable workflows, so the rollout renders equivalent ordinary job steps that still pin and execute the same immutable central implementation.
+`source-policy-fleet.json` records the reviewed organization set, the 90-repository/20-organization minimum, and repository-specific delivery exceptions. It is a target-selection contract, not proof of adoption. `source-policy-adoption.json` records per-repository pull-request and merged/default-branch evidence for one exact policy commit. Pass it back to the rollout tool with `--adoption-roster source-policy-adoption.json` when updating an established fleet so repository activity cannot change the target set. Most repositories call the reusable workflow at that immutable commit. Repositories listed in `inlineWorkflowRepositories` prohibit outbound reusable workflows, so the rollout renders equivalent ordinary job steps that still pin and execute the same immutable central implementation.
 
 Validate the implementations locally with:
 

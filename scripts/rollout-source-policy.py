@@ -119,6 +119,9 @@ class GitHub:
         payload = self.require("GET", f"/repos/{full_name}/languages", {200})
         return tuple(sorted(payload))
 
+    def repository(self, full_name: str) -> dict[str, Any]:
+        return self.require("GET", f"/repos/{full_name}", {200})
+
     def content(
         self,
         full_name: str,
@@ -139,6 +142,21 @@ class GitHub:
             raise RuntimeError(f"unexpected content response for {full_name}/{path}")
         decoded = base64.b64decode(payload["content"].replace("\n", "")).decode("utf-8")
         return payload["sha"], decoded
+
+    def verify_content(
+        self,
+        full_name: str,
+        path: str,
+        ref: str,
+        expected: str,
+    ) -> tuple[str, str] | None:
+        latest = None
+        for attempt in range(4):
+            latest = self.content(full_name, path, ref)
+            if latest is not None and latest[1] == expected:
+                return latest
+            time.sleep(2**attempt)
+        return latest
 
     def branch_sha(self, full_name: str, branch: str) -> str:
         encoded_branch = urllib.parse.quote(branch, safe="")
@@ -351,6 +369,47 @@ def select_targets(
     return targets
 
 
+def select_targets_from_adoption(
+    github: GitHub,
+    adoption_path: Path,
+    organization_filter: set[str],
+) -> list[Target]:
+    adoption = json.loads(adoption_path.read_text(encoding="utf-8"))
+    repositories = [row["repository"] for row in adoption.get("repositories", [])]
+    if len(repositories) != len(set(repositories)):
+        raise RuntimeError("adoption roster contains duplicate repositories")
+    if not repositories:
+        raise RuntimeError("adoption roster does not contain repositories")
+
+    targets = []
+    selected_by_organization: dict[str, int] = {}
+    for full_name in repositories:
+        organization = full_name.split("/", 1)[0]
+        if organization_filter and organization not in organization_filter:
+            continue
+        repository = github.repository(full_name)
+        if repository["archived"] or repository["disabled"] or repository["fork"]:
+            raise RuntimeError(f"pinned adoption target is no longer eligible: {full_name}")
+        default_branch = repository.get("default_branch")
+        if not default_branch:
+            raise RuntimeError(f"pinned adoption target has no default branch: {full_name}")
+        targets.append(
+            Target(
+                full_name=full_name,
+                default_branch=default_branch,
+                languages=github.languages(full_name),
+                pushed_at=repository.get("pushed_at") or "",
+            )
+        )
+        selected_by_organization[organization] = (
+            selected_by_organization.get(organization, 0) + 1
+        )
+
+    for organization, count in selected_by_organization.items():
+        print(f"selected pinned {count}: {organization}", file=sys.stderr)
+    return targets
+
+
 def render_caller_workflow(policy_sha: str, default_branch: str) -> str:
     quoted_branch = json.dumps(default_branch)
     return f"""{MANAGED_HEADER}
@@ -536,7 +595,12 @@ def inspect_or_open_pull_request(
             desired,
             branch_content[0] if branch_content is not None else None,
         )
-    verified = github.content(target.full_name, WORKFLOW_PATH, branch)
+    verified = github.verify_content(
+        target.full_name,
+        WORKFLOW_PATH,
+        branch,
+        desired,
+    )
     if verified is None or verified[1] != desired:
         raise RuntimeError(
             f"pull-request branch verification failed after commit {commit_sha}"
@@ -615,6 +679,11 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         default=Path(__file__).resolve().parents[1] / "source-policy-fleet.json",
     )
+    parser.add_argument(
+        "--adoption-roster",
+        type=Path,
+        help="reuse the exact repository list from an existing adoption matrix",
+    )
     parser.add_argument("--policy-sha", required=True)
     parser.add_argument("--organization", action="append", default=[])
     parser.add_argument(
@@ -636,7 +705,15 @@ def main() -> int:
     github = GitHub(token_from_environment_or_gh())
     verify_policy_commit(github, args.policy_sha)
     organization_filter = set(args.organization)
-    targets = select_targets(github, manifest, organization_filter)
+    targets = (
+        select_targets_from_adoption(
+            github,
+            args.adoption_roster,
+            organization_filter,
+        )
+        if args.adoption_roster
+        else select_targets(github, manifest, organization_filter)
+    )
     validate_coverage(targets, manifest, organization_filter)
     inline_repositories = set(manifest["inlineWorkflowRepositories"])
 
