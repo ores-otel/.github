@@ -53,7 +53,7 @@ jobs:
           repository: ores-otel/.github
           # workflow_sha is the caller SHA for workflow_call jobs, so it cannot
           # identify this repository. Pin the audited implementation directly.
-          ref: b5a502d4e69ead9f0e595df54fc267d23a4fe889
+          ref: 883e44aba6b1b6119fefe3bc8c09c2ebcffc2dcb
           path: .source-policy
           persist-credentials: false
 
