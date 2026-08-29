@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Roll out the immutable source-policy caller workflow across reviewed organizations."""
+"""Audit or open pull requests for the immutable source-policy caller workflow."""
 
 from __future__ import annotations
 
@@ -20,7 +20,7 @@ from typing import Any
 
 API_VERSION = "2022-11-28"
 API_ROOT = os.environ.get("GITHUB_API_URL", "https://api.github.com").rstrip("/")
-USER_AGENT = "ores-source-policy-rollout/1"
+USER_AGENT = "ores-source-policy-rollout/2"
 WORKFLOW_PATH = ".github/workflows/source-policy-lint.yml"
 MANAGED_HEADER = "# Managed by ores-otel source-policy fleet rollout."
 REQUIRED_POLICY_PATHS = (
@@ -46,6 +46,7 @@ class Result:
     state: str
     detail: str
     commit_sha: str | None = None
+    pull_request_url: str | None = None
 
 
 class GitHub:
@@ -118,6 +119,9 @@ class GitHub:
         payload = self.require("GET", f"/repos/{full_name}/languages", {200})
         return tuple(sorted(payload))
 
+    def repository(self, full_name: str) -> dict[str, Any]:
+        return self.require("GET", f"/repos/{full_name}", {200})
+
     def content(
         self,
         full_name: str,
@@ -139,16 +143,53 @@ class GitHub:
         decoded = base64.b64decode(payload["content"].replace("\n", "")).decode("utf-8")
         return payload["sha"], decoded
 
+    def verify_content(
+        self,
+        full_name: str,
+        path: str,
+        ref: str,
+        expected: str,
+    ) -> tuple[str, str] | None:
+        latest = None
+        for attempt in range(4):
+            latest = self.content(full_name, path, ref)
+            if latest is not None and latest[1] == expected:
+                return latest
+            time.sleep(2**attempt)
+        return latest
+
+    def branch_sha(self, full_name: str, branch: str) -> str:
+        encoded_branch = urllib.parse.quote(branch, safe="")
+        payload = self.require(
+            "GET", f"/repos/{full_name}/git/ref/heads/{encoded_branch}", {200}
+        )
+        return payload["object"]["sha"]
+
+    def create_branch(self, target: Target, branch: str) -> str:
+        base_sha = self.branch_sha(target.full_name, target.default_branch)
+        body = {"ref": f"refs/heads/{branch}", "sha": base_sha}
+        status, payload = self.request(
+            "POST", f"/repos/{target.full_name}/git/refs", body
+        )
+        if status == 201:
+            return payload["object"]["sha"]
+        if status == 422:
+            return self.branch_sha(target.full_name, branch)
+        raise RuntimeError(
+            f"POST {target.full_name}/git/refs failed with HTTP {status}: {payload}"
+        )
+
     def put_content(
         self,
         target: Target,
+        branch: str,
         desired: str,
         current_sha: str | None,
     ) -> str:
         body: dict[str, Any] = {
             "message": "ci: add pre-build JS and Rust source lint",
             "content": base64.b64encode(desired.encode("utf-8")).decode("ascii"),
-            "branch": target.default_branch,
+            "branch": branch,
         }
         if current_sha is not None:
             body["sha"] = current_sha
@@ -161,6 +202,75 @@ class GitHub:
                 f"PUT {target.full_name}/{WORKFLOW_PATH} failed with HTTP {status}: {payload}"
             )
         return payload["commit"]["sha"]
+
+    def open_pull_request(
+        self,
+        target: Target,
+        branch: str,
+        policy_sha: str,
+    ) -> str:
+        body = {
+            "title": "ci: adopt Ores source policy v2",
+            "head": branch,
+            "base": target.default_branch,
+            "body": (
+                "Adopt the warn-first `ores-source-policy/v2` workflow at immutable "
+                f"commit `{policy_sha}`.\n\n"
+                "The policy reports JavaScript/TypeScript semicolon omissions, Rust "
+                "implicit returns, and likely Ores telemetry chains that omit their "
+                "terminal `.send()` call. It does not rewrite source and parser/source "
+                "access errors are the only enforcement failures.\n\n"
+                "Tracks https://github.com/ORESoftware/k8s-cluster/issues/1400"
+            ),
+        }
+        status, payload = self.request(
+            "POST", f"/repos/{target.full_name}/pulls", body
+        )
+        if status == 201:
+            return payload["html_url"]
+        if status != 422:
+            raise RuntimeError(
+                f"POST {target.full_name}/pulls failed with HTTP {status}: {payload}"
+            )
+
+        owner = target.full_name.split("/", 1)[0]
+        encoded_head = urllib.parse.quote(f"{owner}:{branch}", safe="")
+        encoded_base = urllib.parse.quote(target.default_branch, safe="")
+        existing = self.require(
+            "GET",
+            f"/repos/{target.full_name}/pulls?state=open&head={encoded_head}&base={encoded_base}",
+            {200},
+        )
+        if existing:
+            return existing[0]["html_url"]
+        raise RuntimeError(
+            f"GitHub rejected the pull request and no matching open PR exists: {payload}"
+        )
+
+    def existing_managed_rollout_pull_request(
+        self, target: Target
+    ) -> tuple[str, str] | None:
+        pull_requests = self.require(
+            "GET", f"/repos/{target.full_name}/pulls?state=open&per_page=100", {200}
+        )
+        accepted_titles = {
+            "ci: add shared source policy lint",
+            "ci: adopt Ores source policy v2",
+        }
+        for pull_request in pull_requests:
+            if pull_request.get("title") not in accepted_titles:
+                continue
+            head = pull_request.get("head") or {}
+            head_repository = head.get("repo") or {}
+            if head_repository.get("full_name") != target.full_name:
+                continue
+            branch = head.get("ref")
+            if not branch:
+                continue
+            content = self.content(target.full_name, WORKFLOW_PATH, branch)
+            if content is not None and content[1].startswith(MANAGED_HEADER):
+                return branch, pull_request["html_url"]
+        return None
 
 
 def token_from_environment_or_gh() -> str:
@@ -259,6 +369,47 @@ def select_targets(
     return targets
 
 
+def select_targets_from_adoption(
+    github: GitHub,
+    adoption_path: Path,
+    organization_filter: set[str],
+) -> list[Target]:
+    adoption = json.loads(adoption_path.read_text(encoding="utf-8"))
+    repositories = [row["repository"] for row in adoption.get("repositories", [])]
+    if len(repositories) != len(set(repositories)):
+        raise RuntimeError("adoption roster contains duplicate repositories")
+    if not repositories:
+        raise RuntimeError("adoption roster does not contain repositories")
+
+    targets = []
+    selected_by_organization: dict[str, int] = {}
+    for full_name in repositories:
+        organization = full_name.split("/", 1)[0]
+        if organization_filter and organization not in organization_filter:
+            continue
+        repository = github.repository(full_name)
+        if repository["archived"] or repository["disabled"] or repository["fork"]:
+            raise RuntimeError(f"pinned adoption target is no longer eligible: {full_name}")
+        default_branch = repository.get("default_branch")
+        if not default_branch:
+            raise RuntimeError(f"pinned adoption target has no default branch: {full_name}")
+        targets.append(
+            Target(
+                full_name=full_name,
+                default_branch=default_branch,
+                languages=github.languages(full_name),
+                pushed_at=repository.get("pushed_at") or "",
+            )
+        )
+        selected_by_organization[organization] = (
+            selected_by_organization.get(organization, 0) + 1
+        )
+
+    for organization, count in selected_by_organization.items():
+        print(f"selected pinned {count}: {organization}", file=sys.stderr)
+    return targets
+
+
 def render_caller_workflow(policy_sha: str, default_branch: str) -> str:
     quoted_branch = json.dumps(default_branch)
     return f"""{MANAGED_HEADER}
@@ -347,7 +498,7 @@ jobs:
         shell: bash
         run: npm ci --ignore-scripts --prefix .source-policy/tools/ecmascript-lint
 
-      - name: Lint ECMAScript semicolon policy
+      - name: Lint ECMAScript source policy
         if: steps.languages.outputs.ecmascript == 'true'
         shell: bash
         run: node .source-policy/tools/ecmascript-lint/lint.mjs "$GITHUB_WORKSPACE"
@@ -357,7 +508,7 @@ jobs:
         shell: bash
         run: rustup toolchain install 1.88.0 --profile minimal --no-self-update
 
-      - name: Lint Rust explicit-return policy
+      - name: Lint Rust source policy
         if: steps.languages.outputs.rust == 'true'
         shell: bash
         env:
@@ -380,42 +531,92 @@ def verify_policy_commit(github: GitHub, policy_sha: str) -> None:
             raise RuntimeError(f"policy commit {policy_sha} is missing {path}")
 
 
-def inspect_or_apply(
+def inspect_or_open_pull_request(
     github: GitHub,
     target: Target,
     policy_sha: str,
-    apply: bool,
+    open_pull_requests: bool,
     inline_workflow: bool,
 ) -> Result:
     render = (
         render_inline_caller_workflow if inline_workflow else render_caller_workflow
     )
     desired = render(policy_sha, target.default_branch)
-    current = github.content(
+    default_content = github.content(
         target.full_name,
         WORKFLOW_PATH,
         target.default_branch,
     )
-    if current is not None and current[1] == desired:
-        return Result(target.full_name, "unchanged", "already matches immutable policy")
-    if current is not None and not current[1].startswith(MANAGED_HEADER):
+    if default_content is not None and default_content[1] == desired:
+        return Result(
+            target.full_name,
+            "adopted",
+            "default branch matches immutable policy",
+            github.branch_sha(target.full_name, target.default_branch),
+        )
+    if default_content is not None and not default_content[1].startswith(MANAGED_HEADER):
         return Result(
             target.full_name, "conflict", "existing workflow is not fleet-managed"
         )
-    if not apply:
-        state = "would-update" if current is not None else "would-create"
+    existing_pull_request = github.existing_managed_rollout_pull_request(target)
+    if not open_pull_requests:
+        if existing_pull_request is not None:
+            branch, pull_request_url = existing_pull_request
+            branch_content = github.content(target.full_name, WORKFLOW_PATH, branch)
+            if branch_content is not None and branch_content[1] == desired:
+                return Result(
+                    target.full_name,
+                    "pr-open",
+                    branch,
+                    github.branch_sha(target.full_name, branch),
+                    pull_request_url,
+                )
+        state = "would-update" if default_content is not None else "would-create"
         return Result(target.full_name, state, target.default_branch)
 
-    commit_sha = github.put_content(
-        target,
+    if existing_pull_request is None:
+        branch = f"agent/source-policy-v2-{policy_sha[:12]}"
+        github.create_branch(target, branch)
+    else:
+        branch = existing_pull_request[0]
+    branch_content = github.content(target.full_name, WORKFLOW_PATH, branch)
+    if branch_content is not None and not branch_content[1].startswith(MANAGED_HEADER):
+        return Result(
+            target.full_name,
+            "conflict",
+            f"{branch} contains a non-fleet-managed workflow",
+        )
+
+    commit_sha = github.branch_sha(target.full_name, branch)
+    if branch_content is None or branch_content[1] != desired:
+        commit_sha = github.put_content(
+            target,
+            branch,
+            desired,
+            branch_content[0] if branch_content is not None else None,
+        )
+    verified = github.verify_content(
+        target.full_name,
+        WORKFLOW_PATH,
+        branch,
         desired,
-        current[0] if current is not None else None,
     )
-    verified = github.content(target.full_name, WORKFLOW_PATH, target.default_branch)
     if verified is None or verified[1] != desired:
-        raise RuntimeError(f"post-write verification failed for {target.full_name}")
-    state = "updated" if current is not None else "created"
-    return Result(target.full_name, state, target.default_branch, commit_sha)
+        raise RuntimeError(
+            f"pull-request branch verification failed after commit {commit_sha}"
+        )
+    pull_request_url = (
+        existing_pull_request[1]
+        if existing_pull_request is not None
+        else github.open_pull_request(target, branch, policy_sha)
+    )
+    return Result(
+        target.full_name,
+        "pr-open",
+        branch,
+        commit_sha,
+        pull_request_url,
+    )
 
 
 def validate_coverage(
@@ -459,6 +660,11 @@ def print_report(
                 "state": result.state,
                 "detail": result.detail,
                 **({"commitSha": result.commit_sha} if result.commit_sha else {}),
+                **(
+                    {"pullRequestUrl": result.pull_request_url}
+                    if result.pull_request_url
+                    else {}
+                ),
             }
             for result in [*results, *failures]
         ],
@@ -473,9 +679,18 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         default=Path(__file__).resolve().parents[1] / "source-policy-fleet.json",
     )
+    parser.add_argument(
+        "--adoption-roster",
+        type=Path,
+        help="reuse the exact repository list from an existing adoption matrix",
+    )
     parser.add_argument("--policy-sha", required=True)
     parser.add_argument("--organization", action="append", default=[])
-    parser.add_argument("--apply", action="store_true")
+    parser.add_argument(
+        "--open-prs",
+        action="store_true",
+        help="create/update a dedicated branch and open a pull request per target",
+    )
     return parser.parse_args()
 
 
@@ -490,7 +705,15 @@ def main() -> int:
     github = GitHub(token_from_environment_or_gh())
     verify_policy_commit(github, args.policy_sha)
     organization_filter = set(args.organization)
-    targets = select_targets(github, manifest, organization_filter)
+    targets = (
+        select_targets_from_adoption(
+            github,
+            args.adoption_roster,
+            organization_filter,
+        )
+        if args.adoption_roster
+        else select_targets(github, manifest, organization_filter)
+    )
     validate_coverage(targets, manifest, organization_filter)
     inline_repositories = set(manifest["inlineWorkflowRepositories"])
 
@@ -498,11 +721,11 @@ def main() -> int:
     failures: list[Result] = []
     for target in targets:
         try:
-            result = inspect_or_apply(
+            result = inspect_or_open_pull_request(
                 github,
                 target,
                 args.policy_sha,
-                args.apply,
+                args.open_prs,
                 target.full_name in inline_repositories,
             )
             results.append(result)

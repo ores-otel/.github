@@ -53,7 +53,7 @@ jobs:
           repository: ores-otel/.github
           # workflow_sha is the caller SHA for workflow_call jobs, so it cannot
           # identify this repository. Pin the audited implementation directly.
-          ref: 883e44aba6b1b6119fefe3bc8c09c2ebcffc2dcb
+          ref: 9e2a95413dafbef326ef3e93943a30c22566cc01
           path: .source-policy
           persist-credentials: false
 
@@ -70,7 +70,7 @@ jobs:
         shell: bash
         run: npm ci --ignore-scripts --prefix .source-policy/tools/ecmascript-lint
 
-      - name: Lint ECMAScript semicolon policy
+      - name: Lint ECMAScript source policy
         if: steps.languages.outputs.ecmascript == 'true'
         shell: bash
         run: node .source-policy/tools/ecmascript-lint/lint.mjs "$GITHUB_WORKSPACE"
@@ -80,7 +80,7 @@ jobs:
         shell: bash
         run: rustup toolchain install 1.88.0 --profile minimal --no-self-update
 
-      - name: Lint Rust explicit-return policy
+      - name: Lint Rust source policy
         if: steps.languages.outputs.rust == 'true'
         shell: bash
         env:

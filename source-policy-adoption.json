@@ -1,0 +1,1485 @@
+{
+  "schemaVersion": 1,
+  "fleetVersion": "ores-source-policy/v2",
+  "policySha": "34a36017bfa4da0a820f4a82f8d206958296ebbb",
+  "auditedAt": "2026-08-23T03:47:00Z",
+  "minimumRequired": {
+    "repositories": 90,
+    "organizations": 20
+  },
+  "coverage": {
+    "repositories": 138,
+    "organizations": 28,
+    "adoptedOnDefaultBranch": 0,
+    "verifiedOpenPullRequests": 138,
+    "sourcePolicyChecksPassed": 97,
+    "sourcePolicyChecksBillingBlocked": 41,
+    "sourcePolicyCheckFailures": 0,
+    "conflicts": 0,
+    "failures": 0
+  },
+  "repositories": [
+    {
+      "repository": "3FA-app/threefa-monorepo",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-34a36017bfa4",
+      "branchCommit": "dfadf544202e3d2ae0b152b21737ee893ef8ecb3",
+      "pullRequestUrl": "https://github.com/3FA-app/threefa-monorepo/pull/12",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/3FA-app/threefa-monorepo/actions/runs/32615214514/job/97134710792",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "3FA-app/3fa-app.github.io",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-34a36017bfa4",
+      "branchCommit": "323a23d8e76efd0d7a3c552e2986d6124ddb8795",
+      "pullRequestUrl": "https://github.com/3FA-app/3fa-app.github.io/pull/11",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "3FA-app/3fa-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-34a36017bfa4",
+      "branchCommit": "29435ae47be0dedbd8e1e0b1492912bdb706a504",
+      "pullRequestUrl": "https://github.com/3FA-app/3fa-clients/pull/57",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/3FA-app/3fa-clients/actions/runs/32615222775/job/97134734737",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "3FA-app/3FA-desktop.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-34a36017bfa4",
+      "branchCommit": "ffc387007d1403dd8c3b6022aabed9f0a8c0c5dc",
+      "pullRequestUrl": "https://github.com/3FA-app/3FA-desktop.rs/pull/36",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "3FA-app/.github",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-34a36017bfa4",
+      "branchCommit": "da77cb1f531ffaf360e01dc2a5baf84a77b07bf3",
+      "pullRequestUrl": "https://github.com/3FA-app/.github/pull/24",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "StreemPilot/sp-web-mash",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "5d6a733cab68dc381b2d698089e6cb0dce15d7d6",
+      "pullRequestUrl": "https://github.com/StreemPilot/sp-web-mash/pull/16",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/StreemPilot/sp-web-mash/actions/runs/32615234016/job/97134765595",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "StreemPilot/streempilot-monorepo",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "24e09ac0d04d898d1ee9676e90f31577a1b78038",
+      "pullRequestUrl": "https://github.com/StreemPilot/streempilot-monorepo/pull/22",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/StreemPilot/streempilot-monorepo/actions/runs/32615236589/job/97134773665",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "StreemPilot/sp-interfaces",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "a5d5bac13fa223e9589ebfae8da5fa864bed628d",
+      "pullRequestUrl": "https://github.com/StreemPilot/sp-interfaces/pull/20",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/StreemPilot/sp-interfaces/actions/runs/32615240675/job/97134784571",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "StreemPilot/sp-web-leptos",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "3b974e9600a54be619fa871a72eec84967b34798",
+      "pullRequestUrl": "https://github.com/StreemPilot/sp-web-leptos/pull/10",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/StreemPilot/sp-web-leptos/actions/runs/32615243268/job/97134791440",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "StreemPilot/sp-infra",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "402ea0cc1d4d38498662a870f452efbf36dcdf26",
+      "pullRequestUrl": "https://github.com/StreemPilot/sp-infra/pull/8",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/StreemPilot/sp-infra/actions/runs/32615246507/job/97134799837",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "akrion-sim/akrion-sim-interfaces",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "10de60006cf7a5e1e0536acef8048a358e5c4fd7",
+      "pullRequestUrl": "https://github.com/akrion-sim/akrion-sim-interfaces/pull/10",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "akrion-sim/akrion-sim.github.io",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "57d4eb24947e68573055f64f43bb4092a9e4678f",
+      "pullRequestUrl": "https://github.com/akrion-sim/akrion-sim.github.io/pull/13",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "akrion-sim/akrion-soccer-engine-rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "98b468b292dcc01ddb2e15f7001216c1f1ea8592",
+      "pullRequestUrl": "https://github.com/akrion-sim/akrion-soccer-engine-rs/pull/21",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "akrion-sim/akrion-monorepo",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "b889594bc580b40cc609c585ff791918313663f3",
+      "pullRequestUrl": "https://github.com/akrion-sim/akrion-monorepo/pull/24",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "akrion-sim/akrion-sim-sync",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "1bd9eac24633be3b0030203f634dd630a798618d",
+      "pullRequestUrl": "https://github.com/akrion-sim/akrion-sim-sync/pull/4",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "anticaptrad/act-ai-server.ts",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "c52c0ea08bc08c5b7e128571f4c370f0672c5e1e",
+      "pullRequestUrl": "https://github.com/anticaptrad/act-ai-server.ts/pull/6",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "anticaptrad/act-cli",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "82939a50a57272755fc8281ecf0d0f0cfce627eb",
+      "pullRequestUrl": "https://github.com/anticaptrad/act-cli/pull/1",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "anticaptrad/act-desktop-app.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "b2abe2bd18c9fa330a5d6680cbe023e1cc78b1df",
+      "pullRequestUrl": "https://github.com/anticaptrad/act-desktop-app.rs/pull/1",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "anticaptrad/act-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "23c5782f75e622ac7ebc6ba5bd517a17a2524c07",
+      "pullRequestUrl": "https://github.com/anticaptrad/act-clients/pull/14",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "anticaptrad/act-web-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "395d759b3ce012d0824acc918a97e2fd826328ce",
+      "pullRequestUrl": "https://github.com/anticaptrad/act-web-server.rs/pull/6",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "apostille-me/apme-cli",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "13743b0d6d58bed671d3eb007efb3ab9c8bf5cbb",
+      "pullRequestUrl": "https://github.com/apostille-me/apme-cli/pull/8",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "apostille-me/apostille-me-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "6b5eaa075e423de053248cf4d0cebf9835166c8c",
+      "pullRequestUrl": "https://github.com/apostille-me/apostille-me-clients/pull/8",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "apostille-me/apme-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "7430ae047e7464eadb81a75a294ecb9d54d55b93",
+      "pullRequestUrl": "https://github.com/apostille-me/apme-clients/pull/16",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "apostille-me/.github",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "1d7b6719c426aa02a8db9db0f9bdac8d619735a0",
+      "pullRequestUrl": "https://github.com/apostille-me/.github/pull/21",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "apostille-me/apme-sync",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "7e39114c5f3050e38491a111ee2c16c16c22b8d1",
+      "pullRequestUrl": "https://github.com/apostille-me/apme-sync/pull/3",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "athlet-o/athleto-sync",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "365cde54ae436a5705c403f35710f2d9bba69ff3",
+      "pullRequestUrl": "https://github.com/athlet-o/athleto-sync/pull/8",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/athlet-o/athleto-sync/actions/runs/32615288581/job/97134909703",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "athlet-o/athleto-interfaces",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "c2685c297da4ce727498bd02c08ec4b3353f675a",
+      "pullRequestUrl": "https://github.com/athlet-o/athleto-interfaces/pull/11",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/athlet-o/athleto-interfaces/actions/runs/32615293892/job/97134922768",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "athlet-o/athleto-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "af97f26bfef98d5e5a1311942d503386632178fc",
+      "pullRequestUrl": "https://github.com/athlet-o/athleto-clients/pull/19",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/athlet-o/athleto-clients/actions/runs/32615295952/job/97134927231",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "athlet-o/athleto-infra",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "46ef99bbb61677a4fd543d95dc54b6399a0da4dd",
+      "pullRequestUrl": "https://github.com/athlet-o/athleto-infra/pull/4",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/athlet-o/athleto-infra/actions/runs/32615298207/job/97134932912",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "athlet-o/athleto-monorepo",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "850a985e91ce26355ca4a7a9a708c03285625665",
+      "pullRequestUrl": "https://github.com/athlet-o/athleto-monorepo/pull/6",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/athlet-o/athleto-monorepo/actions/runs/32615301063/job/97134939611",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "benefactor-cc/benefactor-sync",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "461b0a0901c310bc46354465b95347c27832ae6f",
+      "pullRequestUrl": "https://github.com/benefactor-cc/benefactor-sync/pull/8",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "benefactor-cc/benefactor-interfaces",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "a07a2edf1145658f05ad97b9cfdba07063615b2a",
+      "pullRequestUrl": "https://github.com/benefactor-cc/benefactor-interfaces/pull/20",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "benefactor-cc/benefactor-automations",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "3f82dc92744096930fe83468f75e80e2397b1c22",
+      "pullRequestUrl": "https://github.com/benefactor-cc/benefactor-automations/pull/5",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "benefactor-cc/benefactor-sendgrid-outreach",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "08e230cf3a1b227e92affa7eeef3ca33df41fb5b",
+      "pullRequestUrl": "https://github.com/benefactor-cc/benefactor-sendgrid-outreach/pull/19",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "benefactor-cc/benefactor-monorepo",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "5719bd541b4447339143e5910f30e1fea0d779b7",
+      "pullRequestUrl": "https://github.com/benefactor-cc/benefactor-monorepo/pull/14",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "canonical-cloud/canonical-marketing-site.web",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "7e13271bfc075cf3718d0c64318a1032b2c7f9b0",
+      "pullRequestUrl": "https://github.com/canonical-cloud/canonical-marketing-site.web/pull/33",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "canonical-cloud/canonical-mcp-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "b3b18c27aa2855d212ec3050ef89ebae4835983d",
+      "pullRequestUrl": "https://github.com/canonical-cloud/canonical-mcp-server.rs/pull/32",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "canonical-cloud/canonical.cloud",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "a84692038433b589fb82f36b94f52725ce4beb33",
+      "pullRequestUrl": "https://github.com/canonical-cloud/canonical.cloud/pull/18",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "canonical-cloud/canonical-web-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "8a66ba584d69c18cc116d14a9bef8d0d97067b56",
+      "pullRequestUrl": "https://github.com/canonical-cloud/canonical-web-server.rs/pull/76",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "canonical-cloud/canonical-monorepo",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "64a4314e345106a6e891c4d753b53d28048b6302",
+      "pullRequestUrl": "https://github.com/canonical-cloud/canonical-monorepo/pull/54",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "claritas-viz/claritas-viz-mcp-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "e78715476fe539e12f353e3253e53e5d47ed0c18",
+      "pullRequestUrl": "https://github.com/claritas-viz/claritas-viz-mcp-server.rs/pull/9",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "claritas-viz/claritas-monorepo",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "e1bfa64c7c7fbddca7b0b7b971d2a68f8ce2a15c",
+      "pullRequestUrl": "https://github.com/claritas-viz/claritas-monorepo/pull/7",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "claritas-viz/claritas-viz.github.io",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "0f2dfd4d4ee228daec15b5b91693a5f466d98d8e",
+      "pullRequestUrl": "https://github.com/claritas-viz/claritas-viz.github.io/pull/6",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "claritas-viz/data-viz-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "2559d4d7009b35d5ecffec9763868c8051d6b7a3",
+      "pullRequestUrl": "https://github.com/claritas-viz/data-viz-server.rs/pull/5",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "claritas-viz/claritas-cli",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "fed0e9c9167637c4265bb41ca6fa27971d152f82",
+      "pullRequestUrl": "https://github.com/claritas-viz/claritas-cli/pull/2",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "daedalus-fab/daedalus-web-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "1498daade7ed7fe72d18292d4f7f49b7e85c22fb",
+      "pullRequestUrl": "https://github.com/daedalus-fab/daedalus-web-server.rs/pull/7",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/daedalus-fab/daedalus-web-server.rs/actions/runs/32615347581/job/97135055656",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "daedalus-fab/daedalus-api-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "35cc4da557421a09a655e7d93977265a58f887fc",
+      "pullRequestUrl": "https://github.com/daedalus-fab/daedalus-api-server.rs/pull/9",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/daedalus-fab/daedalus-api-server.rs/actions/runs/32615350258/job/97135062823",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "daedalus-fab/daedalus-sync",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "a718a338bd9770ca512a98e9f892fdeeca348999",
+      "pullRequestUrl": "https://github.com/daedalus-fab/daedalus-sync/pull/8",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/daedalus-fab/daedalus-sync/actions/runs/32615353088/job/97135069888",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "daedalus-fab/fabrication-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "ba5a2a375bb89229c2e224bb7ce1918e2951dd80",
+      "pullRequestUrl": "https://github.com/daedalus-fab/fabrication-server.rs/pull/14",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/daedalus-fab/fabrication-server.rs/actions/runs/32615354660/job/97135073863",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "daedalus-fab/daedalus-monorepo",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "ec35f0969dd028d982e0a8766af5bdbd6fcc2305",
+      "pullRequestUrl": "https://github.com/daedalus-fab/daedalus-monorepo/pull/7",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/daedalus-fab/daedalus-monorepo/actions/runs/32615357019/job/97135079538",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "discrete-event-systems/des-web.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "44c4a19db84ac55c7c540fa6a336571a3d1b7e4b",
+      "pullRequestUrl": "https://github.com/discrete-event-systems/des-web.rs/pull/23",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "discrete-event-systems/discrete-event-systems.github.io",
+      "state": "pr-open",
+      "rolloutBranch": "codex/source-policy-lint",
+      "branchCommit": "2c5b26d9878de77e866441bfbc6a75a61f300a03",
+      "pullRequestUrl": "https://github.com/discrete-event-systems/discrete-event-systems.github.io/pull/14",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "discrete-event-systems/des-mcp-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "codex/source-policy-lint",
+      "branchCommit": "c5f826c402e3f4fc98bcc99f2672622221022066",
+      "pullRequestUrl": "https://github.com/discrete-event-systems/des-mcp-server.rs/pull/29",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "drone-mngr/laser-ptr-ctrl-mcp-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "15be5447b74cd1d403bd1593c4e5c1a25b4abd6a",
+      "pullRequestUrl": "https://github.com/drone-mngr/laser-ptr-ctrl-mcp-server.rs/pull/4",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "drone-mngr/drone-mngr-mcp-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "543c193b5ea9d73b88be3472458bd24084d261ba",
+      "pullRequestUrl": "https://github.com/drone-mngr/drone-mngr-mcp-server.rs/pull/5",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "drone-mngr/laser-ptr-ctrl-infra",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "c594da99f664a5bb06a9829d24791071ea07f453",
+      "pullRequestUrl": "https://github.com/drone-mngr/laser-ptr-ctrl-infra/pull/1",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "drone-mngr/laser-ptr-ctrl-web-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "5a80bc14a9696a16b9be22a025d51bd84f282d21",
+      "pullRequestUrl": "https://github.com/drone-mngr/laser-ptr-ctrl-web-server.rs/pull/1",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "drone-mngr/drone-mngr-web-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "886067d41c7e8c742c47d79c42135b4fc92750f5",
+      "pullRequestUrl": "https://github.com/drone-mngr/drone-mngr-web-server.rs/pull/2",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "embedded-alerts/eal-libs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "4bc8babc206a558e475bcd4a07ca21a7dcb09f25",
+      "pullRequestUrl": "https://github.com/embedded-alerts/eal-libs/pull/7",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "embedded-alerts/eal-sync",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "abbfff9dc211d09fcaa260967e3aa71528d9e51a",
+      "pullRequestUrl": "https://github.com/embedded-alerts/eal-sync/pull/7",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "embedded-alerts/eal-cli",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "c3e85599b18fd7be4fe4f92dc1d55cf90bd90aea",
+      "pullRequestUrl": "https://github.com/embedded-alerts/eal-cli/pull/9",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "embedded-alerts/embedded-alerts-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "1292ea9f18b4daf8a97719ce4e26f435835f8ebb",
+      "pullRequestUrl": "https://github.com/embedded-alerts/embedded-alerts-clients/pull/8",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "embedded-alerts/eal-mash-web",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "64621768530f756d328600c6976d450f42f670ba",
+      "pullRequestUrl": "https://github.com/embedded-alerts/eal-mash-web/pull/12",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "evento-globolo/evento-globolo-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "f167488dc6e487454503720087aa1cdd6bcaa496",
+      "pullRequestUrl": "https://github.com/evento-globolo/evento-globolo-clients/pull/8",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "evento-globolo/evgl-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "75666d98112f200f1db0d9313d0f8741390aceb4",
+      "pullRequestUrl": "https://github.com/evento-globolo/evgl-clients/pull/14",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "evento-globolo/evgl-cli",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "0b3b3887a2df23801cf04a8f04a019de2182f137",
+      "pullRequestUrl": "https://github.com/evento-globolo/evgl-cli/pull/10",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "evento-globolo/.github",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "2ada4ffd13537a86c7ca055753f6350a40ee0d37",
+      "pullRequestUrl": "https://github.com/evento-globolo/.github/pull/24",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "evento-globolo/evgl-mash-web",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "fa9ed23b1b19a107c350fd052559eab69a28e0be",
+      "pullRequestUrl": "https://github.com/evento-globolo/evgl-mash-web/pull/12",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "fiducia-cloud/fiducia-memory.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "8bae599c28d78061dd6671a3eafb8d1069a95ead",
+      "pullRequestUrl": "https://github.com/fiducia-cloud/fiducia-memory.rs/pull/36",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "fiducia-cloud/fiducia-mcp-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "4c5140b71ceaeba8736d6039fcea49919c7c8f9e",
+      "pullRequestUrl": "https://github.com/fiducia-cloud/fiducia-mcp-server.rs/pull/29",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "fiducia-cloud/fiducia-marketing.web",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "092237ad00c6086fa90142c21ea0076782a2a8ee",
+      "pullRequestUrl": "https://github.com/fiducia-cloud/fiducia-marketing.web/pull/25",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "fiducia-cloud/fiducia-routing.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "afe4ee74e1c9d635bf21265f535575c76fd27318",
+      "pullRequestUrl": "https://github.com/fiducia-cloud/fiducia-routing.rs/pull/29",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "fiducia-cloud/fiducia-node.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "790c81ae07f84c5f0e95c6cca5037255d64d56bc",
+      "pullRequestUrl": "https://github.com/fiducia-cloud/fiducia-node.rs/pull/43",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "file-tunnel/ftnl-mcp-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "9cc0a73af4d8c150fe595c8f30f1055461c29cf2",
+      "pullRequestUrl": "https://github.com/file-tunnel/ftnl-mcp-server.rs/pull/7",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "file-tunnel/ftnl-sync",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "f8ca95ec13141c0cf4ee75cd22b45a03c4f5812a",
+      "pullRequestUrl": "https://github.com/file-tunnel/ftnl-sync/pull/16",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "file-tunnel/ftnl-ui-components",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "4c66ef3951c31c3db76e758a888ec30b71a28b9c",
+      "pullRequestUrl": "https://github.com/file-tunnel/ftnl-ui-components/pull/18",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "file-tunnel/file-tunnel.github.io",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "e457672cc7e58d0c8d7a37e7e0b4a63f5e58aa6c",
+      "pullRequestUrl": "https://github.com/file-tunnel/file-tunnel.github.io/pull/16",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "file-tunnel/ftnl-web-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "d1fc3d30c1ef5c7c361bafbd471d8f1798e77470",
+      "pullRequestUrl": "https://github.com/file-tunnel/ftnl-web-server.rs/pull/14",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "hacker-house-medellin/.github",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "a6358de448d51f47322a289723e4d3b03228aa7e",
+      "pullRequestUrl": "https://github.com/hacker-house-medellin/.github/pull/24",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "hacker-house-medellin/hhm-cli",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "56e6620bb2c0fbe6cdbe48cc0266ae3f2f73a639",
+      "pullRequestUrl": "https://github.com/hacker-house-medellin/hhm-cli/pull/9",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "hacker-house-medellin/hhm-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "9e07952a1027200d17074ffc8067d8d9b0f2e854",
+      "pullRequestUrl": "https://github.com/hacker-house-medellin/hhm-clients/pull/12",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "hacker-house-medellin/hacker-house-medellin-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "e71afb8efe0c26936ff1ee011986ca1289c35c29",
+      "pullRequestUrl": "https://github.com/hacker-house-medellin/hacker-house-medellin-clients/pull/7",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "hacker-house-medellin/hhm-mash-web",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "fe83884fcc24d8d37d0b6ee97d7837a0a264dd14",
+      "pullRequestUrl": "https://github.com/hacker-house-medellin/hhm-mash-web/pull/9",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "hypesiege/hypesiege-monorepo",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "71ef46e5ccb4b87309b00c57d766f7f9e4f14377",
+      "pullRequestUrl": "https://github.com/hypesiege/hypesiege-monorepo/pull/21",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "hypesiege/hypesiege-mcp-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "f260242b0b8e5c6aa11ea7dac04d94f1ca4f660f",
+      "pullRequestUrl": "https://github.com/hypesiege/hypesiege-mcp-server.rs/pull/12",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "hypesiege/hypesiege-cli.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "d5b974f1437292b425263c7d092537646f9b7842",
+      "pullRequestUrl": "https://github.com/hypesiege/hypesiege-cli.rs/pull/2",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "hypesiege/hypesiege-libs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "591b3bab9ac99aa8a1b6eaa2304b9c33590c84c1",
+      "pullRequestUrl": "https://github.com/hypesiege/hypesiege-libs/pull/4",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "hypesiege/hypesiege-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "5f66ddf9210ea32bfa3861833634e3b057141521",
+      "pullRequestUrl": "https://github.com/hypesiege/hypesiege-clients/pull/8",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "messaging-intel/msgint-web-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "289549436739971672d19d33b583e5e94b7265e2",
+      "pullRequestUrl": "https://github.com/messaging-intel/msgint-web-server.rs/pull/18",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/messaging-intel/msgint-web-server.rs/actions/runs/32615465198/job/97135352333",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "messaging-intel/msgint-e2e",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "9570774d186e95c5f2b74efc48638464392e816d",
+      "pullRequestUrl": "https://github.com/messaging-intel/msgint-e2e/pull/30",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/messaging-intel/msgint-e2e/actions/runs/32615469294/job/97135361851",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "messaging-intel/msgint-flutter-app",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "d8284a670c18e79a2c7a6f2480fafbf2cf6d9240",
+      "pullRequestUrl": "https://github.com/messaging-intel/msgint-flutter-app/pull/25",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/messaging-intel/msgint-flutter-app/actions/runs/32615472179/job/97135368747",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "messaging-intel/msgint-desktop.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "d2b1e2d15e6766aed26a1cb9b97c552113d26242",
+      "pullRequestUrl": "https://github.com/messaging-intel/msgint-desktop.rs/pull/3",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/messaging-intel/msgint-desktop.rs/actions/runs/32615473985/job/97135373171",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "messaging-intel/msgint-monorepo",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "f3169d00bcac08aa7f7f4e93a135f539c714b8d3",
+      "pullRequestUrl": "https://github.com/messaging-intel/msgint-monorepo/pull/42",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/messaging-intel/msgint-monorepo/actions/runs/32615476444/job/97135379562",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "networking-components/ncc-service-discovery",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "5b58b47a8815b09d6e27ea08d0df699c2201507d",
+      "pullRequestUrl": "https://github.com/networking-components/ncc-service-discovery/pull/2",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "networking-components/ncc-stun-turn",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "16aeb23b955b09451c70f77f89fd5988e0466f69",
+      "pullRequestUrl": "https://github.com/networking-components/ncc-stun-turn/pull/2",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "networking-components/ncc-pki",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "76d7a3e58a54af459f59d50ef9b043f575dca4e4",
+      "pullRequestUrl": "https://github.com/networking-components/ncc-pki/pull/2",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "networking-components/ncc-observability",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "0836cf12fc16d8dcebf1d5cbe20e5ce98fee8449",
+      "pullRequestUrl": "https://github.com/networking-components/ncc-observability/pull/2",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "networking-components/ncc-ntp",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "2dd16027f8875ed6021c6f30096ccbdef75f791f",
+      "pullRequestUrl": "https://github.com/networking-components/ncc-ntp/pull/2",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "opto-sync/syncer.c",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "741d2d9195911e95386f42d5d2700589d7327eae",
+      "pullRequestUrl": "https://github.com/opto-sync/syncer.c/pull/24",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "opto-sync/syncer.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "8d9c4d02bee2eaf337102b2631ff84d4af81d43f",
+      "pullRequestUrl": "https://github.com/opto-sync/syncer.rs/pull/8",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "opto-sync/opto-sync.github.io",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "c6eb96576fe8a2451c999cd6db996dcda3a91f17",
+      "pullRequestUrl": "https://github.com/opto-sync/opto-sync.github.io/pull/2",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "opto-sync/opto-sync-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "53c99c1f04066d046094d9034d399bb0d7f8180c",
+      "pullRequestUrl": "https://github.com/opto-sync/opto-sync-clients/pull/91",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "opto-sync/opto-sync-e2e",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "466b99afe12c9c1fd09560984f8492e4680d48e0",
+      "pullRequestUrl": "https://github.com/opto-sync/opto-sync-e2e/pull/40",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "ores-otel/ores.otel.log",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-34a36017bfa4",
+      "branchCommit": "040a902739a0b8ae1d12b77d04a49285c42800b2",
+      "pullRequestUrl": "https://github.com/ores-otel/ores.otel.log/pull/22",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "ores-otel/ores-otel.github.io",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "2c5650ff3faefc69b96ef544d8546b782822a893",
+      "pullRequestUrl": "https://github.com/ores-otel/ores-otel.github.io/pull/2",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "ores-otel/ores-mcp-server-core-libs.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "dde902d19fc5a6788cb29d2711bc8b27420d39b2",
+      "pullRequestUrl": "https://github.com/ores-otel/ores-mcp-server-core-libs.rs/pull/2",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "ores-otel/ores-interfaces",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "e4db1db3c51f68054ea96152f70887c4721c25ec",
+      "pullRequestUrl": "https://github.com/ores-otel/ores-interfaces/pull/6",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "ores-otel/ores-lib-core",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "c8b075a408e2beacbc1c816e608accb3a8160062",
+      "pullRequestUrl": "https://github.com/ores-otel/ores-lib-core/pull/5",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "quaestor-ledger/quaestor-infra",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "73a9de629eda1e85877215665c7957143a40a8ae",
+      "pullRequestUrl": "https://github.com/quaestor-ledger/quaestor-infra/pull/9",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/quaestor-ledger/quaestor-infra/actions/runs/32615519623/job/97135487599",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "quaestor-ledger/quaestor-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "e83ab71828f9137482e5c859e6be0c6d80e3060f",
+      "pullRequestUrl": "https://github.com/quaestor-ledger/quaestor-clients/pull/52",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/quaestor-ledger/quaestor-clients/actions/runs/32615522452/job/97135493940",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "quaestor-ledger/quaestor-web-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "b63e5fdf367eaef3513524fb2b4935f29213e7d4",
+      "pullRequestUrl": "https://github.com/quaestor-ledger/quaestor-web-server.rs/pull/33",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/quaestor-ledger/quaestor-web-server.rs/actions/runs/32615525391/job/97135501154",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "quaestor-ledger/quaestor-ledger-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "49e6d346bf30ac338347f9f832e669fada14ba4c",
+      "pullRequestUrl": "https://github.com/quaestor-ledger/quaestor-ledger-server.rs/pull/29",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/quaestor-ledger/quaestor-ledger-server.rs/actions/runs/32615529456/job/97135511129",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "quaestor-ledger/quaestor-monorepo",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "191adaf1f2fc2bfa095cf3a2aa26300c078e7b4e",
+      "pullRequestUrl": "https://github.com/quaestor-ledger/quaestor-monorepo/pull/11",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/quaestor-ledger/quaestor-monorepo/actions/runs/32615530654/job/97135514381",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "scintilla-run/scintilla-ui.dart",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "d997163815e39490e2af256ae14379e14959a792",
+      "pullRequestUrl": "https://github.com/scintilla-run/scintilla-ui.dart/pull/12",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/scintilla-run/scintilla-ui.dart/actions/runs/32615534237/job/97135522894",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "scintilla-run/gleam-lambda-runner",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "e84d8b8320b5598f71c53b28c84f4adb5ee699b6",
+      "pullRequestUrl": "https://github.com/scintilla-run/gleam-lambda-runner/pull/16",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/scintilla-run/gleam-lambda-runner/actions/runs/32615536568/job/97135528733",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "scintilla-run/scintilla-run-infra",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "d3aed84a063e72c56f2da0f173d772eebded95c2",
+      "pullRequestUrl": "https://github.com/scintilla-run/scintilla-run-infra/pull/5",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/scintilla-run/scintilla-run-infra/actions/runs/32615540171/job/97135538100",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "scintilla-run/scintilla-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "487da4a7423a70f99ec8bf93b8338b92b195c9e1",
+      "pullRequestUrl": "https://github.com/scintilla-run/scintilla-clients/pull/25",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/scintilla-run/scintilla-clients/actions/runs/32615541645/job/97135541382",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "scintilla-run/scintilla-run-e2e",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "691b3a5eb96e5c4a35b7e3b9cca5ae82f65e9dae",
+      "pullRequestUrl": "https://github.com/scintilla-run/scintilla-run-e2e/pull/15",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/scintilla-run/scintilla-run-e2e/actions/runs/32615543957/job/97135546965",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "shared-auth/shared-auth-interfaces",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "fcad0492b7c77b22dcd9691ba2998f13d74f8130",
+      "pullRequestUrl": "https://github.com/shared-auth/shared-auth-interfaces/pull/27",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/shared-auth/shared-auth-interfaces/actions/runs/32615547542/job/97135556157",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "shared-auth/shared-auth-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "b5ddfce0e11c45f99e8bbb1689fba21155a08e68",
+      "pullRequestUrl": "https://github.com/shared-auth/shared-auth-server.rs/pull/92",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/shared-auth/shared-auth-server.rs/actions/runs/32615549592/job/97135560736",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "shared-auth/shared-auth-mcp-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "756fe397ceacc11490c094fe7c0bf2cf0381ac47",
+      "pullRequestUrl": "https://github.com/shared-auth/shared-auth-mcp-server.rs/pull/22",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/shared-auth/shared-auth-mcp-server.rs/actions/runs/32615552997/job/97135569799",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "shared-auth/shared-auth-e2e",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "75b3001456b44d55782ac57277100e91cc47282c",
+      "pullRequestUrl": "https://github.com/shared-auth/shared-auth-e2e/pull/22",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/shared-auth/shared-auth-e2e/actions/runs/32615555800/job/97135577143",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "shared-auth/shared-auth-infra",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "38626aff50e49dc00f182e7844e0f792c1c0fd22",
+      "pullRequestUrl": "https://github.com/shared-auth/shared-auth-infra/pull/20",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/shared-auth/shared-auth-infra/actions/runs/32615557774/job/97135582369",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "sonus-auris/sonus-auris-desktop.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "c5c6eeab8f487a3604e36dcd19c6061ca97c85cf",
+      "pullRequestUrl": "https://github.com/sonus-auris/sonus-auris-desktop.rs/pull/36",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/sonus-auris/sonus-auris-desktop.rs/actions/runs/32615559802/job/97135587356",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "sonus-auris/sonus-auris-api-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "08d3190820ef4df18375a31f6b8c29a5c6d90f2d",
+      "pullRequestUrl": "https://github.com/sonus-auris/sonus-auris-api-server.rs/pull/16",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/sonus-auris/sonus-auris-api-server.rs/actions/runs/32615562316/job/97135593796",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "sonus-auris/sonus-auris-mcp-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "5ac6c949d59a43681fc075655255932e474bca4c",
+      "pullRequestUrl": "https://github.com/sonus-auris/sonus-auris-mcp-server.rs/pull/17",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/sonus-auris/sonus-auris-mcp-server.rs/actions/runs/32615565467/job/97135601377",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "sonus-auris/sonus-auris-site.web",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "358f2313aaf48808ac8e765bea0cf0b7c20635af",
+      "pullRequestUrl": "https://github.com/sonus-auris/sonus-auris-site.web/pull/30",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "sonus-auris/sonus-auris-sync",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "3ef1b446f5cfb871fc686a153aea2d5529f7e563",
+      "pullRequestUrl": "https://github.com/sonus-auris/sonus-auris-sync/pull/11",
+      "sourcePolicyCheck": {
+        "status": "billing-blocked",
+        "detailsUrl": "https://github.com/sonus-auris/sonus-auris-sync/actions/runs/32615569803/job/97135612929",
+        "evidence": "GitHub did not start the job because recent account payments failed or the Actions spending limit must be increased."
+      }
+    },
+    {
+      "repository": "voxletra/vxl-web-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "5b9ed0b247ca25e17529fc51b10785d3531fdca9",
+      "pullRequestUrl": "https://github.com/voxletra/vxl-web-server.rs/pull/3",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "voxletra/voxletra-e2e",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "75c84481c9d7cc1048b6153a3db24e1d05e3688e",
+      "pullRequestUrl": "https://github.com/voxletra/voxletra-e2e/pull/7",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "voxletra/vxl-interfaces",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "cab6b154a7590edd1be1e7908bec580bd5adfae5",
+      "pullRequestUrl": "https://github.com/voxletra/vxl-interfaces/pull/8",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "voxletra/vxl-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "7e69f3a1078aa479565e73e15346a4f4636928b5",
+      "pullRequestUrl": "https://github.com/voxletra/vxl-clients/pull/11",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "voxletra/voxletra-sync",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "46089d16a7d2c634e0d739abd64d35f0b70d2212",
+      "pullRequestUrl": "https://github.com/voxletra/voxletra-sync/pull/5",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "zed-pkg/zed-lib-core",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "1fbbccc98e72c154ec39ad4c32fec2f20703fe1f",
+      "pullRequestUrl": "https://github.com/zed-pkg/zed-lib-core/pull/17",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "zed-pkg/zed-monorepo",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "1928139680c5beecd157b49303ca52c81b3f13b0",
+      "pullRequestUrl": "https://github.com/zed-pkg/zed-monorepo/pull/14",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "zed-pkg/zed-clients",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "11cf22ac6f16126205caa3b2cf6713c18e44537f",
+      "pullRequestUrl": "https://github.com/zed-pkg/zed-clients/pull/51",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "zed-pkg/zed-web-server.rs",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "c8a3b3cca86b95f32568ddc02b6098baa6a7b7e6",
+      "pullRequestUrl": "https://github.com/zed-pkg/zed-web-server.rs/pull/35",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    },
+    {
+      "repository": "zed-pkg/zed-cli",
+      "state": "pr-open",
+      "rolloutBranch": "agent/source-policy-v2-8fc174b6940c",
+      "branchCommit": "a33351f87aca0e1505fc70e2c8de990eb24bcbdb",
+      "pullRequestUrl": "https://github.com/zed-pkg/zed-cli/pull/278",
+      "sourcePolicyCheck": {
+        "status": "success"
+      }
+    }
+  ]
+}

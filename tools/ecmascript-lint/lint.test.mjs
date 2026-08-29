@@ -49,3 +49,70 @@ test('generated and dependency trees are excluded', () => {
   assert.equal(shouldSkip('web/_astro/page.hash.js'), true);
   assert.equal(shouldSkip('node_modules/pkg/index.js'), true);
 });
+
+test('unfinished Ores telemetry chains are warn-only findings', async () => {
+  const messages = await lintText(
+    [
+      "import nextLoggers, { createNodeLogger as makeLogger } from '@oresoftware/next-loggers/node';",
+      'const audit = makeLogger();',
+      "nextLoggers.info('missing');",
+      "audit.error('also missing').addFields({ requestId: 'r1' });",
+      '',
+    ].join('\n'),
+    'src/telemetry.ts',
+  );
+  const telemetryMessages = messages.filter(
+    (message) => message.ruleId === 'ores-fleet/require-send',
+  );
+
+  assert.equal(telemetryMessages.length, 2);
+  assert.equal(telemetryMessages.every((message) => message.severity === 1), true);
+  assert.equal(telemetryMessages.every((message) => /\.send\(\)/u.test(message.message)), true);
+});
+
+test('delivered, deferred, and unrelated builder chains do not warn', async () => {
+  const messages = await lintText(
+    [
+      "import { createLogger } from '@oresoftware/next-loggers';",
+      'const logger = createLogger();',
+      "logger.info('sent').send();",
+      "logger.warn('stored').send(true);",
+      "const deferred = logger.error('sent later');",
+      'void deferred;',
+      "query.info('ordinary builder').where({ active: true });",
+      'function buildEvent() {',
+      "  return logger.debug('returned to caller');",
+      '}',
+      'void buildEvent;',
+      '',
+    ].join('\n'),
+    'src/builders.ts',
+  );
+
+  assert.equal(
+    messages.some((message) => message.ruleId === 'ores-fleet/require-send'),
+    false,
+  );
+});
+
+test('telemetry rule supports namespace imports, child loggers, wrappers, and suppressions', async () => {
+  const messages = await lintText(
+    [
+      "import * as logging from '@oresoftware/next-loggers';",
+      'const parent = logging.createLogger();',
+      "const child = parent.anew({ appName: 'child' });",
+      "await child.info('sent').send();",
+      "void parent.warn('missing');",
+      '// eslint-disable-next-line ores-fleet/require-send',
+      "parent.error('intentionally auto-sent');",
+      '',
+    ].join('\n'),
+    'src/wrappers.mjs',
+  );
+  const telemetryMessages = messages.filter(
+    (message) => message.ruleId === 'ores-fleet/require-send',
+  );
+
+  assert.equal(telemetryMessages.length, 1);
+  assert.match(telemetryMessages[0].message, /\.send\(\)/u);
+});
