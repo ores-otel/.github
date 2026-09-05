@@ -87,7 +87,7 @@ jobs:
           LANGUAGE: ${{ matrix.language }}
         run: |
           set -euo pipefail
-          root="repository-templates/$REPOSITORY/languages/$LANGUAGE"
+          root="repository-templates/$REPOSITORY/langs/$LANGUAGE"
           case "$LANGUAGE" in
             rust) (cd "$root" && cargo test) ;;
             go) (cd "$root" && go test ./...) ;;
