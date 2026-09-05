@@ -7,7 +7,7 @@ condition = "AND"
 regexTarget = "match"
 paths = ['''^\.ores-template-manifest\.json$''']
 regexes = [
-  '''"languages/java/src/(?:main|test)/java/com/oresoftware/interfaces/AuthContracts(?:Test)?\.java": "[a-f0-9]{64}"''',
+  '''"langs/java/src/(?:main|test)/java/com/oresoftware/interfaces/AuthContracts(?:Test)?\.java": "[a-f0-9]{64}"''',
 ]
 
 [[allowlists]]
@@ -17,7 +17,7 @@ regexTarget = "match"
 paths = [
   '''^contracts/shared-auth-admin/v1/examples/global-revocation-request\.json$''',
   '''^contracts/shared-auth-admin/v1/fixtures/invalid/global-revocation-request-client-step-up\.json$''',
-  '''^languages/rust/src/lib\.rs$''',
+  '''^langs/rust/src/lib\.rs$''',
 ]
 regexes = [
   '''"idempotencyKey": "[a-z0-9_-]{16,}"''',

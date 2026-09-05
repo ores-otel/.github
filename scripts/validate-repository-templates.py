@@ -125,9 +125,9 @@ def validate_zpkg(root: Path, spec: dict[str, Any]) -> None:
     for language in REQUIRED_LANGUAGES:
         target_key = ZPKG_TARGET_KEYS.get(language, language)
         target_dir = targets[target_key].get("dir")
-        if target_dir != f"languages/{language}":
+        if target_dir != f"langs/{language}":
             raise ValidationError(
-                f"{spec['name']}: target {language!r} must use languages/{language}, got {target_dir!r}"
+                f"{spec['name']}: target {language!r} must use langs/{language}, got {target_dir!r}"
             )
         if not (root / target_dir).is_dir():
             raise ValidationError(f"{spec['name']}: target directory missing: {target_dir}")
@@ -214,8 +214,8 @@ def validate_template(manifest_root: Path, spec: dict[str, Any]) -> tuple[int, i
         if not (root / required).is_file():
             raise ValidationError(f"{spec['name']}: missing required template file: {required}")
     for language in REQUIRED_LANGUAGES:
-        if not (root / "languages" / language).is_dir():
-            raise ValidationError(f"{spec['name']}: missing language directory: languages/{language}")
+        if not (root / "langs" / language).is_dir():
+            raise ValidationError(f"{spec['name']}: missing language directory: langs/{language}")
 
     files = iter_template_files(root)
     line_count = 0
