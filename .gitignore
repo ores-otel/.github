@@ -2,3 +2,7 @@ __pycache__/
 *.py[cod]
 node_modules/
 target/
+
+# Local temporary directories and repository-owned worktrees
+tmp/
+temp/
