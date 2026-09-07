@@ -4,6 +4,7 @@
   "trackingIssue": "ores-otel/.github#11",
   "coordinatorRepository": "ores-redis-lru-cache-test/ores-redis-lru-e2e-test",
   "coordinatorBranch": "main",
+  "coordinatorCommit": "26fadc95f9cca08aa00936025ed649dd5401f475",
   "manifestPath": "fleet/manifests/ores-otel.json",
   "status": "current",
   "blockers": [
@@ -19,5 +20,5 @@
     "neverPublishTelemetryPayloadsOrCredentials": true
   },
   "testOrganization": "ores-otel-test",
-  "lastReviewedAt": "2026-09-07T23:15:00Z"
+  "lastReviewedAt": "2026-09-07T23:24:00Z"
 }
