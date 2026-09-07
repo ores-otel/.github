@@ -3,9 +3,9 @@
   "logicalOrganization": "ores-otel",
   "trackingIssue": "ores-otel/.github#11",
   "coordinatorRepository": "ores-redis-lru-cache-test/ores-redis-lru-e2e-test",
-  "coordinatorBranch": "DEN-3954-cross-org-fleet-audit",
+  "coordinatorBranch": "main",
   "manifestPath": "fleet/manifests/ores-otel.json",
-  "status": "proposed",
+  "status": "current",
   "blockers": [
     "the canonical .github repository is public while current fleet policy requires private visibility",
     "ores-otel-lambdas is not visible in the current inventory",
@@ -19,5 +19,5 @@
     "neverPublishTelemetryPayloadsOrCredentials": true
   },
   "testOrganization": "ores-otel-test",
-  "lastReviewedAt": "2026-09-07T23:00:00Z"
+  "lastReviewedAt": "2026-09-07T23:15:00Z"
 }
