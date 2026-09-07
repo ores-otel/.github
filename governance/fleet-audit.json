@@ -6,11 +6,11 @@
   "coordinatorBranch": "main",
   "coordinatorCommit": "26fadc95f9cca08aa00936025ed649dd5401f475",
   "manifestPath": "fleet/manifests/ores-otel.json",
-  "status": "current",
+  "status": "blocked",
   "blockers": [
     "the canonical .github repository is public while current fleet policy requires private visibility",
-    "ores-otel-lambdas is not visible in the current inventory",
-    "ores-otel-pub-lib-core is not visible in the current inventory"
+    "focused trace-context, sampling, collector-failover, PII-redaction, OTLP parity, async-context, and Redis-correlation suites are not yet visible",
+    "canonical and legacy interface/core repositories coexist and require explicit compatibility evidence before retirement"
   ],
   "policy": {
     "readOnly": true,
@@ -20,5 +20,5 @@
     "neverPublishTelemetryPayloadsOrCredentials": true
   },
   "testOrganization": "ores-otel-test",
-  "lastReviewedAt": "2026-09-07T23:24:00Z"
+  "lastReviewedAt": "2026-09-07T23:22:00Z"
 }
