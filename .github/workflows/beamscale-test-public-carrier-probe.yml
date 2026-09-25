@@ -1,0 +1,23 @@
+name: beamscale-test-public-carrier-probe
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/beamscale-test-public-carrier-probe.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Prove runner execution
+        shell: bash
+        run: |
+          set -euo pipefail
+          uname -a
+          python3 --version
+          git --version
+          printf '%s\n' 'stepful public carrier available'
