@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 jobs:
-  probe:
+  runner-probe:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
@@ -21,3 +21,16 @@ jobs:
           python3 --version
           git --version
           printf '%s\n' 'stepful public carrier available'
+
+  beamscale-read-credential-probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Require scoped BeamScale read token
+        env:
+          TOKEN: ${{ secrets.BMSCL_TEST_READ_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$TOKEN"
+          printf '%s\n' 'scoped BeamScale read credential available'
