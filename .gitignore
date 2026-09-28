@@ -6,3 +6,5 @@ target/
 # Local temporary directories and repository-owned worktrees
 tmp/
 temp/
+tmp/worktrees
+temp/worktrees
