@@ -5,13 +5,12 @@ on:
   push:
     branches: [main, dev, master]
   workflow_dispatch:
-  workflow_call:
 
 permissions:
   contents: read
 
 concurrency:
-  group: scratch-ignore-${{ github.repository }}-${{ github.ref }}
+  group: scratch-ignore-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -19,62 +18,55 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-      - name: Check out exact caller revision without persistent credentials
+      - name: Check out exact caller tree
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
-      - name: Verify exact caller revision
+
+      - name: Verify exact candidate
         shell: bash
+        env:
+          EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha || github.sha }}"
-      - name: Resolve immutable public checker for downstream callers
-        if: github.repository != 'ores-otel/.github'
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+
+      - name: Check out immutable canonical scratch checker
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          repository: ores-otel/.github
-          ref: f1f024dfe15bf71d110a3756e13d9eb9679737f5
+          repository: ORESoftware/.github
+          ref: 5c33c5a42332b768e56e4cbfc9c37004b370e3d2
           path: tmp/scratch-ignore-policy-source
           persist-credentials: false
           sparse-checkout-cone-mode: false
-          sparse-checkout: /scripts/scratch_ignore_check.rs
+          sparse-checkout: /scratch_ignore_check.rs
+
       - name: Verify checker provenance
         shell: bash
-        env:
-          IS_SOURCE_REPOSITORY: ${{ github.repository == 'ores-otel/.github' }}
         run: |
           set -euo pipefail
-          source=tmp/scratch-ignore-policy-source/scripts/scratch_ignore_check.rs
-          if test "$IS_SOURCE_REPOSITORY" = true; then
-            source=scripts/scratch_ignore_check.rs
-          fi
-          test "$(git hash-object "$source")" = "b803657f1726950b2dbd3bc857de058a5f813654"
+          test "$(git hash-object tmp/scratch-ignore-policy-source/scratch_ignore_check.rs)" = "b803657f1726950b2dbd3bc857de058a5f813654"
+
       - name: Install pinned minimal Rust toolchain
-        run: rustup toolchain install 1.85.1 --profile minimal --no-self-update
-      - name: Compile and test the checker
         shell: bash
-        env:
-          IS_SOURCE_REPOSITORY: ${{ github.repository == 'ores-otel/.github' }}
+        run: rustup toolchain install 1.85.1 --profile minimal --no-self-update
+
+      - name: Compile and exercise canonical checker
+        shell: bash
         run: |
           set -euo pipefail
           mkdir -p tmp/scratch-ignore-policy
-          source=tmp/scratch-ignore-policy-source/scripts/scratch_ignore_check.rs
-          if test "$IS_SOURCE_REPOSITORY" = true; then
-            source=scripts/scratch_ignore_check.rs
-          fi
+          source=tmp/scratch-ignore-policy-source/scratch_ignore_check.rs
           rustup run 1.85.1 rustc --edition=2021 -D warnings --test "$source" -o tmp/scratch-ignore-policy/tests
           tmp/scratch-ignore-policy/tests
           rustup run 1.85.1 rustc --edition=2021 -D warnings "$source" -o tmp/scratch-ignore-policy/check
-      - name: Verify argument refusal and the caller's actual ignore rules
-        shell: bash
-        run: |
-          set -euo pipefail
           set +e
           tmp/scratch-ignore-policy/check --unsupported >tmp/scratch-ignore-policy/argv.log 2>&1
           status=$?
           set -e
           test "$status" -eq 2
           tmp/scratch-ignore-policy/check
+
       - name: Verify policy did not mutate tracked state
         run: git diff --exit-code
