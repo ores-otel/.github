@@ -32,21 +32,11 @@ jobs:
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
 
-      - name: Check out immutable canonical scratch checker
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          repository: ORESoftware/.github
-          ref: 5c33c5a42332b768e56e4cbfc9c37004b370e3d2
-          path: tmp/scratch-ignore-policy-source
-          persist-credentials: false
-          sparse-checkout-cone-mode: false
-          sparse-checkout: /scratch_ignore_check.rs
-
       - name: Verify checker provenance
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git hash-object tmp/scratch-ignore-policy-source/scratch_ignore_check.rs)" = "b803657f1726950b2dbd3bc857de058a5f813654"
+          test "$(git hash-object scripts/scratch_ignore_check.rs)" = "b803657f1726950b2dbd3bc857de058a5f813654"
 
       - name: Install pinned minimal Rust toolchain
         shell: bash
@@ -57,7 +47,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p tmp/scratch-ignore-policy
-          source=tmp/scratch-ignore-policy-source/scratch_ignore_check.rs
+          source=scripts/scratch_ignore_check.rs
           rustup run 1.85.1 rustc --edition=2021 -D warnings --test "$source" -o tmp/scratch-ignore-policy/tests
           tmp/scratch-ignore-policy/tests
           rustup run 1.85.1 rustc --edition=2021 -D warnings "$source" -o tmp/scratch-ignore-policy/check
