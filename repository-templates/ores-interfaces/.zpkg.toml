@@ -38,36 +38,36 @@ name = "ores-shared-auth-contracts"
 adapter = "none"
 
 [targets.rust]
-dir = "languages/rust"
+dir = "langs/rust"
 name = "ores-interfaces-rust"
 adapter = "rust"
 
 [targets.typescript]
-dir = "languages/typescript"
+dir = "langs/typescript"
 name = "ores-interfaces-typescript"
 adapter = "node"
 
 [targets.golang]
-dir = "languages/go"
+dir = "langs/go"
 name = "ores-interfaces-go"
 adapter = "go"
 
 [targets.python]
-dir = "languages/python"
+dir = "langs/python"
 name = "ores-interfaces-python"
 adapter = "python"
 
 [targets.dart]
-dir = "languages/dart"
+dir = "langs/dart"
 name = "ores-interfaces-dart"
 adapter = "dart"
 
 [targets.java]
-dir = "languages/java"
+dir = "langs/java"
 name = "ores-interfaces-java"
 adapter = "java"
 
 [targets.swift]
-dir = "languages/swift"
+dir = "langs/swift"
 name = "ores-interfaces-swift"
 adapter = "none"

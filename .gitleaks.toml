@@ -8,7 +8,7 @@ regexTarget = "match"
 paths = [
   '''^repository-templates/ores-interfaces/contracts/shared-auth-admin/v1/examples/global-revocation-request\.json$''',
   '''^repository-templates/ores-interfaces/contracts/shared-auth-admin/v1/fixtures/invalid/global-revocation-request-client-step-up\.json$''',
-  '''^repository-templates/ores-interfaces/languages/rust/src/lib\.rs$''',
+  '''^repository-templates/ores-interfaces/langs/rust/src/lib\.rs$''',
 ]
 regexes = [
   '''"idempotencyKey": "[a-z0-9_-]{16,}"''',

@@ -232,13 +232,13 @@ INVENTORY_COUNT_FIELDS = {
     "registeredDeviceSessionCount",
 }
 LANGUAGE_BINDINGS = {
-    "rust": ROOT / "languages/rust/src/lib.rs",
-    "typescript": ROOT / "languages/typescript/src/index.d.ts",
-    "go": ROOT / "languages/go/interfaces.go",
-    "python": ROOT / "languages/python/src/ores_interfaces/__init__.py",
-    "dart": ROOT / "languages/dart/lib/ores_interfaces.dart",
-    "java": ROOT / "languages/java/src/main/java/com/oresoftware/interfaces/AuthContracts.java",
-    "swift": ROOT / "languages/swift/Sources/OresInterfaces/OresInterfaces.swift",
+    "rust": ROOT / "langs/rust/src/lib.rs",
+    "typescript": ROOT / "langs/typescript/src/index.d.ts",
+    "go": ROOT / "langs/go/interfaces.go",
+    "python": ROOT / "langs/python/src/ores_interfaces/__init__.py",
+    "dart": ROOT / "langs/dart/lib/ores_interfaces.dart",
+    "java": ROOT / "langs/java/src/main/java/com/oresoftware/interfaces/AuthContracts.java",
+    "swift": ROOT / "langs/swift/Sources/OresInterfaces/OresInterfaces.swift",
 }
 REVOCATION_EXAMPLE_NAMES = {
     "principal-search-request.json",
@@ -1173,7 +1173,7 @@ def main() -> int:
     # ores.otel.log depends on this foundational package; adding the reverse edge is a cycle.
     assert '"oresoftware/next-loggers"' not in zpkg
 
-    present = {path.name for path in (ROOT / "languages").iterdir() if path.is_dir()}
+    present = {path.name for path in (ROOT / "langs").iterdir() if path.is_dir()}
     assert LANGUAGES <= present, LANGUAGES - present
     for path in ROOT.rglob("*"):
         if path.resolve() == pathlib.Path(__file__).resolve():

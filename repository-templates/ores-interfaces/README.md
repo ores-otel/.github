@@ -17,13 +17,13 @@ weaken tenant, audience, assurance, retention, pagination, or redaction semantic
   role bindings, capability truth, and dashboard redaction contracts.
 - `contracts/shared-auth/v1` — canonical organizations/projects/users/memberships/roles,
   sessions/factors/audit projections, plus authorized idempotent cross-org revocation.
-- `languages/rust` — zero-dependency Rust data types.
-- `languages/typescript` — runtime constants plus TypeScript declarations.
-- `languages/go` — Go structs and enums.
-- `languages/python` — Python enums and dataclasses.
-- `languages/dart` — Dart enums and immutable value types.
-- `languages/java` — Java 17 records and enums.
-- `languages/swift` — Swift `Codable` value types.
+- `langs/rust` — zero-dependency Rust data types.
+- `langs/typescript` — runtime constants plus TypeScript declarations.
+- `langs/go` — Go structs and enums.
+- `langs/python` — Python enums and dataclasses.
+- `langs/dart` — Dart enums and immutable value types.
+- `langs/java` — Java 17 records and enums.
+- `langs/swift` — Swift `Codable` value types.
 - `scripts/check_contracts.py` — offline drift, capability-truth, redaction, and secret-safety
   checks.
 

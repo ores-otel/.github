@@ -5,18 +5,18 @@ on:
     paths:
       - 'formal/**'
       - 'scripts/check_formal_assurance.py'
-      - 'languages/typescript/**'
-      - 'languages/rust/**'
-      - 'languages/dart/**'
+      - 'langs/typescript/**'
+      - 'langs/rust/**'
+      - 'langs/dart/**'
       - '.github/workflows/formal-verification.yml'
   push:
     branches: [main]
     paths:
       - 'formal/**'
       - 'scripts/check_formal_assurance.py'
-      - 'languages/typescript/**'
-      - 'languages/rust/**'
-      - 'languages/dart/**'
+      - 'langs/typescript/**'
+      - 'langs/rust/**'
+      - 'langs/dart/**'
       - '.github/workflows/formal-verification.yml'
   workflow_dispatch:
 
@@ -51,20 +51,20 @@ jobs:
       - name: Validate the closed assurance manifest
         run: python3 scripts/check_formal_assurance.py
       - name: Check TypeScript properties
-        working-directory: languages/typescript
+        working-directory: langs/typescript
         run: npm test
       - name: Check Rust formatting
-        working-directory: languages/rust
+        working-directory: langs/rust
         run: rustfmt +1.70.0 --edition 2021 --check tests/formal_properties.rs
       - name: Check Rust properties
-        working-directory: languages/rust
+        working-directory: langs/rust
         run: cargo +1.70.0 test
       - name: Install Dart dependencies
-        working-directory: languages/dart
+        working-directory: langs/dart
         run: dart pub get
       - name: Check Dart formal source formatting
-        working-directory: languages/dart
+        working-directory: langs/dart
         run: dart format --output=none --set-exit-if-changed tool/formal_check.dart
       - name: Check Dart properties
-        working-directory: languages/dart
+        working-directory: langs/dart
         run: dart run tool/formal_check.dart
