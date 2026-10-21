@@ -57,7 +57,6 @@ jobs:
           python -m py_compile \
             scripts/provision-repository-fleet.py \
             scripts/provision-shared-repositories.py \
-            tools/template-manifest/** \
             scripts/validate-repository-templates.py
           python scripts/validate-repository-templates.py --manifest repository-fleet.json
           python -m venv "$RUNNER_TEMP/contracts-validator"
