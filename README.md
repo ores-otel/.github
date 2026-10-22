@@ -1,4 +1,6 @@
 # .github
+
+**Rust scripting rule:** [No new Python scripts](CONTRIBUTING.md#rust-first-scripts-and-automation); document special-case Python application code.
 Organization-wide GitHub defaults and governance for ores-otel
 
 
