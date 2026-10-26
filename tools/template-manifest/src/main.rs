@@ -74,4 +74,14 @@ fn main(){if let Err(e)=run(){eprintln!("ERROR: {e}");process::exit(1)}}
         assert!(rendered.find("\"files\"")<rendered.find("\"source\""));
     }
     #[test]fn avoids_build_outputs(){for s in ["node_modules","target",".build"]{assert!(skipped(s))}}
+    #[test]fn manifest_file_order_is_deterministic(){
+        let root=std::env::temp_dir().join(format!("ores-template-manifest-{}",process::id()));
+        let _=fs::remove_dir_all(&root);
+        fs::create_dir_all(&root).unwrap();
+        fs::write(root.join("z.txt"),b"z").unwrap();
+        fs::write(root.join("a.txt"),b"a").unwrap();
+        let rendered=String::from_utf8(render(&root,"source","template").unwrap()).unwrap();
+        assert!(rendered.find("\"a.txt\"")<rendered.find("\"z.txt\""));
+        fs::remove_dir_all(&root).unwrap();
+    }
 }
