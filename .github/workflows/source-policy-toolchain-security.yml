@@ -1,0 +1,49 @@
+name: Source policy sidecar supply chain
+on:
+  pull_request:
+    paths:
+      - .github/workflows/source-policy-toolchain-security.yml
+      - tools/ecmascript-lint/**
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/source-policy-toolchain-security.yml
+      - tools/ecmascript-lint/**
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: source-policy-sidecar-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  sidecar-audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Verify exact policy source SHA
+        shell: bash
+        env:
+          EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+          git rev-parse HEAD:tools/ecmascript-lint/package.json
+          git rev-parse HEAD:tools/ecmascript-lint/package-lock.json
+          git rev-parse HEAD:tools/ecmascript-lint/lock-security.test.mjs
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: tools/ecmascript-lint/package-lock.json
+      - name: Install frozen source policy dependencies
+        run: npm ci --ignore-scripts --prefix tools/ecmascript-lint
+      - name: Audit all ECMAScript source-policy dependencies
+        run: npm audit --audit-level=moderate --prefix tools/ecmascript-lint
+      - name: Run source policy regression tests
+        run: npm test --prefix tools/ecmascript-lint
+      - name: Run supply-chain negative mutation tests
+        run: node --test tools/ecmascript-lint/lock-security.test.mjs
