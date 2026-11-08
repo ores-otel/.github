@@ -64,6 +64,8 @@ function assertSupplyChainPolicy(pkg, snapshot, job) {
     "the expected SHA must be the triggering review SHA");
   assert.match(job, /^\s+run: npm ci --ignore-scripts --prefix tools\/ecmascript-lint\s*$/m,
     "install frozen dependencies without lifecycle scripts");
+  assert.match(job, /^\s+run: npm ls minimatch brace-expansion @isaacs\/nonrecursive-glob-match --all --prefix tools\/ecmascript-lint\s*$/m,
+    "check the actual installed nested matcher graph, not only the lockfile");
   assert.match(job, /^\s+run: npm audit --audit-level=moderate --prefix tools\/ecmascript-lint\s*$/m,
     "enforce moderate+ audit of the actual sidecar tree");
   assert.match(job, /^\s+run: npm test --prefix tools\/ecmascript-lint\s*$/m,
@@ -104,6 +106,7 @@ test("mutable CI, merge ref, omitted audit, missing tests and audit bypasses fai
     workflow.replace("EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}", "EXPECTED_SHA: ${{ github.sha }}"),
     workflow.replace('test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"', "echo checked"),
     workflow.replace("npm ci --ignore-scripts --prefix tools/ecmascript-lint", "npm install"),
+    workflow.replace("npm ls minimatch brace-expansion @isaacs/nonrecursive-glob-match --all --prefix tools/ecmascript-lint", "echo ignored"),
     workflow.replace("npm audit --audit-level=moderate --prefix tools/ecmascript-lint", "echo ignored"),
     workflow.replace("npm test --prefix tools/ecmascript-lint", "echo skipped"),
     workflow.replace("node --test tools/ecmascript-lint/minimatch-compat.test.mjs", "echo skipped"),
