@@ -45,5 +45,7 @@ jobs:
         run: npm audit --audit-level=moderate --prefix tools/ecmascript-lint
       - name: Run source policy regression tests
         run: npm test --prefix tools/ecmascript-lint
+      - name: Verify minimatch 11 matcher compatibility
+        run: node --test tools/ecmascript-lint/minimatch-compat.test.mjs
       - name: Run supply-chain negative mutation tests
         run: node --test tools/ecmascript-lint/lock-security.test.mjs
