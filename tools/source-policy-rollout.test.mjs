@@ -32,8 +32,11 @@ function admission(source) {
     'the reviewed central policy implementation must be pinned at exactly one SHA');
   assert.ok(source.includes('          repository: ores-otel/.github'),
     'fetch the central policy implementation from its source repository');
-  assert.ok(source.includes('          persist-credentials: false'),
-    'checkout must not retain credentials');
+  const credentialRules = source.match(/^\s+persist-credentials:\s*(true|false)$/gm) || [];
+  assert.equal(credentialRules.length, checkouts.length,
+    'every caller/policy checkout needs its own explicit credentials policy');
+  assert.equal(credentialRules.every((line) => line.trim() === 'persist-credentials: false'), true,
+    'all checkouts must avoid persistent repository credentials');
   assert.match(source, /^\s+run: npm ci --ignore-scripts --prefix \.source-policy\/tools\/ecmascript-lint$/m,
     'frozen source policy installation is mandatory');
   const installed = 'npm ls minimatch brace-expansion @isaacs/nonrecursive-glob-match --all --prefix .source-policy/tools/ecmascript-lint';
