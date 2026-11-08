@@ -27,7 +27,17 @@ jobs:
       - name: Check out caller repository
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
+
+      - name: Verify caller exact reviewed commit
+        shell: bash
+        env:
+          EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+          git rev-parse 'HEAD^{tree}'
 
       - name: Detect tracked source languages
         id: languages
@@ -53,7 +63,8 @@ jobs:
           repository: ores-otel/.github
           # workflow_sha is the caller SHA for workflow_call jobs, so it cannot
           # identify this repository. Pin the audited implementation directly.
-          ref: 9e2a95413dafbef326ef3e93943a30c22566cc01
+          # STAGING: exact passed head of security PR #25; replace with independently approved main-reachable SHA before merge.
+          ref: cbfd81cd53bf139ae3552932ca05ee30686d1460
           path: .source-policy
           persist-credentials: false
 
@@ -69,6 +80,21 @@ jobs:
         if: steps.languages.outputs.ecmascript == 'true'
         shell: bash
         run: npm ci --ignore-scripts --prefix .source-policy/tools/ecmascript-lint
+
+      - name: Fail-close nested ESLint dependency audit
+        if: steps.languages.outputs.ecmascript == 'true'
+        shell: bash
+        run: |
+          npm ls minimatch brace-expansion @isaacs/nonrecursive-glob-match --all --prefix .source-policy/tools/ecmascript-lint
+          npm audit --audit-level=moderate --prefix .source-policy/tools/ecmascript-lint
+
+      - name: Verify source-policy parser, matcher and supply-chain regression tests
+        if: steps.languages.outputs.ecmascript == 'true'
+        shell: bash
+        run: |
+          npm test --prefix .source-policy/tools/ecmascript-lint
+          node --test .source-policy/tools/ecmascript-lint/minimatch-compat.test.mjs
+          node --test .source-policy/tools/ecmascript-lint/lock-security.test.mjs
 
       - name: Lint ECMAScript source policy
         if: steps.languages.outputs.ecmascript == 'true'
