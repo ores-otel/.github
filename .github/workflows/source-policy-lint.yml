@@ -6,6 +6,7 @@ on:
       - .github/workflows/source-policy-lint.yml
       - tools/ecmascript-lint/**
       - tools/rust-explicit-return/**
+      - tools/source-policy-rollout.test.mjs
   push:
     branches: [main]
     paths:
@@ -95,6 +96,11 @@ jobs:
           npm test --prefix .source-policy/tools/ecmascript-lint
           node --test .source-policy/tools/ecmascript-lint/minimatch-compat.test.mjs
           node --test .source-policy/tools/ecmascript-lint/lock-security.test.mjs
+
+      - name: Audit staged reusable-workflow security contract
+        if: github.repository == 'ores-otel/.github' && steps.languages.outputs.ecmascript == 'true'
+        shell: bash
+        run: node --test tools/source-policy-rollout.test.mjs
 
       - name: Lint ECMAScript source policy
         if: steps.languages.outputs.ecmascript == 'true'
