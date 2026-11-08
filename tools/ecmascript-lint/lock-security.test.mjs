@@ -68,6 +68,8 @@ function assertSupplyChainPolicy(pkg, snapshot, job) {
     "enforce moderate+ audit of the actual sidecar tree");
   assert.match(job, /^\s+run: npm test --prefix tools\/ecmascript-lint\s*$/m,
     "execute parser and policy regressions");
+  assert.match(job, /^\s+run: node --test tools\/ecmascript-lint\/minimatch-compat\.test\.mjs\s*$/m,
+    "run matcher-11 compatibility checks before accepting cross-major override");
   assert.match(job, /^\s+run: node --test tools\/ecmascript-lint\/lock-security\.test\.mjs\s*$/m,
     "execute offline supply chain regression tests");
   assert.doesNotMatch(job, /continue-on-error:\s*true|--omit=dev|--audit=false|--no-audit|npm audit[^\n]*\|\|\s*(true|:)/,
@@ -104,6 +106,7 @@ test("mutable CI, merge ref, omitted audit, missing tests and audit bypasses fai
     workflow.replace("npm ci --ignore-scripts --prefix tools/ecmascript-lint", "npm install"),
     workflow.replace("npm audit --audit-level=moderate --prefix tools/ecmascript-lint", "echo ignored"),
     workflow.replace("npm test --prefix tools/ecmascript-lint", "echo skipped"),
+    workflow.replace("node --test tools/ecmascript-lint/minimatch-compat.test.mjs", "echo skipped"),
     workflow.replace("node --test tools/ecmascript-lint/lock-security.test.mjs", "echo skipped"),
     workflow + "\n      - name: Disable audit\n        continue-on-error: true\n",
     workflow + "\n      - name: Ignore dev audit\n        run: npm audit --omit=dev\n",
