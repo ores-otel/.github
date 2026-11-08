@@ -41,6 +41,8 @@ jobs:
           cache-dependency-path: tools/ecmascript-lint/package-lock.json
       - name: Install frozen source policy dependencies
         run: npm ci --ignore-scripts --prefix tools/ecmascript-lint
+      - name: Validate entire installed matcher tree and override resolution
+        run: npm ls minimatch brace-expansion @isaacs/nonrecursive-glob-match --all --prefix tools/ecmascript-lint
       - name: Audit all ECMAScript source-policy dependencies
         run: npm audit --audit-level=moderate --prefix tools/ecmascript-lint
       - name: Run source policy regression tests
