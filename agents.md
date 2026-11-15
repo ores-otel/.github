@@ -65,6 +65,14 @@ Never print, log, commit, paste into issues, include in fixtures, or expose toke
 Use focused branches and pull requests. Link the relevant Linear issue or project. Explain behavior, risks, migration and roll-forward considerations, security impact, tests run, conflicts and their semantic resolution, and cross-repository dependencies. Never report a branch, commit, pull request, merge, deployment, test run, or external update as complete without authoritative remote evidence.
 <!-- ore-org-baseline:end -->
 
+## Rust-only CI scripts and test tooling
+
+**Do not add new Python scripts, Python CI helpers, or Python-only test harnesses.** Use Rust for first-party build, test, security, migration, generation, release, and fleet-maintenance automation. Prefer a small `cargo xtask` / dedicated Rust CLI for reusable scripts and native Rust `#[test]` / integration tests; keep shell/YAML as thin invocation wrappers.
+
+For existing Python helpers, replace them with equivalent Rust implementations and tests before changing or removing the old entry points. Preserve arguments, behavior, exit codes, output contracts, input validation, redaction, fail-closed behavior, and cross-platform compatibility. Verify the Rust replacement on the exact PR head; never delete or bypass failing tests, weaken a security audit, or report a docs-only policy update as successful runtime migration.
+
+Existing product-owned Python application code requires an explicit, documented exception with an owner and rationale. **A script or test is not application code just because it uses Python.** The canonical contributor guidance is in [CONTRIBUTING.md](CONTRIBUTING.md#rust-first-scripts-and-automation). This guidance does not automatically propagate to every repository: synchronize repository-local policies and CI checks before claiming organization-wide enforcement.
+
 ## Git and history policy
 
 Prefer merges over rewrites. The rule is: avoid git rebase in favor of git merge.
