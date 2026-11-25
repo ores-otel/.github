@@ -24,5 +24,9 @@
       "typescript-eslint": ">=8 (optional; without it .ts files are skipped)"
     },
     "install": "npm i -g eslint typescript-eslint"
+  },
+  "overrides": {
+    "minimatch": "11.0.3",
+    "brace-expansion": "5.0.12"
   }
 }
