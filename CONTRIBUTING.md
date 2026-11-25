@@ -17,7 +17,9 @@ Resolve conflicts semantically with complete historical and cross-repository con
 
 ## Rust-first scripts and automation
 
-**No new Python scripts.** For first-party CI/build/test tooling, migrations, code generation, releases, deployment helpers, security audits and repository maintenance, use Rust CLIs or `cargo xtask` rather than Python. Keep shell/YAML wrappers thin.
+**No new Python scripts or Python test runners.** For first-party CI/build/test tooling, migrations, code generation, releases, deployment helpers, security audits and repository maintenance, use Rust CLIs or `cargo xtask` rather than Python. Put behavior and regression tests in Rust (`#[test]`, integration tests, or Rust binaries compiled with `rustc --test`). Keep shell/YAML wrappers thin; do not use `python -m unittest`, `pytest`, or Python-based mutation testing for new automation.
+
+For a dependency security gate, prefer a Rust checker plus Rust regression tests executed on the exact PR head. Keep `cargo metadata --locked`, `cargo audit --deny warnings` and existing required security jobs mandatory; do not use language migration to hide or waive advisory failures.
 
 Inventory existing Python scripts as migration debt and document their callers. Before retiring any Python entry point, implement and verify a Rust replacement with equivalent flags, output formats, exit statuses, failure and security semantics, and supported platform behavior; then update tests, CI, docs and hooks. Require meaningful positive, negative and end-to-end execution on the exact head commit. A docs PR is not evidence of runtime migration.
 
